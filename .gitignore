@@ -12,3 +12,4 @@ yarn-error.log
 .env
 .tmp
 /public/mix-manifest.json
+/public/fonts/

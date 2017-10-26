@@ -1,4 +1,4 @@
-import {mount} from 'vue-test-utils';
+import { mount } from 'vue-test-utils';
 import Counter from '../js/components/Counter.vue'
 import expect from 'expect';
 
@@ -24,7 +24,7 @@ describe('Counter', () => {
     it('decrements the count when the decrement button is clicked', () => {
         expect(wrapper.vm.count).toBe(0);
 
-        wrapper.setData({ count: 2 });
+        wrapper.setData({count: 2});
 
         wrapper.find('.decrement').trigger('click');
 
@@ -36,7 +36,7 @@ describe('Counter', () => {
 
         expect(wrapper.find('.decrement').hasStyle('display', 'none')).toBe(true);
 
-        wrapper.setData({ count: 1 });
+        wrapper.setData({count: 1});
 
         expect(wrapper.find('.decrement').hasStyle('display', 'none')).toBe(false);
     });
