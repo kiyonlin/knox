@@ -35,3 +35,8 @@ if (token) {
 //     broadcaster: 'socket.io',
 //     host: window.location.hostname + ':6006'
 // });
+
+
+import Form from './utils/Form';
+
+window.Form = Form;

@@ -1,13 +1,14 @@
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Home Page</div>
+        <div class="columns">
+            <div class="column">
+                <div class="message">
+                    <div class="message-header">Kiyon said...s</div>
 
-                    <div class="panel-body">
+                    <div class="message-body">
                         I'm an example component!
                     </div>
+                    <input type="text" v-model="form.body">
                 </div>
             </div>
         </div>
@@ -16,7 +17,14 @@
 
 <script>
     export default {
-        mounted() {
+
+        data () {
+            return {
+                form: new Form({body: ''})
+            }
+        },
+
+        mounted () {
             console.log('Component mounted.')
         }
     }
