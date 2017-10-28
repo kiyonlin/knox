@@ -35,7 +35,16 @@
             login() {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        let email = this.form.mobile;
+                        let password = this.form.password;
+
+                        axios.post('/login', {email, password})
+                            .then(() => {
+                                window.location.reload();
+                            })
+                            .catch(() => {
+                                this.$message.error('用户名密码不匹配!');
+                            });
                     }
                 });
             }

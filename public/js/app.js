@@ -60121,9 +60121,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         login: function login() {
+            var _this = this;
+
             this.$refs.form.validate(function (valid) {
                 if (valid) {
-                    alert('submit!');
+                    var email = _this.form.mobile;
+                    var password = _this.form.password;
+
+                    axios.post('/login', { email: email, password: password }).then(function () {
+                        window.location.reload();
+                    }).catch(function () {
+                        _this.$message.error('用户名密码不匹配!');
+                    });
                 }
             });
         }
