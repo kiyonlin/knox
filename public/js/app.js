@@ -3716,17 +3716,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 new Vue({
-  el: '#app',
-  router: __WEBPACK_IMPORTED_MODULE_1__routes__["a" /* default */]
+    el: '#app',
+    router: __WEBPACK_IMPORTED_MODULE_1__routes__["a" /* default */]
 });
 
 /***/ }),
@@ -3743,33 +3737,23 @@ new Vue({
 
 
 
+
+
 window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
+window.axios = __WEBPACK_IMPORTED_MODULE_2_axios___default.a;
+window.Form = __WEBPACK_IMPORTED_MODULE_3__utils_Form__["a" /* default */];
+
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
-
-window.axios = __WEBPACK_IMPORTED_MODULE_2_axios___default.a;
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
 
 // import Echo from 'laravel-echo'
 //
@@ -3777,11 +3761,6 @@ if (token) {
 //     broadcaster: 'socket.io',
 //     host: window.location.hostname + ':6006'
 // });
-
-
-
-
-window.Form = __WEBPACK_IMPORTED_MODULE_3__utils_Form__["a" /* default */];
 
 /***/ }),
 /* 14 */
