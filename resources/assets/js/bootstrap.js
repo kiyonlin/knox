@@ -1,13 +1,17 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import axios from 'axios';
-import Form from './utils/Form';
+import FormModel from './utils/Form';
+import 'element-ui/lib/theme-chalk/index.css';
+import ElementUi from 'element-ui';
+
 
 window.Vue = Vue;
 window.axios = axios;
-window.Form = Form;
+window.Form = FormModel;
 
 Vue.use(VueRouter);
+Vue.use(ElementUi);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -26,3 +30,17 @@ if (token) {
 //     broadcaster: 'socket.io',
 //     host: window.location.hostname + ':6006'
 // });
+
+import authorizations from './authorizations';
+
+Vue.prototype.signedIn = window.Auth.signedIn;
+
+window.Vue.prototype.authorize = function (...params) {
+    if (!window.Auth.signedIn) return false;
+
+    if (typeof params[0] === 'string') {
+        return authorizations[params[0]](params[1]);
+    }
+
+    return params[0](window.Auth.user);
+};

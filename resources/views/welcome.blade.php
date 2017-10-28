@@ -14,15 +14,15 @@
 </head>
 <body>
 <div id="app">
-    @include('layouts.header')
-    <section class="section">
-        <div class="container">
-            <router-view></router-view>
-        </div>
-    </section>
-
+    <Home v-if="signedIn"></Home>
+    <welcome v-else></welcome>
 </div>
-
+<script>
+    window.Auth = {!! json_encode([
+            'user' => auth()->user(),
+            'signedIn' => auth()->check()
+        ]) !!};
+</script>
 <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
