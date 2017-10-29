@@ -3,8 +3,8 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import FormModel from './utils/Form';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/display.css';
 import ElementUi from 'element-ui';
-
 
 window.Vue = Vue;
 window.axios = axios;

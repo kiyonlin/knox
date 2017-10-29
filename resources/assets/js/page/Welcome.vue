@@ -1,14 +1,14 @@
 <template>
-    <el-row type="flex" justify="center" class="welcome">
-        <el-tabs v-model="activeName" tab-position="right">
-            <el-tab-pane label="注册" name="register">
-                <register></register>
-            </el-tab-pane>
-            <el-tab-pane label="登录" name="second">
-                <login></login>
-            </el-tab-pane>
-        </el-tabs>
-    </el-row>
+        <el-row type="flex" justify="center" class="welcome">
+            <el-tabs v-model="activeName" tab-position="right">
+                <el-tab-pane label="注册" name="register">
+                    <register></register>
+                </el-tab-pane>
+                <el-tab-pane label="登录" name="second">
+                    <login></login>
+                </el-tab-pane>
+            </el-tabs>
+        </el-row>
 </template>
 
 <script>
@@ -22,6 +22,9 @@
             return {
                 activeName: 'register',
             };
+        },
+        mounted() {
+            console.log('welcome vue');
         },
         methods: {
             login() {
