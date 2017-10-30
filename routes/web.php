@@ -24,7 +24,6 @@ Route::middleware(['auth'])->group(function () {
         // 使用 first 和 second 中间件
     });
 
-    Route::get('user/profile', function () {
-        // 使用 first 和 second 中间件
-    });
+    Route::post('users', 'UserController@store');
+    Route::delete('users/{user}', 'UserController@destroy');
 });

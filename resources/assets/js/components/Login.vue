@@ -1,7 +1,7 @@
 <template>
     <el-form :model="form" :rules="rules" ref="form">
-        <el-form-item prop="mobile">
-            <el-input v-model="form.mobile" placeholder="手机号"></el-input>
+        <el-form-item prop="username">
+            <el-input v-model="form.username" placeholder="手机号/用户名/邮箱"></el-input>
         </el-form-item>
         <el-form-item prop="password">
             <el-input type="password" v-model="form.password" placeholder="密码"></el-input>
@@ -17,12 +17,12 @@
         data() {
             return {
                 form: {
-                    mobile: '',
+                    username: '',
                     password: '',
                 },
                 rules: {
-                    mobile: [
-                        {required: true, message: '请输入手机号'}
+                    username: [
+                        {required: true, message: '请输入手机号/用户名/邮箱'}
                     ],
                     password: [
                         {required: true, message: '请输入密码'},
@@ -35,10 +35,10 @@
             login() {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
-                        let email = this.form.mobile;
+                        let username = this.form.username;
                         let password = this.form.password;
 
-                        axios.post('/login', {email, password})
+                        axios.post('/login', {username, password})
                             .then(() => {
                                 window.location.reload();
                             })

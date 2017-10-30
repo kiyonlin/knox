@@ -17,8 +17,10 @@ class SetupRBACSeeder extends Seeder
     public function run()
     {
         $systemAdminUser = create(User::class, [
-            'name'  => 'kiyon',
-            'email' => 'kiyonlin@163.com'
+            'phone_number' => '13675822217',
+            'username'     => 'kiyon',
+            'display_name' => '林脉沐',
+            'email'        => 'kiyonlin@163.com'
         ]);
 
         $systemAdminRole = create(Role::class, [
