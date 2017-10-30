@@ -10,6 +10,7 @@
         "kiyon/knox": "^0.1.1",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "parsidev/entrust": "dev-master",
         "predis/predis": "^1.1"
     },
     "require-dev": {
