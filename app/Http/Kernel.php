@@ -57,5 +57,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'role' => \Parsidev\Entrust\Middleware\EntrustRole::class,
+        'permission' => \Parsidev\Entrust\Middleware\EntrustPermission::class,
+        'ability' => \Parsidev\Entrust\Middleware\EntrustAbility::class,
     ];
 }

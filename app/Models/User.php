@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\RBAC\Permission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 use Parsidev\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
@@ -16,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'remember_token'
+        'username', 'email', 'display_name', 'phone_number', 'password', 'remember_token'
     ];
 
     /**
@@ -27,4 +29,30 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $with = [];
+
+    /**
+     * 获取用户的所有菜单
+     *
+     * @return Collection
+     */
+    public function menus()
+    {
+        return Menu::all()->filter(function($menu){
+            return $this->can("view_menu_{$menu->id}");
+        });
+    }
+
+    /**
+     * 获取用户的所有权限名称
+     *
+     * @return mixed
+     */
+    public function permissions()
+    {
+        return $this->roles->reduce(function ($permissions, $role){
+            return $permissions->merge($role->perms);
+        }, new Collection([]))->pluck('name');
+    }
 }

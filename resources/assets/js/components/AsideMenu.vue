@@ -1,64 +1,50 @@
 <template>
-    <el-row>
-        <el-col>
-            <el-menu
-                    :default-active="defaultActive"
-                    @open="handleOpen"
-                    @close="handleClose">
-                <el-submenu index="1">
-                    <template slot="title">
-                        <i class="el-icon-location"></i>
-                        <span>导航一</span>
-                    </template>
-                    <el-menu-item index="1-1">选项1</el-menu-item>
-                    <el-menu-item index="1-2">选项2</el-menu-item>
-                    <el-menu-item index="1-3">选项3</el-menu-item>
-                </el-submenu>
-                <el-submenu index="2">
-                    <template slot="title">
-                        <i class="el-icon-menu"></i>
-                        <span>导航二</span>
-                    </template>
-                    <el-menu-item index="2-1">
-                        <i class="el-icon-menu"></i>选项11
+    <el-menu
+            router
+            :default-active="defaultActive"
+            @open="handleOpen"
+            @close="handleClose">
+        <template v-for="menu in menus">
+            <el-submenu :index="menu.index" v-if="menu.submenu.length">
+                <template slot="title">
+                    <i :class="[menu.icon]"></i>
+                    <span v-text="menu.name"></span>
+                </template>
+                <template v-for="submenu in menu.submenu">
+                    <el-menu-item :index="submenu.index" :route="{path: submenu.path}">
+                        <i :class="[submenu.icon]"></i>
+                        <span v-text="submenu.name"></span>
                     </el-menu-item>
-                    <el-menu-item index="2-2">
-                        <i class="el-icon-success"></i>选项22
-                    </el-menu-item>
-                </el-submenu>
-                <el-menu-item index="3">
-                    <i class="el-icon-setting"></i>
-                    <span slot="title">导航三</span>
-                </el-menu-item>
-            </el-menu>
-        </el-col>
-    </el-row>
+                </template>
+            </el-submenu>
+
+            <el-menu-item :index="menu.index" v-if="!menu.submenu.length" :route="{path: menu.path}">
+                <i :class="[menu.icon]"></i>
+                <span v-text="menu.name"></span>
+            </el-menu-item>
+        </template>
+    </el-menu>
 
 </template>
 
 <script>
     export default {
-        data() {
+        data () {
             return {
-                defaultActive: '1',
-                menus: [
-                    {
-                        'menu1':{
-                            'name': '菜单一'
-                        }
-                    }
-                ]
+                defaultActive: '',
+                menus: []
             };
         },
 
-        mounted() {
-            console.log('Component mounted.')
+        mounted () {
+            this.menus = window.Auth.menus;
+            this.defaultActive = this.menus.length ? this.menus[0].index : null;
         },
         methods: {
-            handleOpen(key, keyPath) {
+            handleOpen (key, keyPath) {
                 console.log(key, keyPath);
             },
-            handleClose(key, keyPath) {
+            handleClose (key, keyPath) {
                 console.log(key, keyPath);
             }
         }

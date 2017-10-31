@@ -18,8 +18,10 @@
 </div>
 <script>
     window.Auth = {!! json_encode([
-            'user' => auth()->user(),
-            'signedIn' => auth()->check()
+            'user' => auth()->user()?auth()->user()->only(['id', 'username', 'phone_number','email']):null,
+            'signedIn' => auth()->check(),
+            'menus' => auth()->user()?buildMenuTree(auth()->user()->menus()->toArray()):null,
+            'permissions' => auth()->user()? auth()->user()->permissions():null,
         ]) !!};
 </script>
 <script src="{{ asset('js/app.js') }}"></script>

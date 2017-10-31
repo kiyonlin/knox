@@ -34,6 +34,7 @@ if (token) {
 import authorizations from './authorizations';
 
 Vue.prototype.signedIn = window.Auth.signedIn;
+Vue.prototype.menus = window.Auth.menus;
 
 window.Vue.prototype.authorize = function (...params) {
     if (!window.Auth.signedIn) return false;

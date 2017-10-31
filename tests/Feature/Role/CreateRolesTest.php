@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Menu;
 use App\Models\RBAC\Role;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

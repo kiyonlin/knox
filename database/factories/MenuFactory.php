@@ -7,9 +7,10 @@ use Illuminate\Support\Str;
 
 $factory->define(App\Models\Menu::class, function (Faker $faker) {
     return [
-        'pid'   => null,
+        'pid'   => 0,
         'key'   => Str::random(5),
         'name'  => $faker->userName,
+        'path'  => null,
         'level' => 1,
         'index' => '',
         'icon'  => null

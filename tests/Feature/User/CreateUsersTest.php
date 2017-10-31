@@ -28,8 +28,7 @@ class CreateUsersTest extends TestCase
 
         $newUser = raw(User::class);
 
-        $this->post('users', $newUser)
-            ->assertStatus(201);
+        $this->postJson('users', $newUser);
 
         $this->assertDatabaseHas('users', $newUser);
     }
@@ -47,13 +46,13 @@ class CreateUsersTest extends TestCase
     }
 
     /** @test */
-    public function a_user_requires_a_valid_name()
+    public function a_user_requires_a_valid_username()
     {
-        $this->addUser(['name' => null])
-            ->assertSessionHasErrors('name');
+        $this->addUser(['username' => null])
+            ->assertSessionHasErrors('username');
 
-        $this->addUser(['name' => str_random(256)])
-            ->assertSessionHasErrors('name');
+        $this->addUser(['username' => str_random(256)])
+            ->assertSessionHasErrors('username');
     }
 
     /** @test */

@@ -155,17 +155,11 @@ class SetupRBACSeeder extends Seeder
             'icon' => 'el-icon-setting'
         ]);
 
-        $menuManagerMenu = create(Menu::class, [
-            'pid'  => $systemManagerMenu->id,
-            'key'  => 'menu_manager',
-            'name' => '菜单管理',
-            'icon' => 'el-icon-menu'
-        ]);
-
         $userManagerMenu = create(Menu::class, [
             'pid'  => $systemManagerMenu->id,
             'key'  => 'user_manager',
             'name' => '用户管理',
+            'path' => '/user',
             'icon' => 'el-icon-info'
         ]);
 
@@ -173,6 +167,7 @@ class SetupRBACSeeder extends Seeder
             'pid'  => $systemManagerMenu->id,
             'key'  => 'role_manager',
             'name' => '角色管理',
+            'path' => '/role',
             'icon' => 'el-icon-tickets'
         ]);
 
@@ -180,7 +175,16 @@ class SetupRBACSeeder extends Seeder
             'pid'  => $systemManagerMenu->id,
             'key'  => 'permission_manager',
             'name' => '权限管理',
-            'icon' => 'el-icon-tickets'
+            'path' => '/permission',
+            'icon' => 'el-icon-success'
+        ]);
+
+        $menuManagerMenu = create(Menu::class, [
+            'pid'  => $systemManagerMenu->id,
+            'key'  => 'menu_manager',
+            'name' => '菜单管理',
+            'path' => '/menu',
+            'icon' => 'el-icon-menu'
         ]);
 
         $systemAdminRole->attachPermissions([
@@ -188,12 +192,6 @@ class SetupRBACSeeder extends Seeder
                 'name'         => "view_menu_{$systemManagerMenu->id}",
                 'display_name' => "查看{$systemManagerMenu->name}菜单",
                 'description'  => "查看{$systemManagerMenu->name}菜单"
-            ]),
-
-            create(Permission::class, [
-                'name'         => "view_menu_{$menuManagerMenu->id}",
-                'display_name' => "查看{$menuManagerMenu->name}菜单",
-                'description'  => "查看{$menuManagerMenu->name}菜单"
             ]),
 
             create(Permission::class, [
@@ -213,6 +211,13 @@ class SetupRBACSeeder extends Seeder
                 'display_name' => "查看{$permissionManagerMenu->name}菜单",
                 'description'  => "查看{$permissionManagerMenu->name}菜单"
             ]),
+
+            create(Permission::class, [
+                'name'         => "view_menu_{$menuManagerMenu->id}",
+                'display_name' => "查看{$menuManagerMenu->name}菜单",
+                'description'  => "查看{$menuManagerMenu->name}菜单"
+            ]),
+
         ]);
     }
 }

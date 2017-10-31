@@ -20,10 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('menu', function () {
-        // 使用 first 和 second 中间件
-    });
-
     Route::post('users', 'UserController@store');
     Route::delete('users/{user}', 'UserController@destroy');
 });

@@ -15,6 +15,11 @@ class Menu extends Model
 
     protected $guarded = [];
 
+    /*
+     * 前端可见字段
+     */
+    protected $visible = ['id', 'pid', 'key', 'name', 'path', 'index', 'level', 'icon'];
+
     /**
      * 维护层级和索引
      *
@@ -22,7 +27,7 @@ class Menu extends Model
      */
     private static function maintainLevelAndIndex($menu)
     {
-        if (! empty($menu->pid)) {
+        if ($menu->pid) {
             $parentMenu = self::find($menu->pid);
             $menu->index = $parentMenu->index . '-' . $menu->id;
             $menu->level = $parentMenu->level + 1;
