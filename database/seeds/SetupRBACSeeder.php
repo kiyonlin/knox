@@ -159,7 +159,7 @@ class SetupRBACSeeder extends Seeder
             'pid'  => $systemManagerMenu->id,
             'key'  => 'user_manager',
             'name' => '用户管理',
-            'path' => '/user',
+            'path' => '/users',
             'icon' => 'el-icon-info'
         ]);
 
@@ -167,7 +167,7 @@ class SetupRBACSeeder extends Seeder
             'pid'  => $systemManagerMenu->id,
             'key'  => 'role_manager',
             'name' => '角色管理',
-            'path' => '/role',
+            'path' => '/roles',
             'icon' => 'el-icon-tickets'
         ]);
 
@@ -175,7 +175,7 @@ class SetupRBACSeeder extends Seeder
             'pid'  => $systemManagerMenu->id,
             'key'  => 'permission_manager',
             'name' => '权限管理',
-            'path' => '/permission',
+            'path' => '/permissions',
             'icon' => 'el-icon-success'
         ]);
 
@@ -183,7 +183,7 @@ class SetupRBACSeeder extends Seeder
             'pid'  => $systemManagerMenu->id,
             'key'  => 'menu_manager',
             'name' => '菜单管理',
-            'path' => '/menu',
+            'path' => '/menus',
             'icon' => 'el-icon-menu'
         ]);
 

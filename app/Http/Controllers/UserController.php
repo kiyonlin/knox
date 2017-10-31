@@ -21,7 +21,10 @@ class UserController extends ApiController
             return $this->respondForbidden('对不起，您没有浏览用户权限!');
         }
 
-        return $this->respond(User::all());
+        $page = request('page', 1);
+        $pageSize = request('pageSize', 15);
+
+        return $this->respond(User::paginate($pageSize, ['*'], 'page', $page));
     }
 
     /**

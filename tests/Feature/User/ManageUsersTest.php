@@ -22,21 +22,30 @@ class ManegeUsersTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_view_all_users()
+    public function an_authorized_user_can_view_all_users_in_pagination()
     {
         $this->signIn($this->systemAdmin);
 
         create(User::class, 5);
 
-        $response = $this->get('users')
+        $response = $this->get('users?pageSize=20')
             ->assertStatus(200)
         ->json();
 
-        $this->assertCount(6, $response);
+        $this->assertCount(6, $response['data']);
+
+        create(User::class, 20);
+
+        $response = $this->get('users?pageSize=20')
+            ->assertStatus(200)
+            ->json();
+dd($response);
+        $this->assertCount(20, $response['data']);
+        $this->assertEquals(26, $response['total']);
     }
 
     /** @test */
-    public function an_unauthorized_user_cannot_view_all_users()
+    public function an_unauthorized_user_cannot_view_users()
     {
         $this->signIn()->withExceptionHandling();
 

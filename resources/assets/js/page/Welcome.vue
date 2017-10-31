@@ -4,7 +4,7 @@
                 <el-tab-pane label="注册" name="register">
                     <register></register>
                 </el-tab-pane>
-                <el-tab-pane label="登录" name="second">
+                <el-tab-pane label="登录" name="login">
                     <login></login>
                 </el-tab-pane>
             </el-tabs>
@@ -22,23 +22,6 @@
             return {
                 activeName: 'register',
             };
-        },
-        mounted() {
-            console.log('welcome vue');
-        },
-        methods: {
-            login() {
-                let email = this.email;
-                let password = this.password;
-
-                axios.post('/login', {email, password})
-                    .then(() => {
-                        window.location.reload();
-                    })
-                    .catch(err => {
-                        this.$message.error('用户名密码不匹配!');
-                    });
-            }
         }
     }
 </script>

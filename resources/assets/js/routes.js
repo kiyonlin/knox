@@ -10,7 +10,7 @@ let routes = [
         component: require('./components/About.vue')
     },
     {
-        path: '/user',
+        path: '/users',
         component: require('./page/User.vue')
     },
     {
