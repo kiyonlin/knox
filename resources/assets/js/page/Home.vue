@@ -3,7 +3,7 @@
         <el-header style="text-align: right; font-size: 12px">
             <nav-bar></nav-bar>
         </el-header>
-        <el-container style="margin: 0 20px;">
+        <el-container class="mh20">
             <el-aside class="hidden-xs-only">
                 <aside-menu></aside-menu>
             </el-aside>
@@ -15,7 +15,7 @@
                         <el-breadcrumb-item>活动列表</el-breadcrumb-item>
                         <el-breadcrumb-item>活动详情</el-breadcrumb-item>
                     </el-breadcrumb>
-                    <router-view></router-view>
+                    <router-view class="mt30"></router-view>
                 </el-main>
 
                 <el-footer>

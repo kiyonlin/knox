@@ -20,6 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('users', 'UserController@store');
-    Route::delete('users/{user}', 'UserController@destroy');
+    Route::resource('users', 'UserController')->only(['index', 'destroy', 'store']);
 });

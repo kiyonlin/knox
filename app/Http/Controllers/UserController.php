@@ -17,7 +17,11 @@ class UserController extends ApiController
      */
     public function index()
     {
-        //
+        if (! user()->can('view_user')) {
+            return $this->respondForbidden('对不起，您没有浏览用户权限!');
+        }
+
+        return $this->respond(User::all());
     }
 
     /**
@@ -86,7 +90,7 @@ class UserController extends ApiController
      */
     public function destroy(User $user)
     {
-        if (Gate::denies('delete', $user)) {
+        if (! user()->can('delete_user')) {
             return $this->respondForbidden('对不起，您没有删除用户权限!');
         }
 

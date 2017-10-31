@@ -16,6 +16,8 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        $this->withoutExceptionHandling();
+
         Artisan::call('db:seed', ['--class' => SetUpRBACSeeder::class]);
     }
 

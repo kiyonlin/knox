@@ -15,3 +15,17 @@ if (! function_exists('buildMenuTree')) {
         return $submenu;
     }
 }
+
+if (! function_exists('user')) {
+    function user()
+    {
+        return auth()->user();
+    }
+}
+
+if (! function_exists('uid')) {
+    function uid()
+    {
+        return auth()->id();
+    }
+}

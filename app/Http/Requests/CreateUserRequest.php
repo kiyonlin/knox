@@ -16,7 +16,7 @@ class CreateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('create', new User);
+        return user()->can('add_user');
     }
 
     public function failedAuthorization()

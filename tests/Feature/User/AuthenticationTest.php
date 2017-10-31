@@ -57,6 +57,8 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function a_user_can_not_login_in_with_incorrect_username_or_password()
     {
+        $this->withExceptionHandling();
+        
         $this->assertNull(auth()->user());
 
         $this->post('login', [

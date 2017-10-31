@@ -37,7 +37,7 @@ class CreateUsersTest extends TestCase
     public function an_unauthorized_user_can_not_add_a_new_user()
     {
         // 登录一个没有新增用户权限的用户
-        $this->signIn();
+        $this->signIn()->withExceptionHandling();
 
         $newUser = raw(User::class);
 
@@ -89,8 +89,8 @@ class CreateUsersTest extends TestCase
      */
     private function addUser($overrides = [])
     {
-        $this->withExceptionHandling()
-            ->signIn($this->systemAdmin);
+        $this->signIn($this->systemAdmin)
+            ->withExceptionHandling();
 
         return $this->post('users', raw(User::class, $overrides));
     }
