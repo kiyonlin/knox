@@ -23,6 +23,15 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+axios.interceptors.response.use((res) =>{
+    return res;
+  }, (error) => {
+    if (error.response.status === 401) {
+        console.log('unauthorized, logging out ...');
+        router.replace('/login');
+    }
+    return Promise.reject(error.response);
+  });
 
 // import Echo from 'laravel-echo'
 //

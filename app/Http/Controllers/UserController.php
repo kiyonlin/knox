@@ -22,7 +22,7 @@ class UserController extends ApiController
         }
 
         $page = request('page', 1);
-        $pageSize = request('pageSize', 15);
+        $pageSize = request('pageSize', 10);
 
         return $this->respond(User::paginate($pageSize, ['*'], 'page', $page));
     }

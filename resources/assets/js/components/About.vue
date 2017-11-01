@@ -4,7 +4,6 @@
             <div class="column">
                 <div class="message">
                     <div class="message-header">Kiyon said... to</div>
-
                     <div class="message-body">
                         I'm an example component!
                     </div>
