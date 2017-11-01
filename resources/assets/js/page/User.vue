@@ -46,8 +46,8 @@
         },
         methods: {
             view(index, item) {
-                this.showAddDialog = true;
                 this.currentItem = item;
+                this.showAddDialog = true;
                 this.currentItem.index = index;
             }
         }

@@ -30,18 +30,16 @@
         props: ['visiable', 'user'],
         data() {
             return {
-                form: {
-                    username: '',
-                    display_name: '',
-                    phone_number: '',
-                    email: '',
-                    password: ''
-                },
+                form: {},
                 show: false,
                 isAdd: true
             }
         },
         watch: {
+            /**
+             * 由父组件控制是否显示对话框
+             * 需要显示时，根据是否传入旧项目判断是新增还是修改
+             */
             visiable() {
                 this.show = this.visiable;
                 if (this.user) {
@@ -52,8 +50,12 @@
                     this.form = {};
                 };
             },
+            /**
+             * 同步sync数据，根据Vue2.3以后的版本，因为是props属性，需要使用事件触发
+             * 详见：https://cn.vuejs.org/v2/guide/components.html#sync-修饰符
+             * 当关闭对话框时，更新父组件信息
+             */
             show() {
-                // 同步sync数据，因为是props属性，需要使用事件触发
                 if(!this.show) {
                     this.$emit('update:visiable', false);
                     this.$emit('update:user', null);
