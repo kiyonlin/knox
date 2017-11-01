@@ -24,7 +24,7 @@ class UserController extends ApiController
         $page = request('page', 1);
         $pageSize = request('pageSize', 10);
 
-        return $this->respond(User::paginate($pageSize, ['*'], 'page', $page));
+        return $this->respond(User::with('roles')->paginate($pageSize, ['*'], 'page', $page));
     }
 
     /**

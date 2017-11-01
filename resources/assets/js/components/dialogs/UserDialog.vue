@@ -48,7 +48,7 @@
                 } else {
                     this.isAdd = true;
                     this.form = {};
-                };
+                }
             },
             /**
              * 同步sync数据，根据Vue2.3以后的版本，因为是props属性，需要使用事件触发

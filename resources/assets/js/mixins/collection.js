@@ -1,7 +1,7 @@
 export default {
     data() {
         return {
-            items: [],
+            records: [],
             path: '',
             page: 0,
             pageSize: 0,
@@ -40,7 +40,7 @@ export default {
         refresh({
             data
         }) {
-            this.items = data.data;
+            this.records = data.data;
             this.total = data.total;
             location.href = `http://${location.host}/#${this.path}?page=${this.page}&pageSize=${this.pageSize}`;
             this.loading = false;
@@ -55,10 +55,10 @@ export default {
             this.fetch();
         },
         add(item) {
-            this.items.push(item);
+            this.records.push(item);
         },
         update(item) {
-            Object.assign(this.items[item.index], item);
+            Object.assign(this.records[item.index], item);
         },
         remove(index, item) {
             this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
@@ -69,7 +69,7 @@ export default {
                 axios.delete(`${this.path}/${item.id}`)
                 .then(response => {
                     this.$message.success('删除成功')
-                    this.items.splice(index, 1);
+                    this.records.splice(index, 1);
                     this.total--;
                 }).catch(error => this.$message.error(error.data.message));
             }).catch(() => this.$message('已取消删除'));
