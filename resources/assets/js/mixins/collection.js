@@ -57,6 +57,9 @@ export default {
         add(item) {
             this.items.push(item);
         },
+        update(item) {
+            Object.assign(this.items[item.index], item);
+        },
         remove(index, item) {
             this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
                 confirmButtonText: '确定',

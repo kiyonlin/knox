@@ -39,6 +39,7 @@ axios.interceptors.response.use((res) =>{
 //     broadcaster: 'socket.io',
 //     host: window.location.hostname + ':6006'
 // });
+import './utils/helpers';
 
 import authorizations from './authorizations';
 

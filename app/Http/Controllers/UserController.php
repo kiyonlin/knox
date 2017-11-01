@@ -28,16 +28,6 @@ class UserController extends ApiController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created user in storage.
      *
      * @param CreateUserRequest $request
@@ -51,37 +41,27 @@ class UserController extends ApiController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param User $user
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function update(Request $request, $id)
+    public function update(User $user)
     {
-        //
+        if (! user()->can('update_user')) {
+            return $this->respondForbidden('对不起，您没有更新用户权限!');
+        }
+
+        $validate = $this->validate(request(), [
+            'display_name' => 'sometimes|string|max:255',
+            'email'        => 'sometimes|required|string|email|max:255|unique:users',
+            'password'     => 'sometimes|required|string|min:6',
+        ]);
+
+        $user->update($validate);
+
+        return $this->respondNoContent();
     }
 
     /**
@@ -89,7 +69,7 @@ class UserController extends ApiController
      *
      * @param User $user
      * @return \Illuminate\Http\Response
-     * @internal param User $user
+     * @internal param int $id
      */
     public function destroy(User $user)
     {

@@ -30,7 +30,7 @@ class ManegeUsersTest extends TestCase
 
         $response = $this->get('users?pageSize=20')
             ->assertStatus(200)
-        ->json();
+            ->json();
 
         $this->assertCount(6, $response['data']);
 
@@ -39,7 +39,7 @@ class ManegeUsersTest extends TestCase
         $response = $this->get('users?pageSize=20')
             ->assertStatus(200)
             ->json();
-dd($response);
+
         $this->assertCount(20, $response['data']);
         $this->assertEquals(26, $response['total']);
     }
@@ -55,4 +55,31 @@ dd($response);
             ->assertStatus(403);
     }
 
+    /** @test */
+    public function an_authorized_user_can_update_users()
+    {
+        $this->updateUser(['email' => 'example@163.com']);
+        $this->updateUser(['display_name' => 'new_display_name']);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_users()
+    {
+        $this->signIn()->withExceptionHandling();
+
+        $this->patch("users/{$this->systemAdmin->id}", ['email' => 'example@163.com'])
+            ->assertStatus(403);
+    }
+
+    private function updateUser($patch)
+    {
+        $this->signIn($this->systemAdmin);
+
+        $this->patch("users/{$this->systemAdmin->id}", $patch)
+            ->assertStatus(204);
+
+        $this->assertDatabaseHas('users',
+            array_merge($patch, ['id' => $this->systemAdmin->id])
+        );
+    }
 }
