@@ -10,27 +10,22 @@
                   v-loading="loading"
                   border
                   :row-key="setRowKey"
-                  :expand-row-keys="expandRows"
                   tooltip-effect="dark"
                   emptyText="暂无数据"
                   max-height="500"
                   class="mt20">
             <el-table-column type="index"></el-table-column>
-            <el-table-column type="expand">
-                <template slot-scope="props">
-                    <!-- <role-tags :data="props.row"></role-tags>    -->
-                </template>
-            </el-table-column>
             <el-table-column prop="name" label="角色名" sortable>
             </el-table-column>
             <el-table-column prop="display_name" label="显示名称">
             </el-table-column>
             <el-table-column prop="description" label="描述" sortable>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" width="150">
+            <el-table-column fixed="right" label="操作" width="200">
                 <div slot-scope="scope">
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
                     <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.$index, scope.row)"></el-button>
+                    <el-button size="mini" @click.native.prevent="showPermissions(scope.$index, scope.row)">权限</el-button>
                 </div>
             </el-table-column>
         </el-table>
@@ -43,7 +38,6 @@
 
 <script>
     import FormDialog from './FormDialog';
-    // import RoleTags from './RoleTags';
     import collection from '../../mixins/collection';
     export default {
         components: {
@@ -53,18 +47,7 @@
         data() {
             return {
                 path: '/roles',
-            }
-        },
-
-        computed: {
-            expandRows() {
-                let expandRows = [];
-                for(let record of this.records){
-                    // if(record.roles && record.roles.length) {
-                    //     expandRows.push(record.id);
-                    // }
-                }
-                return expandRows;
+                showPermissinDialog: false
             }
         },
 
@@ -75,6 +58,10 @@
                     return 'warning-row';
                 }
                 return '';
+            },
+            showPermissions(index, role) {
+                this.showPermissinDialog = true;
+                this.currentRecord = role;
             }
         }
     }
