@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\User;
 
-use App\Models\RBAC\Permission;
+use App\Modules\Menu\Menu;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;

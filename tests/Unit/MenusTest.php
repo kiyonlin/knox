@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Menu;
+use App\Modules\Menu\Menu;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

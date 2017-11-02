@@ -15,8 +15,14 @@ Route::view('/', 'welcome');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'Home\HomeController@index')->name('home');
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('users', 'UserController')->only(['index', 'destroy', 'store', 'update']);
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['namespace' => 'User'], function () {
+        Route::resource('users', 'UsersController')->only(['index', 'destroy', 'store', 'update']);
+    });
+
+    Route::group(['namespace' => 'Role'], function () {
+        Route::resource('roles', 'RolesController')->only(['index', 'destroy', 'store', 'update']);
+    });
 });

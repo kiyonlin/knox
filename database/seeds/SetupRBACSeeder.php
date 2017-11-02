@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Menu;
-use App\Models\RBAC\Permission;
-use App\Models\RBAC\Role;
-use App\Models\User;
+use App\Modules\Menu\Menu;
+use App\Modules\Permission\Permission;
+use App\Modules\Role\Role;
+use App\Modules\User\User;
 use Illuminate\Database\Seeder;
 
 class SetupRBACSeeder extends Seeder

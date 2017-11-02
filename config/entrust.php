@@ -19,7 +19,7 @@ return [
     |
     */
 
-    'user' => 'App\Models\User',
+    'user' => App\Modules\User\User::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     | the role if it is in a different namespace.
     |
     */
-    'role' => 'App\Models\RBAC\Role',
+    'role' => App\Modules\Role\Role::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ return [
     | Update the permission if it is in a different namespace.
     |
     */
-    'permission' => 'App\Models\RBAC\Permission',
+    'permission' => App\Modules\Permission\Permission::class,
 
     /*
     |--------------------------------------------------------------------------

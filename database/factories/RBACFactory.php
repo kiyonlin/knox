@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Models\RBAC\Role::class, function (Faker $faker) {
+$factory->define(App\Modules\Role\Role::class, function (Faker $faker) {
 
     return [
         'name'         => $faker->unique()->userName,
@@ -11,7 +11,7 @@ $factory->define(App\Models\RBAC\Role::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\RBAC\Permission::class, function (Faker $faker) {
+$factory->define(App\Modules\Permission\Permission::class, function (Faker $faker) {
 
     return [
         'name'         => $faker->unique()->userName,

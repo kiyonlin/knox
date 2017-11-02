@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\RBAC;
+namespace App\Modules\Role;
 
 use Parsidev\Entrust\EntrustRole;
 

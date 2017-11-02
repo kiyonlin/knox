@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\User;
 
-use App\Http\Requests\CreateUserRequest;
-use App\Models\User;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-class UserController extends ApiController
+class UsersController extends ApiController
 {
 
     /**
