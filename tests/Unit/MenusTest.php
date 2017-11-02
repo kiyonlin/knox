@@ -36,4 +36,15 @@ class MenusTest extends TestCase
         $subSubMenu = create(Menu::class, ['pid' => $subMenu->id]);
         $this->assertEquals(3, $subSubMenu->level);
     }
+
+    /** @test */
+    public function it_knows_if_it_is_leaf()
+    {
+        $menu = create(Menu::class);
+        $this->assertTrue($menu->is_leaf);
+
+        $subMenu = create(Menu::class, ['pid' => $menu->id]);
+        $this->assertFalse($menu->fresh()->is_leaf);
+        $this->assertTrue($subMenu->is_leaf);
+    }
 }

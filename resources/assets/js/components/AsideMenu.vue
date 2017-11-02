@@ -5,23 +5,23 @@
             @open="handleOpen"
             @close="handleClose">
         <template v-for="menu in menus">
-            <el-submenu :index="menu.index" v-if="menu.submenu.length">
+            <el-menu-item :index="menu.index" :key="menu.id" v-if="menu.is_leaf" :route="{path: menu.path}">
+                <i :class="[menu.icon]"></i>
+                <span v-text="menu.name"></span>
+            </el-menu-item>
+
+            <el-submenu :index="menu.index" :key="menu.id" v-else>
                 <template slot="title">
                     <i :class="[menu.icon]"></i>
                     <span v-text="menu.name"></span>
                 </template>
                 <template v-for="submenu in menu.submenu">
-                    <el-menu-item :index="submenu.index" :route="{path: submenu.path}">
+                    <el-menu-item :index="submenu.index" :key="submenu.id" :route="{path: submenu.path}">
                         <i :class="[submenu.icon]"></i>
                         <span v-text="submenu.name"></span>
                     </el-menu-item>
                 </template>
             </el-submenu>
-
-            <el-menu-item :index="menu.index" v-if="!menu.submenu.length" :route="{path: menu.path}">
-                <i :class="[menu.icon]"></i>
-                <span v-text="menu.name"></span>
-            </el-menu-item>
         </template>
     </el-menu>
 

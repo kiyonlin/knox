@@ -7,12 +7,13 @@ use Illuminate\Support\Str;
 
 $factory->define(App\Modules\Menu\Menu::class, function (Faker $faker) {
     return [
-        'pid'   => 0,
-        'key'   => Str::random(5),
-        'name'  => $faker->userName,
-        'path'  => null,
-        'level' => 1,
-        'index' => '',
-        'icon'  => null
+        'pid'     => 0,
+        'key'     => Str::random(5),
+        'name'    => $faker->userName,
+        'path'    => null,
+        'level'   => 1,
+        'index'   => '',
+        'icon'    => null,
+        'is_leaf' => true
     ];
 });

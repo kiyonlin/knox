@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-header style="text-align: right; font-size: 12px">
+        <el-header>
             <nav-bar></nav-bar>
         </el-header>
         <el-container class="mh20">
