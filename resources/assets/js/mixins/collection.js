@@ -1,6 +1,7 @@
 export default {
     data() {
         return {
+            // 使用records替换items，否则与包代码冲突
             records: [],
             path: '',
             page: 0,

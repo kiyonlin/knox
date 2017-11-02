@@ -11,7 +11,7 @@ let routes = [
     },
     {
         path: '/users',
-        component: require('./page/User.vue')
+        component: require('./page/user/User.vue')
     },
     {
         path: '/login',

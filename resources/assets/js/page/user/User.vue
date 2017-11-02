@@ -18,24 +18,7 @@
             <el-table-column type="index"></el-table-column>
             <el-table-column type="expand">
                 <template slot-scope="props">
-                    <el-tag
-                            v-for="role in props.row.roles"
-                            :key="role.name"
-                            @close="removeRole(props.row.roles, role)"
-                            closable>
-                        {{role.display_name}}
-                    </el-tag>
-                    <el-input
-                            class="input-new-tag"
-                            v-if="inputVisible"
-                            v-model="inputValue"
-                            ref="saveTagInput"
-                            size="small"
-                            @keyup.enter.native="handleInputConfirm"
-                            @blur="handleInputConfirm"
-                    >
-                    </el-input>
-                    <el-button v-else class="button-new-tag" size="small" @click="showInput">添加角色</el-button>
+                    <role-tags :data="props.row"></role-tags>   
                 </template>
             </el-table-column>
             <el-table-column prop="username" label="用户名" sortable>
@@ -54,18 +37,19 @@
             </el-table-column>
         </el-table>
 
-        <el-pagination class="mt20" @size-change="sizeChange" @current-change="pageChange" :current-page="page" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next" :total="total">
+        <el-pagination style="text-align:right;" class="mt20" @size-change="sizeChange" @current-change="pageChange" :current-page="page" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
-        <user-dialog :visiable.sync="showAddDialog" :user.sync="currentItem" @created="add" @updated="update"></user-dialog>
+        <form-dialog :visiable.sync="showAddDialog" :user.sync="currentItem" :path="path" @created="add" @updated="update"></form-dialog>
     </div>
 </template>
 
 <script>
-    import UserDialog from '../components/dialogs/UserDialog';
-    import collection from '../mixins/collection';
+    import FormDialog from './FormDialog';
+    import RoleTags from './RoleTags';
+    import collection from '../../mixins/collection';
     export default {
         components: {
-            UserDialog
+            FormDialog, RoleTags
         },
         mixins: [collection],
         data() {
@@ -74,8 +58,6 @@
                 showAddDialog: false,
                 currentItem: null,
                 path: '/users',
-                inputVisible: false,
-                inputValue: ''
             }
         },
 
@@ -83,7 +65,7 @@
             expandRows() {
                 let expandRows = [];
                 for(let record of this.records){
-                    if(record.roles.length) {
+                    if(record.roles && record.roles.length) {
                         expandRows.push(record.id);
                     }
                 }
@@ -106,25 +88,6 @@
             },
             setRowKey(row) {
                 return row.id;
-            },
-            removeRole(roles, role) {
-                // TODO: 删除角色
-                roles.splice(roles.indexOf(role), 1);
-            },
-            showInput() {
-                this.inputVisible = true;
-                this.$nextTick(_ => {
-//                    this.$refs.saveTagInput.$refs.input.focus();
-                });
-            },
-
-            handleInputConfirm() {
-                let inputValue = this.inputValue;
-                if (inputValue) {
-//                    this.dynamicTags.push(inputValue);
-                }
-                this.inputVisible = false;
-                this.inputValue = '';
             }
         }
     }
@@ -137,23 +100,5 @@
 
     .el-table .success-row {
         background: #f0f9eb;
-    }
-
-    .el-tag + .el-tag {
-        margin-left: 10px;
-    }
-
-    .button-new-tag {
-        margin-left: 10px;
-        height: 32px;
-        line-height: 30px;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-
-    .input-new-tag {
-        width: 90px;
-        margin-left: 10px;
-        vertical-align: bottom;
     }
 </style>

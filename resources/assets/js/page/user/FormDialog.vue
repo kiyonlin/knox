@@ -27,7 +27,7 @@
 
 <script>
     export default {
-        props: ['visiable', 'user'],
+        props: ['visiable', 'user', 'path'],
         data() {
             return {
                 form: {},
@@ -64,7 +64,7 @@
         },
         methods: {
             add() {
-                axios.post('users', this.form)
+                axios.post(this.path, this.form)
                     .then(response => {
                         this.$emit('created', response.data);
                         this.show = false;
@@ -75,7 +75,7 @@
             update() {
                 let patch = this.getDirty(this.user, this.form);
                 
-                axios.patch(`users/${this.user.id}`, patch)
+                axios.patch(`${this.path}/${this.user.id}`, patch)
                     .then(response => {
                         this.$emit('updated', this.form);
                         this.show = false;
