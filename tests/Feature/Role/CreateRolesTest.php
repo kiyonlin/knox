@@ -126,7 +126,7 @@ class CreateRolesTest extends TestCase
     }
 
     /**
-     * 测试新增用户时每个校验字段的通用函数
+     * 测试新增角色时每个校验字段的通用函数
      *
      * @param array $overrides
      * @return \Illuminate\Foundation\Testing\TestResponse

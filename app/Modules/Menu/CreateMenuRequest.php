@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Role;
+namespace App\Modules\Menu;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class CreateRoleRequest extends FormRequest
+class CreateMenuRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,12 +15,12 @@ class CreateRoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('add_role');
+        return user()->can('add_menu');
     }
 
     public function failedAuthorization()
     {
-        throw new AuthorizationException('对不起，您没有新增角色权限!');
+        throw new AuthorizationException('对不起，您没有新增菜单权限!');
     }
 
     /**
@@ -31,9 +31,12 @@ class CreateRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:roles',
-            'display_name' => 'string|max:255',
-            'description' => 'string|max:511',
+            'pid' => 'nullable|numeric',
+            'key' => 'required|string|max:255|unique:menus',
+            'name' => 'required|string|max:255',
+            'path' => 'nullable|string|max:255|unique:menus',
+            'icon' => 'nullable|string|max:255',
+            'sort' => 'nullable|numeric',
         ];
     }
 }
