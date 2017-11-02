@@ -40,7 +40,7 @@ class UsersController extends ApiController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified user in storage.
      *
      * @param User $user
      * @return \Illuminate\Http\Response
