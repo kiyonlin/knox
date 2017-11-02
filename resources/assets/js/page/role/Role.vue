@@ -18,16 +18,14 @@
             <el-table-column type="index"></el-table-column>
             <el-table-column type="expand">
                 <template slot-scope="props">
-                    <role-tags :data="props.row"></role-tags>   
+                    <!-- <role-tags :data="props.row"></role-tags>    -->
                 </template>
             </el-table-column>
-            <el-table-column prop="username" label="用户名" sortable>
+            <el-table-column prop="name" label="角色名" sortable>
             </el-table-column>
-            <el-table-column prop="display_name" label="昵称">
+            <el-table-column prop="display_name" label="显示名称">
             </el-table-column>
-            <el-table-column prop="phone_number" label="手机号码" sortable>
-            </el-table-column>
-            <el-table-column prop="email" label="邮箱" show-overflow-tooltip>
+            <el-table-column prop="description" label="描述" sortable>
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="150">
                 <div slot-scope="scope">
@@ -45,19 +43,16 @@
 
 <script>
     import FormDialog from './FormDialog';
-    import RoleTags from './RoleTags';
+    // import RoleTags from './RoleTags';
     import collection from '../../mixins/collection';
     export default {
         components: {
-            FormDialog, RoleTags
+            FormDialog
         },
         mixins: [collection],
         data() {
             return {
-                records: [],
-                showAddDialog: false,
-                currentRecord: null,
-                path: '/users',
+                path: '/roles',
             }
         },
 
@@ -65,29 +60,21 @@
             expandRows() {
                 let expandRows = [];
                 for(let record of this.records){
-                    if(record.roles && record.roles.length) {
-                        expandRows.push(record.id);
-                    }
+                    // if(record.roles && record.roles.length) {
+                    //     expandRows.push(record.id);
+                    // }
                 }
                 return expandRows;
             }
         },
 
         methods: {
-            view(index, record) {
-                this.currentRecord = record;
-                this.showAddDialog = true;
-                this.currentRecord.index = index;
-            },
             tableRowClassName({row, rowIndex}) {
                 // TODO: 高亮管理员
-                if(rowIndex === 0) {
+                if(row.name === 'systemAdmin') {
                     return 'warning-row';
                 }
                 return '';
-            },
-            setRowKey(row) {
-                return row.id;
             }
         }
     }

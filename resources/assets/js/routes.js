@@ -14,6 +14,10 @@ let routes = [
         component: require('./page/user/User.vue')
     },
     {
+        path: '/roles',
+        component: require('./page/role/Role.vue')
+    },
+    {
         path: '/login',
         components: {
             welcome: require('./page/Welcome.vue')

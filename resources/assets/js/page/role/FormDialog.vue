@@ -1,20 +1,14 @@
 <template>
-    <el-dialog title="添加用户" :visible.sync="show" :show-close="false">
+    <el-dialog title="添加角色" :visible.sync="show" :show-close="false">
         <el-form label-width="80px" :model="form">
-            <el-form-item label="用户名">
-                <el-input v-model="form.username" :disabled="!isAdd"></el-input>
+            <el-form-item label="角色名">
+                <el-input v-model="form.name" :disabled="!isAdd"></el-input>
             </el-form-item>
-            <el-form-item label="名称">
+            <el-form-item label="显示名称">
                 <el-input v-model="form.display_name"></el-input>
             </el-form-item>
-            <el-form-item label="手机号码">
-                <el-input v-model="form.phone_number"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱">
-                <el-input v-model="form.email"></el-input>
-            </el-form-item>
-            <el-form-item label="初始密码" v-if="isAdd">
-                <el-input type="password" v-model="form.password"></el-input>
+            <el-form-item label="描述">
+                <el-input v-model="form.description"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer">
@@ -32,7 +26,7 @@
             return {
                 form: {},
                 show: false,
-                isAdd: true
+                isAdd: true,
             }
         },
         watch: {

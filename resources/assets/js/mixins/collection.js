@@ -1,8 +1,10 @@
 export default {
     data() {
         return {
-            // 使用records替换items，否则与包代码冲突
+            // 使用records替换records，否则与包代码冲突
             records: [],
+            showAddDialog: false,
+            currentRecord: null,
             path: '',
             page: 0,
             pageSize: 0,
@@ -55,25 +57,33 @@ export default {
             this.page = page;
             this.fetch();
         },
-        add(item) {
-            this.records.push(item);
+        add(record) {
+            this.records.push(record);
         },
-        update(item) {
-            Object.assign(this.records[item.index], item);
+        update(record) {
+            Object.assign(this.records[record.index], record);
         },
-        remove(index, item) {
+        remove(index, record) {
             this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                axios.delete(`${this.path}/${item.id}`)
+                axios.delete(`${this.path}/${record.id}`)
                 .then(response => {
                     this.$message.success('删除成功')
                     this.records.splice(index, 1);
                     this.total--;
                 }).catch(error => this.$message.error(error.data.message));
             }).catch(() => this.$message('已取消删除'));
+        },
+        setRowKey(row) {
+            return row.id;
+        },
+        view(index, record) {
+            this.currentRecord = record;
+            this.showAddDialog = true;
+            this.currentRecord.index = index;
         }
     }
 }
