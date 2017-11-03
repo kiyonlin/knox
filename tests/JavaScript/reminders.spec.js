@@ -1,5 +1,5 @@
 import { mount } from 'vue-test-utils';
-import Reminders from '../../resources/assets/js/components/Reminders.vue'
+import Reminders from '../../resources/assets/js/components/exercise/Reminders.vue'
 import expect from 'expect';
 
 describe('Reminders', () => {

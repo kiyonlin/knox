@@ -35,20 +35,19 @@
         },
         mounted() {
             this.menus = window.Auth.menus;
-            this.openSubMenu();
+            this.openDefaultMenu();
         },
         watch: {
             $route() {
-                this.openSubMenu();
+                this.openDefaultMenu();
             }
         },
         methods: {
-            openSubMenu() {
+            openDefaultMenu() {
                 for(let menu of this.menus) {
                     if(menu.submenus) {
                         for(let submenu of menu.submenus) {
                             if(submenu.path == this.$router.currentRoute.path) {
-                                console.log(this.$refs.asideMenu);
                                 this.$nextTick(_ => {
                                     this.$refs.asideMenu.open(menu.index);
                                     this.defaultActive = submenu.path;

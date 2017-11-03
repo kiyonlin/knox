@@ -13,6 +13,9 @@ export default {
             loading: true,
         }
     },
+    watch: {
+        $route: 'fetch'
+    },
     created() {            
         this.fetch();
     },
@@ -27,17 +30,12 @@ export default {
                 });
         },
         url() {
-            if (!this.page) {
-                // 正则表达式匹配query里的参数
-                let query = location.hash.match(/page=(\d+)/);
-                // 有匹配到使用正则表达式括号分组里的值
-                this.page = query ? parseInt(query[1]) : 1;
-                query = location.hash.match(/pageSize=(\d+)/);
-                // 有匹配到使用正则表达式括号分组里的值
-                this.pageSize = query ? parseInt(query[1]) : 10;
-                // 忽略不合法的每页数量
-                this.pageSize = this.pageSizes.includes(this.pageSize) ? this.pageSize : 10;
-            }
+            this.page = parseInt(this.$router.currentRoute.query.page) || 1;
+            
+            this.pageSize = parseInt(this.$router.currentRoute.query.pageSize) || 10;
+            // 忽略不合法的每页数量
+            this.pageSize = this.pageSizes.includes(this.pageSize) ? this.pageSize : 10;
+
             return `${this.path}?page=${this.page}&pageSize=${this.pageSize}`;
         },
         refresh({

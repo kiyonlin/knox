@@ -27,9 +27,9 @@
 </template>
 
 <script>
-    import AsideMenu from '../components/AsideMenu.vue';
-    import NavBar from '../components/NavBar.vue';
-    import Copyright from '../components/Copyright.vue';
+    import AsideMenu from './AsideMenu.vue';
+    import NavBar from './NavBar.vue';
+    import Copyright from './Copyright.vue';
 
     export default {
         components: {AsideMenu, NavBar, Copyright},
