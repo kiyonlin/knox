@@ -4,15 +4,13 @@
             <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showAddDialog = true"></el-button>
             <el-button type="primary" icon="el-icon-refresh" @click="fetch" :loading="loading"></el-button>
         </el-button-group>
-        <el-table :data.sync="records" :row-class-name="tableRowClassName" v-loading="loading" border :row-key="setRowKey" :expand-row-keys="expandRows" tooltip-effect="dark" emptyText="暂无数据" max-height="500" class="mt20">
+        <el-table :data.sync="records" :row-class-name="tableRowClassName" v-loading="loading" border :row-key="setRowKey" tooltip-effect="dark" emptyText="暂无数据" max-height="500" class="mt20">
             <el-table-column prop="index" label="索引" width="50">
             </el-table-column>
-            <el-table-column type="expand" width="50">
+            <el-table-column type="expand" width="60">
                 <template slot-scope="props">
                     <submenus 
-                    :data-submenus="props.row.sub_menus" 
-                    :data-index="props.$index"
-                    @showSubmenu="showSubmenu"></submenus>
+                    :data-submenus="props.row.sub_menus"></submenus>
                 </template>
             </el-table-column>
             <el-table-column prop="key" label="标识">
@@ -21,13 +19,13 @@
             </el-table-column>
             <el-table-column prop="path" label="路径">
             </el-table-column>
-            <el-table-column prop="level" label="层级">
+            <el-table-column prop="level" label="层级" width="50">
             </el-table-column>
             <el-table-column prop="icon" label="icon">
             </el-table-column>
             <el-table-column prop="sort" label="排序">
             </el-table-column>
-            <el-table-column label="子菜单操作">
+            <el-table-column prop="sub_menus.length" label="子菜单操作">
             </el-table-column>
             <el-table-column label="操作" width="128">
                 <div slot-scope="scope">
@@ -57,15 +55,6 @@
             }
         },
         computed: {
-            expandRows() {
-                let expandRows = [];
-                for (let record of this.records) {
-                    if (record.sub_menus && record.sub_menus.length) {
-                        expandRows.push(record.id);
-                    }
-                }
-                return expandRows;
-            }
         },
         methods: {
             tableRowClassName({row, rowIndex}) {
@@ -73,16 +62,12 @@
                 return '';
             },
             checkRemove(index, record) {
-                if(record.sub_menus){
+                if(record.sub_menus.length){
                     this.$message.error("该菜单包含子菜单，无法直接删除！");
                     return;
                 }
 
                 this.remove(index, record);
-            },
-            showSubmenu(index, submenu) {
-                console.log(index, submenu);
-                this.view(index, submenu);
             }
         }
     }

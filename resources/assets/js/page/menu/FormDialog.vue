@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="添加菜单" :visible.sync="show" :show-close="false">
+    <el-dialog :title="title + '菜单'" :visible.sync="show" :show-close="false">
         <el-form label-width="80px" :model="form">
             <el-form-item label="标识">
                 <el-input v-model="form.key" :disabled="!isAdd"></el-input>

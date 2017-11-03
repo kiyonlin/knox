@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="添加用户" :visible.sync="show" :show-close="false">
+    <el-dialog :title="title + '用户'" :visible.sync="show" :show-close="false">
         <el-form label-width="80px" :model="form">
             <el-form-item label="用户名">
                 <el-input v-model="form.username" :disabled="!isAdd"></el-input>

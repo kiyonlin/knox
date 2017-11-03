@@ -35,6 +35,11 @@ export default {
             }
         }
     },
+    computed: {
+        title() {
+            return this.isAdd ? '添加' : '编辑';
+        }
+    },
     methods: {
         add() {
             axios.post(this.path, this.form)
@@ -47,7 +52,11 @@ export default {
         },
         update() {
             let patch = this.getDirty(this.record, this.form);
-            
+            if(Object.keys(patch).length ==0) {
+                this.show = false;
+                this.$message.success('更新成功');
+                return;
+            }
             axios.patch(`${this.path}/${this.record.id}`, patch)
                 .then(response => {
                     this.$emit('updated', this.form);

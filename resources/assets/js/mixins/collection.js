@@ -59,7 +59,7 @@ export default {
             this.records.push(record);
         },
         update(record) {
-            Object.assign(this.records[record.index], record);
+            Object.assign(this.records[record._index], record);
         },
         remove(index, record) {
             this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
@@ -81,7 +81,7 @@ export default {
         view(index, record) {
             this.currentRecord = record;
             this.showAddDialog = true;
-            this.currentRecord.index = index;
+            this.currentRecord._index = index;
         }
     }
 }
