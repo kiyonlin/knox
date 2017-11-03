@@ -9,7 +9,7 @@ describe('Reminders', () => {
         wrapper = mount(Reminders);
     });
 
-    it.only('hides the reminders list if there are none', () => {
+    it('hides the reminders list if there are none', () => {
         expect(wrapper.contains('ul')).toBe(false);
     });
 
