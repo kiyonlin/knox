@@ -10,20 +10,21 @@
     <title>Knox</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script>
+        window.Auth = {!! json_encode([
+            'user' => auth()->user()?auth()->user()->only(['id', 'username', 'phone_number','email']):null,
+            'signedIn' => auth()->check(),
+            'menus' => auth()->user()?buildMenuTree(auth()->user()->menus()->toArray()):null,
+            'permissions' => auth()->user()? auth()->user()->permissions():null,
+        ]) !!};
+    </script>
 </head>
 <body>
 <div id="app">
     <Home v-if="signedIn"></Home>
     <welcome v-else></welcome>
 </div>
-<script>
-    window.Auth = {!! json_encode([
-            'user' => auth()->user()?auth()->user()->only(['id', 'username', 'phone_number','email']):null,
-            'signedIn' => auth()->check(),
-            'menus' => auth()->user()?buildMenuTree(auth()->user()->menus()->toArray()):null,
-            'permissions' => auth()->user()? auth()->user()->permissions():null,
-        ]) !!};
-</script>
-<script src="{{ asset('js/app.js') }}"></script>
 </body>
+<script src="{{ asset('js/app.js') }}"></script>
 </html>

@@ -2,17 +2,17 @@
 if (! function_exists('buildMenuTree')) {
     function buildMenuTree(array $menus, $pid = 0)
     {
-        $submenu = [];
+        $submenus = [];
 
         foreach ($menus as $index => $menu) {
             if ($menu['pid'] == $pid) {
-                $menu['submenu'] = buildMenuTree($menus, $menu['id']);
-                $submenu[] = $menu;
+                $menu['submenus'] = buildMenuTree($menus, $menu['id']);
+                $submenus[] = $menu;
                 unset($menus[$index]);
             }
         }
 
-        return $submenu;
+        return $submenus;
     }
 }
 
