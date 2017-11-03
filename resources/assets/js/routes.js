@@ -18,6 +18,10 @@ let routes = [
         component: require('./page/role/Role.vue')
     },
     {
+        path: '/menus',
+        component: require('./page/menu/Menu.vue')
+    },
+    {
         path: '/login',
         components: {
             welcome: require('./page/Welcome.vue')

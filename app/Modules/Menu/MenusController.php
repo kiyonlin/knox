@@ -21,7 +21,7 @@ class MenusController extends ApiController
         $page = request('page', 1);
         $pageSize = request('pageSize', 10);
 
-        return $this->respond(Menu::wherePid(0)->with('subMenus')->paginate($pageSize, ['*'], 'page', $page));
+        return $this->respond(Menu::wherePid(0)->orderBy('sort, created')->with('subMenus')->paginate($pageSize, ['*'], 'page', $page));
     }
 
 

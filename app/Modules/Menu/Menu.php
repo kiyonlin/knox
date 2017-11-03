@@ -21,14 +21,9 @@ class Menu extends Model
         'pid'     => 'integer'
     ];
 
-    /*
-     * 前端可见字段
-     */
-    protected $visible = ['id', 'pid', 'key', 'name', 'path', 'index', 'level', 'icon', 'is_leaf'];
-
     public function subMenus()
     {
-        return $this->hasMany(Menu::class, 'pid');
+        return $this->hasMany(Menu::class, 'pid')->orderBy('sort, created');
     }
 
     /**
@@ -47,6 +42,8 @@ class Menu extends Model
             $parentMenu->save();
         } else {
             $menu->index = $menu->id;
+            $menu->level = 1;
+            $menu->is_leaf = count(optional($menu->subMenus())->count());
         }
         $menu->save();
     }
