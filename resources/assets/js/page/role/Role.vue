@@ -21,7 +21,7 @@
             </el-table-column>
             <el-table-column prop="description" label="描述" sortable>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" width="200">
+            <el-table-column label="操作" width="200">
                 <div slot-scope="scope">
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
                     <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.$index, scope.row)"></el-button>

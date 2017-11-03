@@ -29,7 +29,7 @@
             </el-table-column>
             <el-table-column prop="email" label="邮箱" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" width="128">
+            <el-table-column label="操作" width="128">
                 <div slot-scope="scope">
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
                     <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.$index, scope.row)"></el-button>
