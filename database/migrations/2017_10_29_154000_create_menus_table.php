@@ -20,7 +20,7 @@ class CreateMenusTable extends Migration
             $table->string('name');
             $table->string('path')->nullable();
             $table->unsignedSmallInteger('level')->default(1)->comment('菜单层级，辅助字段');
-            $table->string('index')->comment('菜单索引，辅助字段');
+            $table->string('index')->nullable()->comment('菜单索引，辅助字段');
             $table->string('icon')->nullable();
             $table->boolean('is_leaf')->default(true);
             $table->unsignedInteger('sort')->nullable();

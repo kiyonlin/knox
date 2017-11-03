@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Modules\Menu\Menu;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -46,5 +47,16 @@ class MenusTest extends TestCase
         $subMenu = create(Menu::class, ['pid' => $menu->id]);
         $this->assertFalse($menu->fresh()->is_leaf);
         $this->assertTrue($subMenu->is_leaf);
+    }
+
+    /** @test */
+    public function it_may_have_some_submenus()
+    {
+        $menu = create(Menu::class);
+        $this->assertInstanceOf(Collection::class, $menu->subMenus);
+
+        create(Menu::class, ['pid' => $menu->id], 3);
+
+        $this->assertCount(3, $menu->fresh()->subMenus);
     }
 }

@@ -17,13 +17,19 @@ class Menu extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'is_leaf' => 'boolean'
+        'is_leaf' => 'boolean',
+        'pid'     => 'integer'
     ];
 
     /*
      * 前端可见字段
      */
     protected $visible = ['id', 'pid', 'key', 'name', 'path', 'index', 'level', 'icon', 'is_leaf'];
+
+    public function subMenus()
+    {
+        return $this->hasMany(Menu::class, 'pid');
+    }
 
     /**
      * 维护层级和索引

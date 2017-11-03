@@ -49,7 +49,7 @@ class RolesController extends ApiController
     public function update(Role $role)
     {
         if (! user()->can('update_role')) {
-            return $this->respondForbidden('对不起，您没有创建新角色的权限!');
+            return $this->respondForbidden('对不起，您没有更新角色的权限!');
         }
 
         $role->update($this->validate(request(), [
