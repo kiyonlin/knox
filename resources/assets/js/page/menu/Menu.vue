@@ -9,7 +9,10 @@
             </el-table-column>
             <el-table-column type="expand" width="50">
                 <template slot-scope="props">
-                    <sub-menus :data-sub-menus="props.row.sub_menus" :data-index="props.$index"></sub-menus>
+                    <submenus 
+                    :data-submenus="props.row.sub_menus" 
+                    :data-index="props.$index"
+                    @showSubmenu="showSubmenu"></submenus>
                 </template>
             </el-table-column>
             <el-table-column prop="key" label="标识">
@@ -28,7 +31,7 @@
             </el-table-column>
             <el-table-column label="操作" width="128">
                 <div slot-scope="scope">
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="checkRemove(scope.$index, scope.row)"></el-button>
                     <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.$index, scope.row)"></el-button>
                 </div>
             </el-table-column>
@@ -41,11 +44,11 @@
 
 <script>
     import FormDialog from './FormDialog';
-    import SubMenus from './SubMenus';
+    import Submenus from './Submenus';
     import collection from '../../mixins/collection';
     export default {
         components: {
-            FormDialog, SubMenus
+            FormDialog, Submenus
         },
         mixins: [collection],
         data() {
@@ -65,12 +68,21 @@
             }
         },
         methods: {
-            tableRowClassName({
-                row,
-                rowIndex
-            }) {
+            tableRowClassName({row, rowIndex}) {
                 // TODO: 高亮锁定的菜单
                 return '';
+            },
+            checkRemove(index, record) {
+                if(record.sub_menus){
+                    this.$message.error("该菜单包含子菜单，无法直接删除！");
+                    return;
+                }
+
+                this.remove(index, record);
+            },
+            showSubmenu(index, submenu) {
+                console.log(index, submenu);
+                this.view(index, submenu);
             }
         }
     }

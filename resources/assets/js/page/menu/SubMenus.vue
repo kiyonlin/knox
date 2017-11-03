@@ -22,9 +22,9 @@
         </el-table-column>
         <el-table-column label="操作" width="256">
             <div slot-scope="scope">
-                <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
-                <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.$index, scope.row)"></el-button>
-                <el-button size="mini" @click.native.prevent="showPermissions(scope.$index, scope.row)">管理权限</el-button>
+                <!-- <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="remove(scope.$index, scope.row)"></el-button> -->
+                <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.row)"></el-button>
+                <!-- <el-button size="mini" @click.native.prevent="showPermissions(scope.$index, scope.row)">管理权限</el-button> -->
             </div>
         </el-table-column>
     </el-table>
@@ -32,10 +32,10 @@
 
 <script>
     export default {
-        props: ['dataSubMenus', 'dataIndex'],
+        props: ['dataSubmenus', 'dataIndex'],
         data() {
             return {
-                records: this.dataSubMenus
+                records: this.dataSubmenus
             }
         },
         methods: {
@@ -49,8 +49,8 @@
             setRowKey(row) {
                 return row.id;
             },
-            customerIndex(index) {
-                return `${this.dataIndex}-${index}`;
+            view(record) {
+                this.$emit('showSubmenu', this.dataIndex, record);
             },
             showPermissions(index, record) {
                 console.log(index, record);
