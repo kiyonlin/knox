@@ -126,11 +126,6 @@ class CreateModulesTest extends TestCase
     /** @test */
     public function an_authorized_user_can_update_modules()
     {
-        // 'pid' => 'nullable|numeric',
-        //     'name' => 'required|string|max:255',
-        //     'path' => 'nullable|string|max:255|unique:modules',
-        //     'icon' => 'nullable|string|max:255',
-        //     'sort' => 'nullable|numeric',
         $this->updateModule(['pid' => Module::where('pid', '<>', 0)->first()->pid]);
         $this->updateModule(['name' => 'new_name']);
         $this->updateModule(['path' => '/new_path']);
@@ -188,17 +183,17 @@ class CreateModulesTest extends TestCase
     }
 
     /**
-     * 测试新增用户时每个校验字段的通用函数
+     * 测试更新模块时每个校验字段的通用函数
      *
      * @param array $overrides
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    private function updateInvalidModule($overrides = [])
+    private function updateInvalidModule($patch = [])
     {
         $this->signIn($this->systemAdmin)
             ->withExceptionHandling();
 
-        return $this->post('modules', raw(Module::class, $overrides));
+        return $this->post('modules', $patch);
     }
 
     /** @test */
