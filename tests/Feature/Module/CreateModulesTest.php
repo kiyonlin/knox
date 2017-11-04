@@ -183,7 +183,7 @@ class CreateModulesTest extends TestCase
     /** @test */
     public function a_module_should_have_a_valid_sort()
     {
-        $this->updateInvalidModule(['sort' => str_random(1)])
+        $this->updateInvalidModule(['sort' => 'not_a_number'])
             ->assertSessionHasErrors('sort');
     }
 

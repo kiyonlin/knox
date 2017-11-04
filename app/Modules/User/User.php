@@ -33,14 +33,14 @@ class User extends Authenticatable
     protected $with = [];
 
     /**
-     * 获取用户的所有菜单
+     * 获取用户的所有模块
      *
      * @return Collection
      */
-    public function menus()
+    public function modules()
     {
-        return Module::all()->filter(function($menu){
-            return $this->can("view_menu_{$menu->id}");
+        return Module::all()->filter(function($module){
+            return $this->can("view_module_{$module->id}");
         });
     }
 

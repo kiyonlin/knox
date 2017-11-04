@@ -9,8 +9,8 @@
             </el-table-column>
             <el-table-column type="expand" width="60">
                 <template slot-scope="props">
-                    <submenus 
-                    :data-submenus="props.row.sub_menus"></submenus>
+                    <submodules 
+                    :data-submodules="props.row.sub_modules"></submodules>
                 </template>
             </el-table-column>
             <el-table-column prop="key" label="标识">
@@ -25,7 +25,7 @@
             </el-table-column>
             <el-table-column prop="sort" label="排序">
             </el-table-column>
-            <el-table-column prop="sub_menus.length" label="子菜单操作">
+            <el-table-column prop="sub_modules.length" label="子模块操作">
             </el-table-column>
             <el-table-column label="操作" width="128">
                 <div slot-scope="scope">
@@ -42,28 +42,28 @@
 
 <script>
     import FormDialog from './FormDialog';
-    import Submenus from './Submenus';
+    import Submodules from './Submodules';
     import collection from '../../mixins/collection';
     export default {
         components: {
-            FormDialog, Submenus
+            FormDialog, Submodules
         },
         mixins: [collection],
         data() {
             return {
-                path: '/menus'
+                path: '/modules'
             }
         },
         computed: {
         },
         methods: {
             tableRowClassName({row, rowIndex}) {
-                // TODO: 高亮锁定的菜单
+                // TODO: 高亮锁定的模块
                 return '';
             },
             checkRemove(index, record) {
-                if(record.sub_menus.length){
-                    this.$message.error("该菜单包含子菜单，无法直接删除！");
+                if(record.sub_modules.length){
+                    this.$message.error("该模块包含子模块，无法直接删除！");
                     return;
                 }
 

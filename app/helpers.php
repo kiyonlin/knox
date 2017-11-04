@@ -1,18 +1,18 @@
 <?php
-if (! function_exists('buildMenuTree')) {
-    function buildMenuTree(array $menus, $pid = 0)
+if (! function_exists('buildModuleTree')) {
+    function buildModuleTree(array $modules, $pid = 0)
     {
-        $submenus = [];
+        $submodules = [];
 
-        foreach ($menus as $index => $menu) {
-            if ($menu['pid'] == $pid) {
-                $menu['submenus'] = buildMenuTree($menus, $menu['id']);
-                $submenus[] = $menu;
-                unset($menus[$index]);
+        foreach ($modules as $index => $module) {
+            if ($module['pid'] == $pid) {
+                $module['submodules'] = buildModuleTree($modules, $module['id']);
+                $submodules[] = $module;
+                unset($modules[$index]);
             }
         }
 
-        return $submenus;
+        return $submodules;
     }
 }
 

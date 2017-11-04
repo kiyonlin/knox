@@ -44,7 +44,7 @@ import './utils/helpers';
 import authorizations from './authorizations';
 
 Vue.prototype.signedIn = window.Auth.signedIn;
-Vue.prototype.menus = window.Auth.menus;
+Vue.prototype.menus = window.Auth.modules;
 
 window.Vue.prototype.authorize = function (...params) {
     if (!window.Auth.signedIn) return false;

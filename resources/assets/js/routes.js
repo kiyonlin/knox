@@ -18,8 +18,8 @@ let routes = [
         component: require('./page/role/Role.vue')
     },
     {
-        path: '/menus',
-        component: require('./page/menu/Menu.vue')
+        path: '/modules',
+        component: require('./page/module/Module.vue')
     },
     {
         path: '/login',

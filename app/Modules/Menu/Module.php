@@ -23,7 +23,7 @@ class Module extends Model
     ];
 
     /**
-     * 子菜单关系
+     * 子模块关系
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

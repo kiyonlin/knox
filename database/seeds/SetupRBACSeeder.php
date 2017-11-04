@@ -31,30 +31,16 @@ class SetupRBACSeeder extends Seeder
 
         $systemAdminUser->attachRole($systemAdminRole);
 
+        $this->setUpInitialModule();
+
         $this->setUpInitialPermissions($systemAdminRole);
-
-        $this->setUpInitialModule($systemAdminRole);
     }
 
     /**
-     * 系统管理员角色可以管理用户、管理角色、管理权限、菜单管理
+     * 初始化模块权限
      *
-     * @param $systemAdminRole
      */
-    private function setUpInitialPermissions(Role $systemAdminRole)
-    {
-        $systemAdminRole->attachPermissions([
-
-
-        ]);
-    }
-
-    /**
-     * 初始化菜单权限
-     *
-     * @param $systemAdminRole
-     */
-    private function setUpInitialModule(Role $systemAdminRole)
+    private function setUpInitialModule()
     {
         $systemManagerModule = create(Module::class, [
             'key'  => 'system_manager',
@@ -128,30 +114,30 @@ class SetupRBACSeeder extends Seeder
         $moduleManagerModule = create(Module::class, [
             'pid'  => $systemManagerModule->id,
             'key'  => 'module_manager',
-            'name' => '菜单管理',
+            'name' => '模块管理',
             'path' => '/modules',
-            'icon' => 'el-icon-module'
+            'icon' => 'el-icon-menu'
         ]);
         $moduleManagerModule->addPerms([
             [
                 'name'         => 'add_module',
-                'display_name' => '添加菜单',
-                'description'  => '添加一个新菜单'
+                'display_name' => '添加模块',
+                'description'  => '添加一个新模块'
             ],
             [
                 'name'         => 'delete_module',
-                'display_name' => '删除菜单',
-                'description'  => '删除一个已存在的菜单'
+                'display_name' => '删除模块',
+                'description'  => '删除一个已存在的模块'
             ],
             [
                 'name'         => 'update_module',
-                'display_name' => '更新菜单',
-                'description'  => '更新一个已存在的菜单'
+                'display_name' => '更新模块',
+                'description'  => '更新一个已存在的模块'
             ],
             [
                 'name'         => 'view_module',
-                'display_name' => '查看菜单',
-                'description'  => '查看一个已存在的菜单'
+                'display_name' => '查看模块',
+                'description'  => '查看一个已存在的模块'
             ],
             [
                 'name'         => 'add_permission',
@@ -173,18 +159,38 @@ class SetupRBACSeeder extends Seeder
                 'display_name' => '查看权限',
                 'description'  => '查看一个已存在的权限'
             ],
+            [
+                'name'         => "view_module_{$systemManagerModule->id}",
+                'display_name' => "查看{$systemManagerModule->name}模块",
+                'description'  => "查看{$systemManagerModule->name}模块",
+            ],
+            [
+                'name'         => "view_module_{$userManagerModule->id}",
+                'display_name' => "查看{$userManagerModule->name}模块",
+                'description'  => "查看{$userManagerModule->name}模块",
+            ],
+            [
+                'name'         => "view_module_{$roleManagerModule->id}",
+                'display_name' => "查看{$roleManagerModule->name}模块",
+                'description'  => "查看{$roleManagerModule->name}模块",
+            ],
+            [
+                'name'         => "view_module_{$moduleManagerModule->id}",
+                'display_name' => "查看{$moduleManagerModule->name}模块",
+                'description'  => "查看{$moduleManagerModule->name}模块",
+            ],
         ]);
+    }
 
-        $systemAdminRole->attachPermissions(
-            $userManagerModule->perms->toArray()
-        );
-
-        $systemAdminRole->attachPermissions(
-            $roleManagerModule->perms->toArray()
-        );
-
-        $systemAdminRole->attachPermissions(
-            $moduleManagerModule->perms->toArray()
-        );
+    /**
+     * 系统管理员角色可以管理用户、管理角色、管理权限、模块管理
+     *
+     * @param $systemAdminRole
+     */
+    private function setUpInitialPermissions(Role $systemAdminRole)
+    {
+        Module::all()->each(function ($module) use($systemAdminRole) {
+            $systemAdminRole->attachPermissions($module->perms->toArray());
+        });
     }
 }

@@ -13,10 +13,10 @@
 
     <script>
         window.Auth = {!! json_encode([
-            'user' => auth()->user()?auth()->user()->only(['id', 'username', 'phone_number','email']):null,
+            'user' => user()?user()->only(['id', 'username', 'phone_number','email']):null,
             'signedIn' => auth()->check(),
-            'menus' => auth()->user()?buildMenuTree(auth()->user()->menus()->toArray()):null,
-            'permissions' => auth()->user()? auth()->user()->permissions():null,
+            'modules' => user()?buildModuleTree(user()->modules()->toArray()):null,
+            'permissions' => user()? user()->permissions():null,
         ]) !!};
     </script>
 </head>

@@ -14,7 +14,7 @@
                         <i :class="[menu.icon]"></i>
                         <span v-text="menu.name + defaultActive"></span>
                     </template>
-                    <template v-for="submenu in menu.submenus">
+                    <template v-for="submenu in menu.submodules">
                         <el-menu-item :index="submenu.path" :key="submenu.id">
                             <i :class="[submenu.icon]"></i>
                             <span v-text="submenu.name"></span>
@@ -34,7 +34,7 @@
             };
         },
         mounted() {
-            this.menus = window.Auth.menus;
+            this.menus = window.Auth.modules;
             this.openDefaultMenu();
         },
         watch: {

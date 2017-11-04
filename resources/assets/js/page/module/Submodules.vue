@@ -38,13 +38,13 @@
 
     export default {
         components: { FormDialog },
-        props: ['dataSubmenus'],
+        props: ['dataSubmodules'],
         data() {
             return {
-                records: this.dataSubmenus,
+                records: this.dataSubmodules,
                 showAddDialog: false,
                 currentRecord: null,
-                path: "/menus"
+                path: "/modules"
             }
         },
         methods: {
@@ -52,7 +52,7 @@
                 row,
                 rowIndex
             }) {
-                // TODO: 高亮锁定的菜单
+                // TODO: 高亮锁定的模块
                 return '';
             },
             setRowKey(row) {

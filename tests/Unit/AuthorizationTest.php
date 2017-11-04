@@ -24,26 +24,26 @@ class AuthorizationTest extends TestCase
     }
 
     /** @test */
-    public function users_can_fetch_their_authorized_menus()
+    public function users_can_fetch_their_authorized_modules()
     {
         // a user have a role
         $user = create(User::class);
         $user->attachRole($role = create(Role::class));
 
-        // and the role have permission to some menus
-        $menus = create(Module::class, 2)->each(function ($menu) use ($role) {
+        // and the role have permission to some modules
+        $modules = create(Module::class, 2)->each(function ($module) use ($role) {
             $role->attachPermission(create(Permission::class, [
-                'name'         => "view_menu_{$menu->id}",
-                'display_name' => "查看{$menu->name}菜单",
-                'description'  => "查看{$menu->name}菜单",
+                'name'         => "view_module_{$module->id}",
+                'display_name' => "查看{$module->name}模块",
+                'description'  => "查看{$module->name}模块",
             ]));
         });
-
-        // user can fetch these menus associated with the role
-        $this->assertEquals($menus->values()->toArray(), $user->menus()->values()->toArray());
+        dd(buildModuleTree($this->systemAdmin->modules()->toArray()));
+        // user can fetch these modules associated with the role
+        $this->assertEquals($modules->values()->toArray(), $user->modules()->values()->toArray());
 
         // but cannot fetch those non-associated
-        $this->assertNotEquals(create(Module::class, 2)->values()->toArray(), $user->menus()->values()->toArray());
+        $this->assertNotEquals(create(Module::class, 2)->values()->toArray(), $user->modules()->values()->toArray());
     }
 
     /** @test */
