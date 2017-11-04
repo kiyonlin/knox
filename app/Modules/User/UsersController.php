@@ -16,7 +16,7 @@ class UsersController extends ApiController
      */
     public function index()
     {
-        if (! user()->can('view_user')) {
+        if (! user()->can('user.view')) {
             return $this->respondForbidden('对不起，您没有浏览用户权限!');
         }
 
@@ -48,7 +48,7 @@ class UsersController extends ApiController
      */
     public function update(User $user)
     {
-        if (! user()->can('update_user')) {
+        if (! user()->can('user.update')) {
             return $this->respondForbidden('对不起，您没有更新用户权限!');
         }
 
@@ -72,7 +72,7 @@ class UsersController extends ApiController
      */
     public function destroy(User $user)
     {
-        if (! user()->can('delete_user')) {
+        if (! user()->can('user.delete')) {
             return $this->respondForbidden('对不起，您没有删除用户权限!');
         }
 

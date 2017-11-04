@@ -15,7 +15,7 @@ class RolesController extends ApiController
      */
     public function index()
     {
-        if (! user()->can('view_role')) {
+        if (! user()->can('role.view')) {
             return $this->respondForbidden('对不起，您没有浏览角色权限!');
         }
 
@@ -48,7 +48,7 @@ class RolesController extends ApiController
      */
     public function update(Role $role)
     {
-        if (! user()->can('update_role')) {
+        if (! user()->can('role.update')) {
             return $this->respondForbidden('对不起，您没有更新角色的权限!');
         }
 
@@ -69,7 +69,7 @@ class RolesController extends ApiController
      */
     public function destroy(Role $role)
     {
-        if (! user()->can('delete_role')) {
+        if (! user()->can('role.delete')) {
             return $this->respondForbidden('对不起，您没有删除角色权限!');
         }
 

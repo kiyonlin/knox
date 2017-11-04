@@ -15,7 +15,7 @@ class CreateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('add_user');
+        return user()->can('user.add');
     }
 
     public function failedAuthorization()

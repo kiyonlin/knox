@@ -14,7 +14,7 @@ class ModulesController extends ApiController
      */
     public function index()
     {
-        if (! user()->can('view_module')) {
+        if (! user()->can('module.view')) {
             return $this->respondForbidden('对不起，您没有浏览模块权限!');
         }
 
@@ -50,7 +50,7 @@ class ModulesController extends ApiController
      */
     public function update(Module $module)
     {
-        if (! user()->can('update_module')) {
+        if (! user()->can('module.update')) {
             return $this->respondForbidden('对不起，您没有更新模块的权限!');
         }
 
@@ -74,7 +74,7 @@ class ModulesController extends ApiController
      */
     public function destroy(Module $module)
     {
-        if (! user()->can('delete_module')) {
+        if (! user()->can('module.delete')) {
             return $this->respondForbidden('对不起，您没有删除模块权限!');
         }
 

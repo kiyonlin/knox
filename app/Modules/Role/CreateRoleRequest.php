@@ -15,7 +15,7 @@ class CreateRoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('add_role');
+        return user()->can('role.add');
     }
 
     public function failedAuthorization()

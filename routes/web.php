@@ -29,8 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['namespace' => 'Module'], function () {
         Route::resource('modules', 'ModulesController')->only(['index', 'destroy', 'store', 'update']);
 
-        Route::post('modules/{module}/permissions', 'PermissionsController@store')->middleware('permission:add_permission');
-        Route::patch('modules/{module}/permissions/{permission}', 'PermissionsController@update')->middleware('permission:update_permission');
-        Route::delete('modules/{module}/permissions/{permission}', 'PermissionsController@destroy')->middleware('permission:delete_permission');
+        Route::post('modules/{module}/permissions', 'PermissionsController@store')->middleware('permission:permission.add');
+        Route::patch('modules/{module}/permissions/{permission}', 'PermissionsController@update')->middleware('permission:permission.update');
+        Route::delete('modules/{module}/permissions/{permission}', 'PermissionsController@destroy')->middleware('permission:permission.delete');
     });
 });

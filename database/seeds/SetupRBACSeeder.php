@@ -64,25 +64,25 @@ class SetupRBACSeeder extends Seeder
         ]);
         $userManagerModule->addPerms([
             [
-                'name'         => 'add_user',
+                'name'         => 'user.add',
                 'display_name' => '添加用户',
                 'description'  => '添加一个新用户'
             ],
 
             [
-                'name'         => 'delete_user',
+                'name'         => 'user.delete',
                 'display_name' => '删除用户',
                 'description'  => '删除一个已存在的用户'
             ],
 
             [
-                'name'         => 'update_user',
+                'name'         => 'user.update',
                 'display_name' => '更新用户',
                 'description'  => '更新一个已存在的用户'
             ],
 
             [
-                'name'         => 'view_user',
+                'name'         => 'user.view',
                 'display_name' => '查看用户',
                 'description'  => '查看一个已存在的用户'
             ]
@@ -97,22 +97,22 @@ class SetupRBACSeeder extends Seeder
         ]);
         $roleManagerModule->addPerms([
             [
-                'name'         => 'add_role',
+                'name'         => 'role.add',
                 'display_name' => '添加角色',
                 'description'  => '添加一个新角色'
             ],
             [
-                'name'         => 'delete_role',
+                'name'         => 'role.delete',
                 'display_name' => '删除角色',
                 'description'  => '删除一个已存在的角色'
             ],
             [
-                'name'         => 'update_role',
+                'name'         => 'role.update',
                 'display_name' => '更新角色',
                 'description'  => '更新一个已存在的角色'
             ],
             [
-                'name'         => 'view_role',
+                'name'         => 'role.view',
                 'display_name' => '查看角色',
                 'description'  => '查看一个已存在的角色'
             ]
@@ -127,67 +127,67 @@ class SetupRBACSeeder extends Seeder
         ]);
         $moduleManagerModule->addPerms([
             [
-                'name'         => 'add_module',
+                'name'         => 'module.add',
                 'display_name' => '添加模块',
                 'description'  => '添加一个新模块'
             ],
             [
-                'name'         => 'delete_module',
+                'name'         => 'module.delete',
                 'display_name' => '删除模块',
                 'description'  => '删除一个已存在的模块'
             ],
             [
-                'name'         => 'update_module',
+                'name'         => 'module.update',
                 'display_name' => '更新模块',
                 'description'  => '更新一个已存在的模块'
             ],
             [
-                'name'         => 'view_module',
+                'name'         => 'module.view',
                 'display_name' => '查看模块',
                 'description'  => '查看一个已存在的模块'
             ],
             [
-                'name'         => 'add_permission',
+                'name'         => 'permission.add',
                 'display_name' => '添加权限',
                 'description'  => '添加一个新权限'
             ],
             [
-                'name'         => 'delete_permission',
+                'name'         => 'permission.delete',
                 'display_name' => '删除权限',
                 'description'  => '删除一个已存在的权限'
             ],
             [
-                'name'         => 'update_permission',
+                'name'         => 'permission.update',
                 'display_name' => '更新权限',
                 'description'  => '更新一个已存在的权限'
             ],
             [
-                'name'         => 'view_permission',
+                'name'         => 'permission.view',
                 'display_name' => '查看权限',
                 'description'  => '查看一个已存在的权限'
             ],
             [
-                'name'         => "view_module_{$systemManagerModule->id}",
+                'name'         => "module.view.{$systemManagerModule->id}",
                 'display_name' => "查看{$systemManagerModule->name}模块",
                 'description'  => "查看{$systemManagerModule->name}模块",
             ],
             [
-                'name'         => "view_module_{$userManagerModule->id}",
+                'name'         => "module.view.{$userManagerModule->id}",
                 'display_name' => "查看{$userManagerModule->name}模块",
                 'description'  => "查看{$userManagerModule->name}模块",
             ],
             [
-                'name'         => "view_module_{$roleManagerModule->id}",
+                'name'         => "module.view.{$roleManagerModule->id}",
                 'display_name' => "查看{$roleManagerModule->name}模块",
                 'description'  => "查看{$roleManagerModule->name}模块",
             ],
             [
-                'name'         => "view_module_{$moduleManagerModule->id}",
+                'name'         => "module.view.{$moduleManagerModule->id}",
                 'display_name' => "查看{$moduleManagerModule->name}模块",
                 'description'  => "查看{$moduleManagerModule->name}模块",
             ],
             [
-                'name'         => "view_module_{$dashboardModule->id}",
+                'name'         => "module.view.{$dashboardModule->id}",
                 'display_name' => "查看{$dashboardModule->name}模块",
                 'description'  => "查看{$dashboardModule->name}模块",
             ],

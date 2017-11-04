@@ -15,7 +15,7 @@ class CreateModuleRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('add_module');
+        return user()->can('module.add');
     }
 
     public function failedAuthorization()
