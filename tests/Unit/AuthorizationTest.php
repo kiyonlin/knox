@@ -31,14 +31,14 @@ class AuthorizationTest extends TestCase
         $user->attachRole($role = create(Role::class));
 
         // and the role have permission to some modules
-        $modules = create(Module::class, 2)->each(function ($module) use ($role) {
+        $modules = create(Module::class, 2)->load('perms')->each(function ($module) use ($role) {
             $role->attachPermission(create(Permission::class, [
                 'name'         => "view_module_{$module->id}",
                 'display_name' => "查看{$module->name}模块",
                 'description'  => "查看{$module->name}模块",
             ]));
         });
-        dd(buildModuleTree($this->systemAdmin->modules()->toArray()));
+
         // user can fetch these modules associated with the role
         $this->assertEquals($modules->values()->toArray(), $user->modules()->values()->toArray());
 

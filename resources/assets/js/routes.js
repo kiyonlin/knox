@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 let routes = [
     {
         path: '/',
-        component: require('./page/dashboard/Main.vue')
+        component: require('./page/dashboard/Dashboard.vue')
     },
     {
         path: '/about',

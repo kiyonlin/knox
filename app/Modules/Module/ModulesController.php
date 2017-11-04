@@ -37,7 +37,7 @@ class ModulesController extends ApiController
     public function store(CreateModuleRequest $request)
     {
         return $this->respondCreated(
-            Module::create(request()->all())
+            Module::create($request->all())
         );
     }
 

@@ -16,7 +16,7 @@ class CreateModulesTable extends Migration
         Schema::create('modules', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('pid')->default(0);
-            $table->string('key')->nullable()->comment('预留字段');
+            $table->string('key')->nullable()->unique()->comment('预留字段');
             $table->string('name');
             $table->string('path')->default('-');
             $table->unsignedSmallInteger('level')->default(1)->comment('模块层级，辅助字段');

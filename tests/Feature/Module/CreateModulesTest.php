@@ -155,7 +155,7 @@ class CreateModulesTest extends TestCase
     /** @test */
     public function a_module_should_have_a_valid_pid()
     {
-        $this->updateInvalidModule(['pid' => str_random(1)])
+        $this->updateInvalidModule(['pid' => 'string_pid'])
             ->assertSessionHasErrors('pid');
     }
 

@@ -28,5 +28,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['namespace' => 'Module'], function () {
         Route::resource('modules', 'ModulesController')->only(['index', 'destroy', 'store', 'update']);
+        Route::post('modules/{module}/permissions', 'PermissionsController@store');
     });
 });

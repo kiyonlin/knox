@@ -17,9 +17,13 @@ class Module extends Model
 
     protected $guarded = [];
 
+    protected $with = ['perms'];
+
     protected $casts = [
         'is_leaf' => 'boolean',
-        'pid'     => 'integer'
+        'pid'     => 'integer',
+        'level'   => 'integer',
+        'index'   => 'string'
     ];
 
     /**
@@ -32,11 +36,22 @@ class Module extends Model
         return $this->hasMany(Module::class, 'pid')->orderBy('sort, created');
     }
 
+    /**
+     * 权限关系
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function perms()
     {
         return $this->hasMany(Permission::class);
     }
 
+    /**
+     * 增加单个权限
+     *
+     * @param $permission
+     * @return false|Model
+     */
     public function addPerm($permission)
     {
         if (is_array($permission)) {
@@ -46,6 +61,11 @@ class Module extends Model
         return $this->perms()->save($permission);
     }
 
+    /**
+     * 增加多个权限
+     *
+     * @param $permissions
+     */
     public function addPerms($permissions)
     {
         foreach ($permissions as $permission) {

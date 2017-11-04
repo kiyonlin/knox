@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 $factory->define(App\Modules\Module\Module::class, function (Faker $faker) {
     return [
         'pid'     => 0,
-        'key'     => Str::random(5),
+        'key'     => $faker->unique()->md5,
         'name'    => $faker->userName,
         'path'    => '-',
         'level'   => 1,

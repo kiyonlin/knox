@@ -4,7 +4,14 @@
             <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showAddDialog = true"></el-button>
             <el-button type="primary" icon="el-icon-refresh" @click="fetch" :loading="loading"></el-button>
         </el-button-group>
-        <el-table :data.sync="records" :row-class-name="tableRowClassName" v-loading="loading" border :row-key="setRowKey" tooltip-effect="dark" emptyText="暂无数据" max-height="500" class="mt20">
+        <el-table 
+            :data.sync="records" 
+            :row-class-name="tableRowClassName" 
+            v-loading="loading" border 
+            :row-key="setRowKey" 
+            tooltip-effect="dark" 
+            max-height="500" 
+            class="mt20">
             <el-table-column prop="index" label="索引" width="50">
             </el-table-column>
             <el-table-column type="expand" width="60">
@@ -25,7 +32,10 @@
             </el-table-column>
             <el-table-column prop="sort" label="排序">
             </el-table-column>
-            <el-table-column prop="sub_modules.length" label="子模块操作">
+            <el-table-column label="子模块操作">
+                <div slot-scope="scope">
+                    <span v-text="scope.row.sub_modules.length + '个'"></span>
+                </div>
             </el-table-column>
             <el-table-column label="操作" width="128">
                 <div slot-scope="scope">

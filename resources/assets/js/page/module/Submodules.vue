@@ -5,8 +5,7 @@
             :show-header="false" 
             :row-class-name="tableRowClassName" 
             border :row-key="setRowKey" 
-            tooltip-effect="dark" 
-            emptyText="暂无数据">
+            tooltip-effect="dark">
             <el-table-column prop="index" label="索引" width="60">
             </el-table-column>
             <el-table-column prop="key" label="标识">
@@ -30,19 +29,22 @@
             </el-table-column>
         </el-table>
         <form-dialog :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" @updated="update"></form-dialog>
+        <permission-dialog :visiable.sync="showPermissionDialog" :record.sync="currentRecord" :path="path"></permission-dialog>
     </div>
 </template>
 
 <script>
     import FormDialog from './FormDialog';
+    import PermissionDialog from './PermissionDialog';
 
     export default {
-        components: { FormDialog },
+        components: { FormDialog, PermissionDialog },
         props: ['dataSubmodules'],
         data() {
             return {
                 records: this.dataSubmodules,
                 showAddDialog: false,
+                showPermissionDialog: false,
                 currentRecord: null,
                 path: "/modules"
             }
@@ -81,7 +83,8 @@
                 }).catch(() => this.$message('已取消删除'));
             },
             showPermissions(index, record) {
-                console.log(index, record);
+                this.currentRecord = record;
+                this.showPermissionDialog = true;
             }
         }
     }

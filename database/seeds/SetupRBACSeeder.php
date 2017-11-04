@@ -42,6 +42,13 @@ class SetupRBACSeeder extends Seeder
      */
     private function setUpInitialModule()
     {
+        $dashboardModule = create(Module::class, [
+            'key'  => 'dashboard',
+            'name' => '系统概览',
+            'path' => '/',
+            'icon' => 'el-icon-location'
+        ]);
+
         $systemManagerModule = create(Module::class, [
             'key'  => 'system_manager',
             'name' => '系统管理',
@@ -178,6 +185,11 @@ class SetupRBACSeeder extends Seeder
                 'name'         => "view_module_{$moduleManagerModule->id}",
                 'display_name' => "查看{$moduleManagerModule->name}模块",
                 'description'  => "查看{$moduleManagerModule->name}模块",
+            ],
+            [
+                'name'         => "view_module_{$dashboardModule->id}",
+                'display_name' => "查看{$dashboardModule->name}模块",
+                'description'  => "查看{$dashboardModule->name}模块",
             ],
         ]);
     }

@@ -3,21 +3,21 @@
         router 
         ref="asideMenu"
         :default-active="defaultActive">
-        <template v-for="menu in menus">
-                <el-menu-item :index="menu.path" :key="menu.id" v-if="menu.is_leaf">
-                    <i :class="[menu.icon]"></i>
-                    <span v-text="menu.name + defaultActive"></span>
+        <template v-for="_module in modules">
+                <el-menu-item :index="_module.path" :key="_module.id" v-if="_module.is_leaf">
+                    <i :class="[_module.icon]"></i>
+                    <span v-text="_module.name + defaultActive"></span>
                 </el-menu-item>
 
-                <el-submenu :index="menu.index" :key="menu.id" v-else>
+                <el-submenu :index="_module.index" :key="_module.id" v-else>
                     <template slot="title">
-                        <i :class="[menu.icon]"></i>
-                        <span v-text="menu.name + defaultActive"></span>
+                        <i :class="[_module.icon]"></i>
+                        <span v-text="_module.name + defaultActive"></span>
                     </template>
-                    <template v-for="submenu in menu.submodules">
-                        <el-menu-item :index="submenu.path" :key="submenu.id">
-                            <i :class="[submenu.icon]"></i>
-                            <span v-text="submenu.name"></span>
+                    <template v-for="submodule in _module.submodules">
+                        <el-menu-item :index="submodule.path" :key="submodule.id">
+                            <i :class="[submodule.icon]"></i>
+                            <span v-text="submodule.name"></span>
                         </el-menu-item>
                     </template>
                 </el-submenu>
@@ -29,35 +29,37 @@
     export default {
         data() {
             return {
-                menus: [],
+                modules: [],
                 defaultActive: ''
             };
         },
         mounted() {
-            this.menus = window.Auth.modules;
-            this.openDefaultMenu();
+            this.modules = window.Auth.modules;
+            this.openDefaultModule();
         },
         watch: {
             $route() {
-                this.openDefaultMenu();
+                this.openDefaultModule();
             }
         },
         methods: {
-            openDefaultMenu() {
-                for(let menu of this.menus) {
-                    if(menu.submenus) {
-                        for(let submenu of menu.submenus) {
-                            if(submenu.path == this.$router.currentRoute.path) {
+            openDefaultModule() {
+                for(let module of this.modules) {
+                    if(module.submodules.length) {
+                        for(let submodule of module.submodules) {
+                            if(submodule.path == this.$router.currentRoute.path) {
                                 this.$nextTick(_ => {
-                                    this.$refs.asideMenu.open(menu.index);
-                                    this.defaultActive = submenu.path;
+                                    this.$refs.asideMenu.open(module.index);
+                                    this.defaultActive = submodule.path;
                                 });
                                 return;
                             }
                         }
                     } else {
-                        if(menu.path == this.$router.currentRoute.path) {
-                            this.defaultActive = menu.path;
+                        if(module.path == this.$router.currentRoute.path) {
+                            this.$nextTick(_ => {
+                                this.defaultActive = module.path;
+                            });
                             return;
                         }
                     }

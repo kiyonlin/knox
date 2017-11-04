@@ -32,7 +32,7 @@ class ManegeModulesTest extends TestCase
             ->assertStatus(200)
             ->json();
 
-        $this->assertCount(6, $response['data']);
+        $this->assertCount(7, $response['data']);
 
         create(Module::class, 20);
 
@@ -41,7 +41,7 @@ class ManegeModulesTest extends TestCase
             ->json();
 
         $this->assertCount(20, $response['data']);
-        $this->assertEquals(26, $response['total']);
+        $this->assertEquals(27, $response['total']);
     }
 
     /** @test */
