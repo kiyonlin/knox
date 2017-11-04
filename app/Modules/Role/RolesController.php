@@ -22,7 +22,7 @@ class RolesController extends ApiController
         $page = request('page', 1);
         $pageSize = request('pageSize', 10);
 
-        return $this->respond(Role::with('perms')->paginate($pageSize, ['*'], 'page', $page));
+        return $this->respond(Role::paginate($pageSize, ['*'], 'page', $page));
     }
 
 
@@ -77,4 +77,6 @@ class RolesController extends ApiController
 
         return $this->respondNoContent();
     }
+
+
 }
