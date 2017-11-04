@@ -7,5 +7,5 @@ use Parsidev\Entrust\EntrustPermission;
 class Permission extends EntrustPermission
 {
 
-    protected $fillable = ['name', 'display_name', 'description'];
+    protected $fillable = ['module_id', 'name', 'display_name', 'description'];
 }

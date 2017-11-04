@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Menu;
+namespace App\Modules\Module;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class CreateMenuRequest extends FormRequest
+class CreateModuleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,12 +15,12 @@ class CreateMenuRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('add_menu');
+        return user()->can('add_module');
     }
 
     public function failedAuthorization()
     {
-        throw new AuthorizationException('对不起，您没有新增菜单权限!');
+        throw new AuthorizationException('对不起，您没有新增模块权限!');
     }
 
     /**
@@ -32,9 +32,9 @@ class CreateMenuRequest extends FormRequest
     {
         return [
             'pid' => 'nullable|numeric',
-            'key' => 'required|string|max:255|unique:menus',
+            'key' => 'required|string|max:255|unique:modules',
             'name' => 'required|string|max:255',
-            'path' => 'nullable|string|max:255|unique:menus',
+            'path' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:255',
             'sort' => 'nullable|numeric',
         ];

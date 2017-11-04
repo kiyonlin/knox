@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('roles', 'RolesController')->only(['index', 'destroy', 'store', 'update']);
     });
 
-    Route::group(['namespace' => 'Menu'], function () {
-        Route::resource('menus', 'MenusController')->only(['index', 'destroy', 'store', 'update']);
+    Route::group(['namespace' => 'Module'], function () {
+        Route::resource('modules', 'ModulesController')->only(['index', 'destroy', 'store', 'update']);
     });
 });

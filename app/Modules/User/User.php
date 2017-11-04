@@ -2,7 +2,7 @@
 
 namespace App\Modules\User;
 
-use App\Modules\Menu\Menu;
+use App\Modules\Module\Module;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
@@ -39,7 +39,7 @@ class User extends Authenticatable
      */
     public function menus()
     {
-        return Menu::all()->filter(function($menu){
+        return Module::all()->filter(function($menu){
             return $this->can("view_menu_{$menu->id}");
         });
     }

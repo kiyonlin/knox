@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Modules\Menu\Menu;
+use App\Modules\Module\Module;
 use App\Modules\Role\Role;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ManegeRolesTest extends TestCase
+class ManegeModulesTest extends TestCase
 {
 
     use RefreshDatabase;
@@ -22,21 +22,21 @@ class ManegeRolesTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_view_all_menus_in_pagination()
+    public function an_authorized_user_can_view_all_modules_in_pagination()
     {
         $this->signIn($this->systemAdmin);
 
-        create(Menu::class, 5);
+        create(Module::class, 5);
 
-        $response = $this->get('menus?pageSize=20')
+        $response = $this->get('modules?pageSize=20')
             ->assertStatus(200)
             ->json();
 
         $this->assertCount(6, $response['data']);
 
-        create(Menu::class, 20);
+        create(Module::class, 20);
 
-        $response = $this->get('menus?pageSize=20')
+        $response = $this->get('modules?pageSize=20')
             ->assertStatus(200)
             ->json();
 
@@ -45,13 +45,13 @@ class ManegeRolesTest extends TestCase
     }
 
     /** @test */
-    public function an_unauthorized_user_cannot_view_menus()
+    public function an_unauthorized_user_cannot_view_modules()
     {
         $this->signIn()->withExceptionHandling();
 
-        create(Menu::class, 5);
+        create(Module::class, 5);
 
-        $this->get('menus')
+        $this->get('modules')
             ->assertStatus(403);
     }
 }

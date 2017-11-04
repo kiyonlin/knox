@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Modules\Menu\Menu;
+use App\Modules\Module\Module;
 use App\Modules\Permission\Permission;
 use App\Modules\Role\Role;
 use App\Modules\User\User;
@@ -31,7 +31,7 @@ class AuthorizationTest extends TestCase
         $user->attachRole($role = create(Role::class));
 
         // and the role have permission to some menus
-        $menus = create(Menu::class, 2)->each(function ($menu) use ($role) {
+        $menus = create(Module::class, 2)->each(function ($menu) use ($role) {
             $role->attachPermission(create(Permission::class, [
                 'name'         => "view_menu_{$menu->id}",
                 'display_name' => "查看{$menu->name}菜单",
@@ -43,7 +43,7 @@ class AuthorizationTest extends TestCase
         $this->assertEquals($menus->values()->toArray(), $user->menus()->values()->toArray());
 
         // but cannot fetch those non-associated
-        $this->assertNotEquals(create(Menu::class, 2)->values()->toArray(), $user->menus()->values()->toArray());
+        $this->assertNotEquals(create(Module::class, 2)->values()->toArray(), $user->menus()->values()->toArray());
     }
 
     /** @test */

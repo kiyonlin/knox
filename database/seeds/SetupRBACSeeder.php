@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\Menu\Menu;
+use App\Modules\Module\Module;
 use App\Modules\Permission\Permission;
 use App\Modules\Role\Role;
 use App\Modules\User\User;
@@ -33,7 +33,7 @@ class SetupRBACSeeder extends Seeder
 
         $this->setUpInitialPermissions($systemAdminRole);
 
-        $this->setUpInitialMenu($systemAdminRole);
+        $this->setUpInitialModule($systemAdminRole);
     }
 
     /**
@@ -44,101 +44,8 @@ class SetupRBACSeeder extends Seeder
     private function setUpInitialPermissions(Role $systemAdminRole)
     {
         $systemAdminRole->attachPermissions([
-            create(Permission::class, [
-                'name'         => 'add_user',
-                'display_name' => '添加用户',
-                'description'  => '添加一个新用户'
-            ]),
 
-            create(Permission::class, [
-                'name'         => 'delete_user',
-                'display_name' => '删除用户',
-                'description'  => '删除一个已存在的用户'
-            ]),
 
-            create(Permission::class, [
-                'name'         => 'update_user',
-                'display_name' => '更新用户',
-                'description'  => '更新一个已存在的用户'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'view_user',
-                'display_name' => '查看用户',
-                'description'  => '查看一个已存在的用户'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'add_role',
-                'display_name' => '添加角色',
-                'description'  => '添加一个新角色'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'delete_role',
-                'display_name' => '删除角色',
-                'description'  => '删除一个已存在的角色'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'update_role',
-                'display_name' => '更新角色',
-                'description'  => '更新一个已存在的角色'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'view_role',
-                'display_name' => '查看角色',
-                'description'  => '查看一个已存在的角色'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'add_permission',
-                'display_name' => '添加权限',
-                'description'  => '添加一个新权限'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'delete_permission',
-                'display_name' => '删除权限',
-                'description'  => '删除一个已存在的权限'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'update_permission',
-                'display_name' => '更新权限',
-                'description'  => '更新一个已存在的权限'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'view_permission',
-                'display_name' => '查看权限',
-                'description'  => '查看一个已存在的权限'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'add_menu',
-                'display_name' => '添加菜单',
-                'description'  => '添加一个新菜单'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'delete_menu',
-                'display_name' => '删除菜单',
-                'description'  => '删除一个已存在的菜单'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'update_menu',
-                'display_name' => '更新菜单',
-                'description'  => '更新一个已存在的菜单'
-            ]),
-
-            create(Permission::class, [
-                'name'         => 'view_menu',
-                'display_name' => '查看菜单',
-                'description'  => '查看一个已存在的菜单'
-            ]),
         ]);
     }
 
@@ -147,77 +54,137 @@ class SetupRBACSeeder extends Seeder
      *
      * @param $systemAdminRole
      */
-    private function setUpInitialMenu(Role $systemAdminRole)
+    private function setUpInitialModule(Role $systemAdminRole)
     {
-        $systemManagerMenu = create(Menu::class, [
+        $systemManagerModule = create(Module::class, [
             'key'  => 'system_manager',
             'name' => '系统管理',
             'icon' => 'el-icon-setting'
         ]);
 
-        $userManagerMenu = create(Menu::class, [
-            'pid'  => $systemManagerMenu->id,
+        $userManagerModule = create(Module::class, [
+            'pid'  => $systemManagerModule->id,
             'key'  => 'user_manager',
             'name' => '用户管理',
             'path' => '/users',
             'icon' => 'el-icon-info'
         ]);
+        $userManagerModule->addPerms([
+            [
+                'name'         => 'add_user',
+                'display_name' => '添加用户',
+                'description'  => '添加一个新用户'
+            ],
 
-        $roleManagerMenu = create(Menu::class, [
-            'pid'  => $systemManagerMenu->id,
+            [
+                'name'         => 'delete_user',
+                'display_name' => '删除用户',
+                'description'  => '删除一个已存在的用户'
+            ],
+
+            [
+                'name'         => 'update_user',
+                'display_name' => '更新用户',
+                'description'  => '更新一个已存在的用户'
+            ],
+
+            [
+                'name'         => 'view_user',
+                'display_name' => '查看用户',
+                'description'  => '查看一个已存在的用户'
+            ]
+        ]);
+
+        $roleManagerModule = create(Module::class, [
+            'pid'  => $systemManagerModule->id,
             'key'  => 'role_manager',
             'name' => '角色管理',
             'path' => '/roles',
             'icon' => 'el-icon-tickets'
         ]);
-
-        $permissionManagerMenu = create(Menu::class, [
-            'pid'  => $systemManagerMenu->id,
-            'key'  => 'permission_manager',
-            'name' => '权限管理',
-            'path' => '/permissions',
-            'icon' => 'el-icon-success'
+        $roleManagerModule->addPerms([
+            [
+                'name'         => 'add_role',
+                'display_name' => '添加角色',
+                'description'  => '添加一个新角色'
+            ],
+            [
+                'name'         => 'delete_role',
+                'display_name' => '删除角色',
+                'description'  => '删除一个已存在的角色'
+            ],
+            [
+                'name'         => 'update_role',
+                'display_name' => '更新角色',
+                'description'  => '更新一个已存在的角色'
+            ],
+            [
+                'name'         => 'view_role',
+                'display_name' => '查看角色',
+                'description'  => '查看一个已存在的角色'
+            ]
         ]);
 
-        $menuManagerMenu = create(Menu::class, [
-            'pid'  => $systemManagerMenu->id,
-            'key'  => 'menu_manager',
+        $moduleManagerModule = create(Module::class, [
+            'pid'  => $systemManagerModule->id,
+            'key'  => 'module_manager',
             'name' => '菜单管理',
-            'path' => '/menus',
-            'icon' => 'el-icon-menu'
+            'path' => '/modules',
+            'icon' => 'el-icon-module'
+        ]);
+        $moduleManagerModule->addPerms([
+            [
+                'name'         => 'add_module',
+                'display_name' => '添加菜单',
+                'description'  => '添加一个新菜单'
+            ],
+            [
+                'name'         => 'delete_module',
+                'display_name' => '删除菜单',
+                'description'  => '删除一个已存在的菜单'
+            ],
+            [
+                'name'         => 'update_module',
+                'display_name' => '更新菜单',
+                'description'  => '更新一个已存在的菜单'
+            ],
+            [
+                'name'         => 'view_module',
+                'display_name' => '查看菜单',
+                'description'  => '查看一个已存在的菜单'
+            ],
+            [
+                'name'         => 'add_permission',
+                'display_name' => '添加权限',
+                'description'  => '添加一个新权限'
+            ],
+            [
+                'name'         => 'delete_permission',
+                'display_name' => '删除权限',
+                'description'  => '删除一个已存在的权限'
+            ],
+            [
+                'name'         => 'update_permission',
+                'display_name' => '更新权限',
+                'description'  => '更新一个已存在的权限'
+            ],
+            [
+                'name'         => 'view_permission',
+                'display_name' => '查看权限',
+                'description'  => '查看一个已存在的权限'
+            ],
         ]);
 
-        $systemAdminRole->attachPermissions([
-            create(Permission::class, [
-                'name'         => "view_menu_{$systemManagerMenu->id}",
-                'display_name' => "查看{$systemManagerMenu->name}菜单",
-                'description'  => "查看{$systemManagerMenu->name}菜单"
-            ]),
+        $systemAdminRole->attachPermissions(
+            $userManagerModule->perms->toArray()
+        );
 
-            create(Permission::class, [
-                'name'         => "view_menu_{$userManagerMenu->id}",
-                'display_name' => "查看{$userManagerMenu->name}菜单",
-                'description'  => "查看{$userManagerMenu->name}菜单"
-            ]),
+        $systemAdminRole->attachPermissions(
+            $roleManagerModule->perms->toArray()
+        );
 
-            create(Permission::class, [
-                'name'         => "view_menu_{$roleManagerMenu->id}",
-                'display_name' => "查看{$roleManagerMenu->name}菜单",
-                'description'  => "查看{$roleManagerMenu->name}菜单"
-            ]),
-
-            create(Permission::class, [
-                'name'         => "view_menu_{$permissionManagerMenu->id}",
-                'display_name' => "查看{$permissionManagerMenu->name}菜单",
-                'description'  => "查看{$permissionManagerMenu->name}菜单"
-            ]),
-
-            create(Permission::class, [
-                'name'         => "view_menu_{$menuManagerMenu->id}",
-                'display_name' => "查看{$menuManagerMenu->name}菜单",
-                'description'  => "查看{$menuManagerMenu->name}菜单"
-            ]),
-
-        ]);
+        $systemAdminRole->attachPermissions(
+            $moduleManagerModule->perms->toArray()
+        );
     }
 }

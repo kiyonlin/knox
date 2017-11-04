@@ -21,11 +21,11 @@
             </el-table-column>
             <el-table-column prop="sort" label="排序">
             </el-table-column>
-            <el-table-column label="操作" width="200">
+            <el-table-column label="操作" width="256">
                 <div slot-scope="scope">
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
                     <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.$index, scope.row)"></el-button>
-                    <!-- <el-button size="mini" @click.native.prevent="showPermissions(scope.$index, scope.row)">管理权限</el-button> -->
+                    <el-button size="mini" @click.native.prevent="showPermissions(scope.$index, scope.row)">管理权限</el-button>
                 </div>
             </el-table-column>
         </el-table>

@@ -5,7 +5,7 @@ use Illuminate\Support\Str;
 
 /* @var Illuminate\Database\Eloquent\Factory $factory */
 
-$factory->define(App\Modules\Menu\Menu::class, function (Faker $faker) {
+$factory->define(App\Modules\Module\Module::class, function (Faker $faker) {
     return [
         'pid'     => 0,
         'key'     => Str::random(5),
