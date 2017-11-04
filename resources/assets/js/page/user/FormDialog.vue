@@ -2,19 +2,19 @@
     <el-dialog :title="title + '用户'" :visible.sync="show" :show-close="false">
         <el-form label-width="80px" :model="form">
             <el-form-item label="用户名">
-                <el-input v-model="form.username" :disabled="!isAdd"></el-input>
+                <el-input placeholder="请输入用户名" v-model="form.username" :disabled="!isAdd"></el-input>
             </el-form-item>
-            <el-form-item label="名称">
-                <el-input v-model="form.display_name"></el-input>
+            <el-form-item label="名字">
+                <el-input placeholder="请输入名字" v-model="form.display_name"></el-input>
             </el-form-item>
             <el-form-item label="手机号码">
-                <el-input v-model="form.phone_number"></el-input>
+                <el-input placeholder="请输入手机号码" v-model="form.phone_number"></el-input>
             </el-form-item>
             <el-form-item label="邮箱">
-                <el-input v-model="form.email"></el-input>
+                <el-input placeholder="请输入邮箱example@me.com" v-model="form.email"></el-input>
             </el-form-item>
             <el-form-item label="初始密码" v-if="isAdd">
-                <el-input type="password" v-model="form.password"></el-input>
+                <el-input placeholder="请输入初始密码,至少6位" type="password" v-model="form.password"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer">
