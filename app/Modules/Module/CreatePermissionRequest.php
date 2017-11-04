@@ -15,12 +15,7 @@ class CreatePermissionRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('add_permission');
-    }
-
-    public function failedAuthorization()
-    {
-        throw new AuthorizationException('对不起，您没有新增权限的权限!');
+        return true;
     }
 
     /**

@@ -42,6 +42,17 @@ class CreatePermissionsTest extends TestCase
     }
 
     /** @test */
+    public function an_unauthorized_user_can_not_add_permissions_in_a_module()
+    {
+        $this->signIn()->withExceptionHandling();
+
+        $module = create(Module::class);
+
+        $this->post("/modules/{$module->id}/permissions", [])
+            ->assertStatus(403);
+    }
+
+    /** @test */
     public function a_permissions_requires_a_valid_name()
     {
         $this->addPermission(['name' => null])
@@ -141,17 +152,6 @@ class CreatePermissionsTest extends TestCase
         $permission = create(Permission::class, ['module_id' => $module->id]);
 
         return $this->patch("modules/{$module->id}/permissions/{$permission->id}", $patch);
-    }
-
-    /** @test */
-    public function an_unauthorized_user_can_not_add_permissions_in_a_module()
-    {
-        $this->signIn()->withExceptionHandling();
-
-        $module = create(Module::class);
-
-        $this->post("/modules/{$module->id}/permissions", [])
-            ->assertStatus(403);
     }
 
     /** @test */
