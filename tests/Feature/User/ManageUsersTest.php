@@ -56,30 +56,17 @@ class ManegeUsersTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_update_users()
+    public function an_authorized_user_can_get_all_roles_that_do_not_attach_to_a_given_user()
     {
-        $this->updateUser(['email' => 'example@163.com']);
-        $this->updateUser(['display_name' => 'new_display_name']);
-    }
-
-    /** @test */
-    public function an_unauthorized_user_cannot_update_users()
-    {
-        $this->signIn()->withExceptionHandling();
-
-        $this->patch("users/{$this->systemAdmin->id}", ['email' => 'example@163.com'])
-            ->assertStatus(403);
-    }
-
-    private function updateUser($patch)
-    {
+        $user = create(User::class);
         $this->signIn($this->systemAdmin);
+        create(Role::class, 5);
+        $user->attachRole(Role::first());
 
-        $this->patch("users/{$this->systemAdmin->id}", $patch)
-            ->assertStatus(204);
-
-        $this->assertDatabaseHas('users',
-            array_merge($patch, ['id' => $this->systemAdmin->id])
-        );
+        $response = $this->getJson("/users/{$user->id}/roles")
+            ->assertStatus(200)
+            ->json();
+dd($response);
+        $this->assertEquals(Role::all()->count() - 1, count($response));
     }
 }

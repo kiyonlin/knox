@@ -118,4 +118,33 @@ class CreateUsersTest extends TestCase
         $this->deleteJson("users/{$user->id}")
             ->assertStatus(403);
     }
+
+
+    /** @test */
+    public function an_authorized_user_can_update_users()
+    {
+        $this->updateUser(['email' => 'example@163.com']);
+        $this->updateUser(['display_name' => 'new_display_name']);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_users()
+    {
+        $this->signIn()->withExceptionHandling();
+
+        $this->patch("users/{$this->systemAdmin->id}", ['email' => 'example@163.com'])
+            ->assertStatus(403);
+    }
+
+    private function updateUser($patch)
+    {
+        $this->signIn($this->systemAdmin);
+
+        $this->patch("users/{$this->systemAdmin->id}", $patch)
+            ->assertStatus(204);
+
+        $this->assertDatabaseHas('users',
+            array_merge($patch, ['id' => $this->systemAdmin->id])
+        );
+    }
 }

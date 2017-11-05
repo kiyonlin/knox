@@ -20,6 +20,8 @@ Route::get('/home', 'Home\HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['namespace' => 'User'], function () {
         Route::resource('users', 'UsersController')->only(['index', 'destroy', 'store', 'update']);
+
+        Route::get('users/{user}/roles', 'UserRolesController@index')->middleware('permission:role.view');
     });
 
     Route::group(['namespace' => 'Role'], function () {

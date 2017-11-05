@@ -3,6 +3,7 @@
 namespace App\Modules\User;
 
 use App\Modules\Module\Module;
+use App\Modules\Role\Role;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
@@ -10,6 +11,7 @@ use Parsidev\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
+
     use Notifiable, EntrustUserTrait;
 
     /**
@@ -39,7 +41,7 @@ class User extends Authenticatable
      */
     public function modules()
     {
-        return Module::all()->filter(function($module){
+        return Module::all()->filter(function ($module) {
             return $this->can("module.view.{$module->id}");
         });
     }
@@ -51,8 +53,26 @@ class User extends Authenticatable
      */
     public function permissions()
     {
-        return $this->roles->reduce(function ($permissions, $role){
+        return $this->roles->reduce(function ($permissions, $role) {
             return $permissions->merge($role->perms);
         }, new Collection([]))->pluck('name');
+    }
+
+    /**
+     * 获取用户可以分配的角色
+     */
+    public function optionalRoles()
+    {
+        $roleIds = $this->roles->pluck('id')->toArray();
+
+        return Role::all(['id', 'name', 'display_name', 'description'])
+            ->reject(function ($role) use ($roleIds) {
+                return in_array($role->id, $roleIds);
+            })
+            ->transform(function ($role) {
+                $role->value = $role->display_name;
+
+                return $role;
+            })->values();
     }
 }
