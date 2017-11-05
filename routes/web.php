@@ -24,6 +24,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['namespace' => 'Role'], function () {
         Route::resource('roles', 'RolesController')->only(['index', 'destroy', 'store', 'update']);
+
+        Route::get('roles/{role}/permissions', 'RolePermissionsController@index')->middleware('permission:permission.view');
+        Route::put('roles/{role}/permissions', 'RolePermissionsController@update')->middleware('permission:permission.update');
     });
 
     Route::group(['namespace' => 'Module'], function () {

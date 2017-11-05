@@ -33,21 +33,23 @@
         <el-pagination style="text-align:right;" class="mt20" @size-change="sizeChange" @current-change="pageChange" :current-page="page" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
         <form-dialog :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" @created="add" @updated="update"></form-dialog>
+        <permission-dialog :visiable.sync="showPermissionDialog" :record.sync="currentRecord"></permission-dialog>
     </div>
 </template>
 
 <script>
     import FormDialog from './FormDialog';
+    import PermissionDialog from './PermissionDialog';
     import collection from '../../mixins/collection';
     export default {
         components: {
-            FormDialog
+            FormDialog, PermissionDialog
         },
         mixins: [collection],
         data() {
             return {
                 path: '/roles',
-                showPermissinDialog: false
+                showPermissionDialog: false
             }
         },
 
@@ -60,7 +62,7 @@
                 return '';
             },
             showPermissions(index, role) {
-                this.showPermissinDialog = true;
+                this.showPermissionDialog = true;
                 this.currentRecord = role;
             }
         }

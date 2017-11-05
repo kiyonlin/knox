@@ -19,21 +19,52 @@ class Role extends EntrustRole
     public function modulePermissionTree()
     {
         $permIds = $this->perms->pluck('id')->toArray();
+        $defaultCheckedKeys = [];
 
-        return Module::wherePid(0)->with('subModules')->get()->transform(function (Module $module) use ($permIds) {
+        $tree = Module::wherePid(0)->with('subModules')->get()->transform(function (Module $module) use ($permIds, &$defaultCheckedKeys) {
+            $node = [];
             if ($module->is_leaf) {
                 foreach ($module->perms as $perm) {
-                    $perm->selected = in_array($perm->id, $permIds);
-                }
-            } else {
-                foreach ($module->subModules as $subModule) {
-                    foreach ($subModule->perms as $perm) {
-                        $perm->selected = in_array($perm->id, $permIds);
+                    $node['children'][] = [
+                        'id'    => $perm->id,
+                        'key'   => $perm->id,
+                        'label' => $perm->display_name,
+                        'leaf'  => true,
+                    ];
+                    if (in_array($perm->id, $permIds)) {
+                        $defaultCheckedKeys[] = $perm->id;
                     }
                 }
+                $node['key'] = $module->key;
+                $node['label'] = $module->name;
+                $node['leaf'] = false;
+            } else {
+                foreach ($module->subModules as $subModule) {
+                    $child = [];
+                    foreach ($subModule->perms as &$perm) {
+                        $child['children'][] = [
+                            'id'    => $perm->id,
+                            'key'   => $perm->id,
+                            'label' => $perm->display_name,
+                            'leaf'  => true,
+                        ];
+                        if (in_array($perm->id, $permIds)) {
+                            $defaultCheckedKeys[] = $perm->id;
+                        }
+                    }
+                    $child['key'] = $subModule->key;
+                    $child['label'] = $subModule->name;
+                    $child['leaf'] = false;
+                    $node['children'][] = $child;
+                }
+                $node['key'] = $module->key;
+                $node['label'] = $module->name;
+                $node['leaf'] = false;
             }
 
-            return $module;
-        });
+            return $node;
+        })->toArray();
+
+        return compact('tree', 'defaultCheckedKeys');
     }
 }
