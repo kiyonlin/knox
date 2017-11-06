@@ -45,13 +45,19 @@ export default {
     },
     methods: {
         add() {
-            axios.post(this.path, this.form)
-                .then(response => {
-                    this.$emit('created', response.data);
-                    this.show = false;
-                    this.$message.success('添加成功');
-                })
-                .catch((error) => this.$message.error(error.data.message));
+            this.$refs.ruleForm && this.$refs.ruleForm.validate((valid) => {
+                if (valid) {
+                    axios.post(this.path, this.form)
+                    .then(response => {
+                        this.$emit('created', response.data);
+                        this.show = false;
+                        this.$message.success('添加成功');
+                    })
+                    .catch((error) => this.$message.error(error.data.message));
+                }
+                
+                return false;
+            });
         },
         update() {
             let patch = this.getDirty(this.record, this.form);

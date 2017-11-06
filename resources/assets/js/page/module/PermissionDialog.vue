@@ -90,7 +90,7 @@
                 this.form = {};
             },
             add(){
-                this.$refs.ruleForm.validate((valid) => {
+                this.$refs.ruleForm && this.$refs.ruleForm.validate((valid) => {
                     if (valid) {
                         axios.post(`/modules/${this.record.id}/permissions`, this.form)
                         .then(response => {
