@@ -22,6 +22,7 @@ export default {
             } else {
                 this.form = {};
                 this.isAdd = true;
+                this.$nextTick(_ => this.$refs.ruleForm && this.$refs.ruleForm.clearValidate());
             }
             this.fetch();
         },

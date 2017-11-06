@@ -13,7 +13,10 @@
             </el-table-column>
             <el-table-column prop="level" label="层级" width="50">
             </el-table-column>
-            <el-table-column prop="icon" label="icon">
+            <el-table-column label="icon">
+                <div slot-scope="scope">
+                    <i :class="[scope.row.icon]"></i>
+                </div>
             </el-table-column>
             <el-table-column prop="sort" label="排序">
             </el-table-column>
@@ -30,7 +33,7 @@
                 </div>
             </el-table-column>
         </el-table>
-        <form-dialog :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" 
+        <form-dialog :visiable.sync="showViewDialog" :record.sync="currentRecord" :path="path" 
             @updated="update"></form-dialog>
         <permission-dialog 
             :visiable.sync="showPermissionDialog" :record.sync="currentRecord" :path="path"></permission-dialog>
@@ -47,7 +50,7 @@
         data() {
             return {
                 records: this.dataSubmodules,
-                showAddDialog: false,
+                showViewDialog: false,
                 showPermissionDialog: false,
                 currentRecord: null,
                 path: "/modules"
@@ -63,7 +66,7 @@
             },
             view(index, record) {
                 this.currentRecord = record;
-                this.showAddDialog = true;
+                this.showViewDialog = true;
                 this.currentRecord._index = index;
             },
             update(record) {

@@ -33,6 +33,7 @@ class CreateUserRequest extends FormRequest
         return [
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'phone_number' => 'required|unique:users',
             'password' => 'required|string|min:6',
         ];
     }

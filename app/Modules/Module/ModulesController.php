@@ -23,7 +23,7 @@ class ModulesController extends ApiController
         $pageSize = request('pageSize', 10);
 
         return $this->respond(Module::wherePid(0)
-            ->orderBy('sort, created')
+            ->orderBy('sort')
             ->with('subModules')
             ->paginate($pageSize, ['*'], 'page', $page));
     }

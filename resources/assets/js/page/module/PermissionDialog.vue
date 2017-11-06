@@ -1,7 +1,7 @@
 <template>
     <el-dialog :title="title" :visible.sync="show" :show-close="false" width="35%">
         <el-alert title="点击权限标签可以查看详情😊" type="info" center show-icon class="mb10"></el-alert>
-        <el-form label-width="80px" :model="form">
+        <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
             <el-form-item label="已有权限">
                 <el-tag v-for="(perm, index) in perms" :key="perm.id" @close="remove(index, perm)" closable>
                     <span @click="view(perm)" v-text="perm.display_name" style="cursor:pointer"></span>
@@ -9,13 +9,13 @@
                 <el-button class="button-new-tag" size="small" @click="showAdd">添加权限</el-button>
             </el-form-item>
             <template v-if="showForm">
-                <el-form-item label="权限名">
+                <el-form-item label="权限名" prop="name">
                     <el-input placeholder="请输入权限名:module.action" v-model="form.name" :disabled="!isAdd"></el-input>
                 </el-form-item>
-                <el-form-item label="显示名称">
+                <el-form-item label="显示名称" prop="display_name">
                     <el-input placeholder="请输入显示名称" v-model="form.display_name"></el-input>
                 </el-form-item>
-                <el-form-item label="描述">
+                <el-form-item label="描述" prop="description">
                     <el-input type="textarea" :rows="5" placeholder="请输入描述" v-model="form.description"></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -41,7 +41,20 @@
                 form: {},
                 isAdd: null,
                 showForm: false,
-                currentPerm: null
+                currentPerm: null,
+                rules: {
+                    name: [
+                        { required: true, message: '请填写权限名'},
+                        { max: 255, message: '长度不能超过255个字符', trigger: 'blur'}
+                    ],
+                    display_name: [
+                        { required: true, message: '请填写权限显示名'},
+                        { max: 255, message: '长度不能超过255个字符', trigger: 'blur'}
+                    ],
+                    description: [
+                        { max: 511, message: '长度不能超过511个字符', trigger: 'blur'}
+                    ],
+                }
             }
         },
         
@@ -77,13 +90,19 @@
                 this.form = {};
             },
             add(){
-                axios.post(`/modules/${this.record.id}/permissions`, this.form)
-                    .then(response => {
-                        this.perms.push(response.data);
-                        this.showForm = false;
-                        this.$message.success('添加成功');
-                    })
-                    .catch(error => this.$message.error(error.data.message));
+                this.$refs.ruleForm.validate((valid) => {
+                    if (valid) {
+                        axios.post(`/modules/${this.record.id}/permissions`, this.form)
+                        .then(response => {
+                            this.perms.push(response.data);
+                            this.showForm = false;
+                            this.$message.success('添加成功');
+                        })
+                        .catch(error => this.$message.error(error.data.message));
+                    }
+                    
+                    return false;
+                });
             },
             view(perm) {
                 this.showForm = true;
