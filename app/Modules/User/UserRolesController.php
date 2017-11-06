@@ -3,6 +3,7 @@
 namespace App\Modules\User;
 
 use App\Http\Controllers\ApiController;
+use App\Modules\Role\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,29 +17,20 @@ class UserRolesController extends ApiController
      */
     public function index(User $user)
     {
-        return $this->respond($user->optionalRoles());
+        return $this->respond($user->optionalRoles(request('query', '')));
     }
 
     /**
      * Update the specified user in storage.
      *
      * @param User $user
+     * @param Role $role
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(User $user)
+    public function update(User $user, Role $role)
     {
-        if (! user()->can('user.update')) {
-            return $this->respondForbidden('对不起，您没有更新用户权限!');
-        }
-
-        $validate = $this->validate(request(), [
-            'display_name' => 'sometimes|string|max:255',
-            'email'        => 'sometimes|required|string|email|max:255|unique:users',
-            'password'     => 'sometimes|required|string|min:6',
-        ]);
-
-        $user->update($validate);
+        $user->attachRole($role);
 
         return $this->respondNoContent();
     }
@@ -47,16 +39,14 @@ class UserRolesController extends ApiController
      * Remove the specified user from storage.
      *
      * @param User $user
+     * @param Role $role
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function destroy(User $user)
+    public function destroy(User $user, Role $role)
     {
-        if (! user()->can('user.delete')) {
-            return $this->respondForbidden('对不起，您没有删除用户权限!');
-        }
 
-        $user->delete();
+        $user->detachRole($role);
 
         return $this->respondNoContent();
     }

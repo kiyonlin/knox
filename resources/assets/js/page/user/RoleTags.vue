@@ -1,23 +1,29 @@
 <template>
     <div>
-        <el-tag 
-            v-for="(role, index) in items" 
-            :key="role.name" 
-            @close="remove(index)" closable>
-            {{role.display_name}}
-        </el-tag>
+        <template v-for="(role, index) in items">
+            <el-tooltip effect="dark" :content="role.description" :key="role.name" placement="bottom">
+                <el-tag 
+                    :key="role.name" 
+                    @close="remove(index, role)" closable>
+                        {{role.display_name}}
+                </el-tag>
+            </el-tooltip>
+        </template>
         <el-autocomplete 
-            v-if="inputVisible" 
-            class="input-new-tag" 
-            ref="saveTagInput" 
-            v-model="item" 
+            class="input-new-tag"
+            popper-class="autocomplete"
+            v-model="item"
             size="small" 
-            placeholder="请选择角色"
-            :fetch-suggestions="querySearch"
-            @select="handleSelect"
-            @keyup.esc.native="cancel">
+            placeholder="添加角色"
+            valueKey="display_name"
+            :fetch-suggestions="fetchRoles"
+            @select="update">
+            <i class="el-icon-edit el-input__icon" slot="suffix"></i>
+            <template slot-scope="props">
+                <div class="name">{{ props.item.display_name }}</div>
+                <span class="description">{{ props.item.description }}</span>
+            </template>
         </el-autocomplete>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">添加角色</el-button>
     </div>
 </template>
 
@@ -27,54 +33,37 @@
         data() {
             return {
                 items: this.data.roles,
-                inputVisible: false,
                 item: '',
-                optionalRoles: []
             };
         },
         methods: {
-            showInput() {
-                this.inputVisible = true;
-                this.fetchRoles();
-                this.$nextTick(_ => {
-                    this.$refs.saveTagInput.$refs.input.focus();
-                });
+            fetchRoles(query, callback) {
+                axios.get(`users/${this.data.id}/roles?query=${query}`)
+                    .then(response => callback(response.data));
             },
-            querySearch(queryString, callback) {
-                let results = queryString 
-                    ? this.optionalRoles.filter(this.createFilter(queryString)) 
-                    : this.optionalRoles;
-                // 调用 callback 返回建议列表的数据
-                callback(results);
+            update(role) {
+                axios.put(`users/${this.data.id}/roles/${role.id}`)
+                    .then(_ => {
+                        this.items.push(role);
+                        this.$message.success("添加成功");
+                        this.item = '';
+                    });
             },
-            createFilter(queryString) {
-                return (roles) => {
-                    return (roles.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-                };
-            },
-            handleSelect(role) {
-                // 调用接口附加角色
-                this.items.push(role);
-                this.$message.success("添加成功");
-                this.inputVisible = false;
-                this.optionalRoles = [];
-            },
-            fetchRoles() {
-                axios.get(`users/${this.data.id}/roles`)
-                    .then(response => this.optionalRoles = response.data);
-            },
-            cancel() {
-                this.inputVisible = false;
-            },
-            remove(index) {
-                // TODO: 调用接口删除角色
-                this.items.splice(index, 1);
+            remove(index, role) {
+                this.deleteConfirm(_ => 
+                    axios.delete(`users/${this.data.id}/roles/${role.id}`)
+                    .then(_ => {
+                        this.items.splice(index, 1);
+                        this.$message.success("删除成功");
+                    })
+                    .catch(error => this.$message.error(error.data.message))
+                );
             },
         }
     }
 </script>
 
-<style>
+<style lang="scss">
     .el-tag+.el-tag {
         margin-left: 10px;
     }
@@ -86,7 +75,27 @@
         padding-bottom: 0;
     }
     .input-new-tag {
+        width: 120px;
         margin-left: 10px;
         vertical-align: bottom;
+    }
+    .autocomplete {
+        li {
+            line-height: normal;
+            padding: 7px;
+
+            .name {
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .description {
+                font-size: 12px;
+                color: #b4b4b4;
+            }
+
+            .highlighted .description {
+                color: #ddd;
+            }
+        }
     }
 </style>

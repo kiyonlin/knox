@@ -60,19 +60,18 @@ class User extends Authenticatable
 
     /**
      * 获取用户可以分配的角色
+     * @param string $query
+     * @return Collection
      */
-    public function optionalRoles()
+    public function optionalRoles(string $query)
     {
         $roleIds = $this->roles->pluck('id')->toArray();
 
-        return Role::all(['id', 'name', 'display_name', 'description'])
+        return Role::where('display_name', 'like', "%{$query}%")
+            ->get(['id', 'name', 'display_name', 'description'])
             ->reject(function ($role) use ($roleIds) {
                 return in_array($role->id, $roleIds);
             })
-            ->transform(function ($role) {
-                $role->value = $role->display_name;
-
-                return $role;
-            })->values();
+            ->values();
     }
 }

@@ -69,18 +69,15 @@
                 Object.assign(this.records[record._index], record);
             },
             remove(index, record) {
-                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
+                this.deleteConfirm(_ => 
                     axios.delete(`${this.path}/${record.id}`)
                     .then(response => {
                         this.$message.success('删除成功')
                         this.records.splice(index, 1);
                         this.total--;
-                    }).catch(error => this.$message.error(error.data.message));
-                }).catch(() => this.$message('已取消删除'));
+                    })
+                    .catch(error => this.$message.error(error.data.message))
+                );
             },
             showPermissions(index, record) {
                 this.currentRecord = record;
