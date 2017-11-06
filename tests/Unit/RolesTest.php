@@ -30,4 +30,14 @@ class RolesTest extends TestCase
 
         $this->assertEquals($perms->pluck('name')->toArray(), $result['defaultCheckedKeys']);
     }
+
+    /** @test */
+    public function it_will_take_name_as_display_name_when_it_is_null()
+    {
+        $role = create(Role::class);
+        $this->assertEquals($role->name, $role->display_name);
+
+        $anotherRole = create(Role::class, ['display_name' => 'display_name']);
+        $this->assertNotEquals($anotherRole->name, $anotherRole->display_name);
+    }
 }

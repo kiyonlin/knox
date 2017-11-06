@@ -12,6 +12,16 @@ class Role extends EntrustRole
     protected $fillable = ['name', 'display_name', 'description'];
 
     /**
+     * 没有填写显示名称时，使用名称填充
+     *
+     * @param $value
+     */
+    public function setDisplayNameAttribute($value)
+    {
+        $this->attributes['display_name'] = $value ? : $this->attributes['name'];
+    }
+
+    /**
      * 获取当前角色的模块权限树
      *
      * @return Collection

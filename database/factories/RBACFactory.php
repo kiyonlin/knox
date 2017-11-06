@@ -7,7 +7,7 @@ $factory->define(App\Modules\Role\Role::class, function (Faker $faker) {
 
     return [
         'name'         => $faker->unique()->userName,
-        'display_name' => $faker->userName,
+        'display_name' => null,
         'description'  => $faker->sentence
     ];
 });
@@ -19,7 +19,7 @@ $factory->define(App\Modules\Permission\Permission::class, function (Faker $fake
             return create(Module::class)->id;
         },
         'name'         => $faker->unique()->userName,
-        'display_name' => $faker->userName,
+        'display_name' => null,
         'description'  => $faker->sentence
     ];
 });
