@@ -17,12 +17,13 @@ export default {
         visiable() {
             this.show = this.visiable;
             if (this.record) {
-                Object.assign(this.form, this.record);
+                this.form = Object.assign({}, this.record);
                 this.isAdd = false;
             } else {
                 this.form = {};
                 this.isAdd = true;
             }
+            this.fetch();
         },
         /**
          * 同步sync数据，根据Vue2.3以后的版本，因为是props属性，需要使用事件触发
@@ -64,6 +65,9 @@ export default {
                     this.$message.success('更新成功');
                 })
                 .catch((error) => this.$message.error(error.data.message));
+        },
+        fetch() {
+            // 需要在显示弹框时加载数据的需要覆盖这个方法
         }
     }
 }

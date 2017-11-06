@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class ModulesController extends ApiController
 {
+
     /**
      * Display a listing of the modules.
      *
@@ -27,6 +28,19 @@ class ModulesController extends ApiController
             ->paginate($pageSize, ['*'], 'page', $page));
     }
 
+    /**
+     * Display a listing of the top modules.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tops()
+    {
+        return $this->respond(
+            Module::wherePid(0)
+                ->orderBy('sort, created')
+                ->get(['id', 'name'])
+        );
+    }
 
     /**
      * Store a newly created module in storage.
@@ -37,7 +51,7 @@ class ModulesController extends ApiController
     public function store(CreateModuleRequest $request)
     {
         return $this->respondCreated(
-            Module::create($request->all())
+            Module::create($request->all())->load('subModules')
         );
     }
 
@@ -55,7 +69,7 @@ class ModulesController extends ApiController
         }
 
         $module->update($this->validate(request(), [
-            'pid' => 'sometimes|nullable|numeric',
+            'pid'  => 'sometimes|nullable|numeric',
             'name' => 'sometimes|required|string|max:255',
             'path' => 'sometimes|nullable|string|max:255|unique:modules',
             'icon' => 'sometimes|nullable|string|max:255',

@@ -49,9 +49,30 @@ class ManegeModulesTest extends TestCase
     {
         $this->signIn()->withExceptionHandling();
 
+        $this->get('modules')
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_view_all_top_modules()
+    {
+        $this->signIn($this->systemAdmin);
+
         create(Module::class, 5);
 
-        $this->get('modules')
+        $response = $this->get('modules/tops')
+            ->assertStatus(200)
+            ->json();
+
+        $this->assertCount(7, $response);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_view_top_modules()
+    {
+        $this->signIn()->withExceptionHandling();
+
+        $this->get('modules/tops')
             ->assertStatus(403);
     }
 }

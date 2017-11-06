@@ -39,5 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('modules/{module}/permissions', 'PermissionsController@store')->middleware('permission:permission.add');
         Route::patch('modules/{module}/permissions/{permission}', 'PermissionsController@update')->middleware('permission:permission.update');
         Route::delete('modules/{module}/permissions/{permission}', 'PermissionsController@destroy')->middleware('permission:permission.delete');
+
+        Route::get('modules/tops', 'ModulesController@tops')->middleware('permission:module.view');
     });
 });

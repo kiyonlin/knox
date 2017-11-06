@@ -82,7 +82,22 @@
                 }
 
                 this.remove(index, record);
-            }
+            },
+            /**
+             * 重写add函数，当添加的是子模块时，加到所属的父模块中
+             */
+            add(record) {
+                if(!record.pid) {
+                    this.records.push(record);
+                    return;
+                }
+                // 添加到父模块中
+                this.records.map(item => {
+                    if(item.id == record.pid) {
+                        item.sub_modules.push(record);
+                    }
+                });
+            },
         }
     }
 </script>

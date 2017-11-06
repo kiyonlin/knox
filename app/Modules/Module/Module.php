@@ -90,7 +90,7 @@ class Module extends Model
         } else {
             $module->index = $module->id;
             $module->level = 1;
-            $module->is_leaf = count(optional($module->subModules())->count());
+            $module->is_leaf = ! optional($module->subModules())->count();
         }
         $module->save();
     }
