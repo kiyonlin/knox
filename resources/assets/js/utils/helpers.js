@@ -20,6 +20,9 @@ Vue.prototype.arrayDiff = function (a, b) {
     return a.concat(b).filter(v => !a.includes(v) || !b.includes(v));
 }
 
+/**
+ * 删除记录的通用确认框
+ */
 Vue.prototype.deleteConfirm = function (callback) {
     this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
         confirmButtonText: '确定',

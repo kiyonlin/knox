@@ -36,12 +36,12 @@
 
         data () {
             return {
-                form: new Form({body: ''})
+                // form: new Form({body: ''})
             }
         },
 
         mounted () {
-            console.log('Component mounted.')
+            // console.log('Component mounted.')
         }
     }
 </script>

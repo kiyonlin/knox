@@ -1,11 +1,8 @@
 <template>
     <div>
         <el-table 
-            :data.sync="records" 
-            :show-header="false" 
-            :row-class-name="tableRowClassName" 
-            border :row-key="setRowKey" 
-            tooltip-effect="dark">
+            :data.sync="records" :show-header="false" :row-class-name="tableRowClassName" :row-key="setRowKey" 
+            border tooltip-effect="dark">
             <el-table-column prop="index" label="索引" width="60">
             </el-table-column>
             <el-table-column prop="key" label="标识">
@@ -22,14 +19,21 @@
             </el-table-column>
             <el-table-column label="操作" width="256">
                 <div slot-scope="scope">
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
-                    <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.$index, scope.row)"></el-button>
-                    <el-button size="mini" @click.native.prevent="showPermissions(scope.$index, scope.row)">管理权限</el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-delete" 
+                        @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
+
+                    <el-button size="mini" icon="el-icon-edit" 
+                        @click.native.prevent="view(scope.$index, scope.row)"></el-button>
+
+                    <el-button size="mini" 
+                        @click.native.prevent="showPermissions(scope.$index, scope.row)">管理权限</el-button>
                 </div>
             </el-table-column>
         </el-table>
-        <form-dialog :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" @updated="update"></form-dialog>
-        <permission-dialog :visiable.sync="showPermissionDialog" :record.sync="currentRecord" :path="path"></permission-dialog>
+        <form-dialog :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" 
+            @updated="update"></form-dialog>
+        <permission-dialog 
+            :visiable.sync="showPermissionDialog" :record.sync="currentRecord" :path="path"></permission-dialog>
     </div>
 </template>
 
@@ -50,10 +54,7 @@
             }
         },
         methods: {
-            tableRowClassName({
-                row,
-                rowIndex
-            }) {
+            tableRowClassName({row, rowIndex}) {
                 // TODO: 高亮锁定的模块
                 return '';
             },

@@ -4,7 +4,7 @@
         <el-form label-width="80px" :model="form">
             <el-form-item label="已有权限">
                 <el-tag v-for="(perm, index) in perms" :key="perm.id" @close="remove(index, perm)" closable>
-                    <span @click="view(perm)" v-text="perm.display_name"></span>
+                    <span @click="view(perm)" v-text="perm.display_name" style="cursor:pointer"></span>
                 </el-tag>
                 <el-button class="button-new-tag" size="small" @click="showAdd">添加权限</el-button>
             </el-form-item>
@@ -55,6 +55,7 @@
                     this.show = this.visiable;
                     this.perms = this.record.perms;
                     this.title = `查看【${this.record.name}】权限`;
+                    this.showForm = false;
                 }
             },
             /**
@@ -62,8 +63,8 @@
              * 详见：https://cn.vuejs.org/v2/guide/components.html#sync-修饰符
              * 当关闭对话框时，更新父组件信息
              */
-            show() {
-                if(!this.show) {
+            show(value) {
+                if(!value) {
                     this.$emit('update:visiable', false);
                     this.$emit('update:record', null);
                 }
@@ -113,7 +114,7 @@
                         this.perms.splice(index, 1);
                         this.$message.success('删除成功');
                     })
-                    .catch(error => this.$message.error(error.data.message))
+                    .catch(response => this.$message.error(response.data.error.message))
                 );
             },
         }

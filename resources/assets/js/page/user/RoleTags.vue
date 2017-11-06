@@ -1,7 +1,9 @@
 <template>
     <div>
         <template v-for="(role, index) in items">
-            <el-tooltip effect="dark" :content="role.description" :key="role.name" placement="bottom">
+            <el-tooltip 
+                :content="role.description" :key="role.name" 
+                effect="dark" placement="bottom">
                 <el-tag 
                     :key="role.name" 
                     @close="remove(index, role)" closable>
@@ -10,14 +12,9 @@
             </el-tooltip>
         </template>
         <el-autocomplete 
-            class="input-new-tag"
-            popper-class="autocomplete"
+            class="input-new-tag" popper-class="autocomplete" placeholder="添加角色" size="small" 
             v-model="item"
-            size="small" 
-            placeholder="添加角色"
-            valueKey="display_name"
-            :fetch-suggestions="fetchRoles"
-            @select="update">
+            valueKey="display_name" :fetch-suggestions="fetchRoles" @select="update">
             <i class="el-icon-edit el-input__icon" slot="suffix"></i>
             <template slot-scope="props">
                 <div class="name">{{ props.item.display_name }}</div>
@@ -56,7 +53,7 @@
                         this.items.splice(index, 1);
                         this.$message.success("删除成功");
                     })
-                    .catch(error => this.$message.error(error.data.message))
+                    .catch(response => this.$message.error(response.data.error.message))
                 );
             },
         }

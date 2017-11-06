@@ -5,6 +5,7 @@ export default {
             form: {},
             show: false,
             isAdd: true,
+            name: ''
         }
     },
     
@@ -19,8 +20,8 @@ export default {
                 Object.assign(this.form, this.record);
                 this.isAdd = false;
             } else {
-                this.isAdd = true;
                 this.form = {};
+                this.isAdd = true;
             }
         },
         /**
@@ -28,8 +29,8 @@ export default {
          * 详见：https://cn.vuejs.org/v2/guide/components.html#sync-修饰符
          * 当关闭对话框时，更新父组件信息
          */
-        show() {
-            if(!this.show) {
+        show(value) {
+            if(! value) {
                 this.$emit('update:visiable', false);
                 this.$emit('update:record', null);
             }
@@ -37,7 +38,7 @@ export default {
     },
     computed: {
         title() {
-            return this.isAdd ? '添加' : '编辑';
+            return (this.isAdd ? '添加' : '编辑') + this.name;
         }
     },
     methods: {
@@ -52,9 +53,8 @@ export default {
         },
         update() {
             let patch = this.getDirty(this.record, this.form);
-            if(Object.keys(patch).length ==0) {
+            if(Object.keys(patch).length == 0) {
                 this.show = false;
-                this.$message.success('更新成功');
                 return;
             }
             axios.patch(`${this.path}/${this.record.id}`, patch)

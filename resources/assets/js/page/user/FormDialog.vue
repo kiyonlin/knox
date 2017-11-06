@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="title + '用户'" :visible.sync="show" :show-close="false">
+    <el-dialog :title="title" :visible.sync="show" :show-close="false">
         <el-form label-width="80px" :model="form">
             <el-form-item label="用户名">
                 <el-input placeholder="请输入用户名" v-model="form.username" :disabled="!isAdd"></el-input>
@@ -28,6 +28,12 @@
 <script>
     import commonDialog from '../../mixins/commonDialog';
     export default {
-        mixins: [commonDialog]
+        mixins: [commonDialog],
+
+        data() {
+            return {
+                name: '用户'
+            }
+        }
     }
 </script>

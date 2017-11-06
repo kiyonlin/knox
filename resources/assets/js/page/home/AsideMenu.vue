@@ -6,13 +6,13 @@
         <template v-for="_module in modules">
                 <el-menu-item :index="_module.path" :key="_module.id" v-if="_module.is_leaf">
                     <i :class="[_module.icon]"></i>
-                    <span v-text="_module.name + defaultActive"></span>
+                    <span v-text="_module.name"></span>
                 </el-menu-item>
 
                 <el-submenu :index="_module.index" :key="_module.id" v-else>
                     <template slot="title">
                         <i :class="[_module.icon]"></i>
-                        <span v-text="_module.name + defaultActive"></span>
+                        <span v-text="_module.name"></span>
                     </template>
                     <template v-for="submodule in _module.submodules">
                         <el-menu-item :index="submodule.path" :key="submodule.id">

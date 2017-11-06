@@ -5,13 +5,9 @@
             <el-button type="primary" icon="el-icon-refresh" @click="fetch" :loading="loading"></el-button>
         </el-button-group>
         <el-table 
-            :data.sync="records" 
-            :row-class-name="tableRowClassName" 
-            v-loading="loading" border 
-            :row-key="setRowKey" 
-            tooltip-effect="dark" 
-            max-height="500" 
-            class="mt20">
+            :data.sync="records" :row-class-name="tableRowClassName" :row-key="setRowKey"
+            max-height="500" class="mt20"
+            v-loading="loading" border tooltip-effect="dark">
             <el-table-column prop="index" label="索引" width="50">
             </el-table-column>
             <el-table-column type="expand" width="60">
@@ -39,14 +35,22 @@
             </el-table-column>
             <el-table-column label="操作" width="128">
                 <div slot-scope="scope">
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click.native.prevent="checkRemove(scope.$index, scope.row)"></el-button>
-                    <el-button size="mini" icon="el-icon-edit" @click.native.prevent="view(scope.$index, scope.row)"></el-button>
+                    <el-button type="danger" size="mini" icon="el-icon-delete" 
+                        @click.native.prevent="checkRemove(scope.$index, scope.row)"></el-button>
+
+                    <el-button size="mini" icon="el-icon-edit" 
+                        @click.native.prevent="view(scope.$index, scope.row)"></el-button>
                 </div>
             </el-table-column>
         </el-table>
-        <el-pagination style="text-align:right;" class="mt20" @size-change="sizeChange" @current-change="pageChange" :current-page="page" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        <el-pagination style="text-align:right;" class="mt20" 
+            @size-change="sizeChange" @current-change="pageChange" 
+            :current-page="page" :page-sizes="pageSizes" :page-size="pageSize" :total="total"
+            layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
-        <form-dialog :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" @created="add" @updated="update"></form-dialog>
+        <form-dialog 
+            :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" 
+            @created="add" @updated="update"></form-dialog>
     </div>
 </template>
 

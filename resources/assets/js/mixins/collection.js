@@ -1,7 +1,7 @@
 export default {
     data() {
         return {
-            // 使用records替换records，否则与包代码冲突
+            // 使用 records 替换 items ，否则与包代码冲突
             records: [],
             showAddDialog: false,
             currentRecord: null,
@@ -24,8 +24,8 @@ export default {
             this.loading = true;
             axios.get(this.url())
                 .then(this.refresh)
-                .catch(() => {
-                    this.$message.error('获取数据失败！');
+                .catch(response => {
+                    this.$message.error(response.data.error.message);
                     this.loading = false;
                 });
         },
@@ -67,16 +67,16 @@ export default {
                     this.records.splice(index, 1);
                     this.total--;
                 })
-                .catch(error => this.$message.error(error.data.message))
+                .catch(response => this.$message.error(response.data.error.message))
             );
-        },
-        setRowKey(row) {
-            return row.id;
         },
         view(index, record) {
             this.currentRecord = record;
             this.showAddDialog = true;
             this.currentRecord._index = index;
+        },
+        setRowKey(row) {
+            return row.id;
         }
     }
 }

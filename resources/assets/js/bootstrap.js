@@ -28,7 +28,7 @@ axios.interceptors.response.use((res) =>{
   }, (error) => {
     if (error.response.status === 401) {
         console.log('unauthorized, logging out ...');
-        router.replace('/login');
+        Vue.$router.replace('/login');
     }
     return Promise.reject(error.response);
   });
