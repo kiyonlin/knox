@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Modules\Module\Module;
 use App\Modules\Permission\Permission;
+use App\Modules\Role\Role;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -65,7 +66,7 @@ class ModulesTest extends TestCase
     public function it_may_have_some_permissions_when_it_is_a_leaf_one()
     {
         $module = create(Module::class);
-        $this->assertCount(0, $module->perms);
+        $this->assertCount(1, $module->perms);
     }
 
     /** @test */
@@ -77,7 +78,29 @@ class ModulesTest extends TestCase
             'name' => 'new_permission'
         ]));
 
-        $this->assertCount(1, $module->perms);
+        $this->assertCount(2, $module->perms);
         $this->assertEquals('new_permission', $perm->name);
+    }
+
+    /** @test */
+    public function it_will_auto_create_a_specific_view_permission_and_attache_to_the_system_admin_when_it_has_been_created()
+    {
+        $module = create(Module::class);
+        $permissionName = "module.view.{$module->id}";
+
+        $this->assertDatabaseHas('permissions', ['name' => $permissionName]);
+        $this->assertTrue(Role::whereName('systemAdmin')->first()->perms()->whereName($permissionName)->exists());
+    }
+
+    /** @test */
+    public function associated_permissions_will_be_deleted_when_it_has_been_deleted()
+    {
+        $module = create(Module::class);
+        $perm = create(Permission::class, ['module_id' => $module->id]);
+
+        $module->delete();
+
+        $this->assertDatabaseMissing('modules', ['id' => $module->id]);
+        $this->assertDatabaseMissing('permissions', ['id' => $perm->id]);
     }
 }

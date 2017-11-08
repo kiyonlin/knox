@@ -3,6 +3,7 @@
 namespace App\Modules\Module;
 
 use App\Modules\Permission\Permission;
+use App\Modules\Role\Role;
 use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
@@ -12,6 +13,11 @@ class Module extends Model
     {
         self::created(function ($module) {
             self::maintainLevelAndIndex($module);
+            self::createPermission($module);
+        });
+
+        self::deleted(function ($module) {
+            $module->perms()->delete();
         });
     }
 
@@ -93,5 +99,22 @@ class Module extends Model
             $module->is_leaf = ! optional($module->subModules())->count();
         }
         $module->save();
+    }
+
+    /**
+     * 创建了模块后，需要为这个模块创建一条单独查看权限
+     * 并且将权限自动加到系统管理员角色上
+     *
+     * @param $module
+     */
+    private static function createPermission($module)
+    {
+        $permission = $module->addPerm([
+            'name'         => "module.view.{$module->id}",
+            'display_name' => $display_name = "查看{$module->name}模块",
+            'description'  => $display_name
+        ]);
+
+        Role::whereName('systemAdmin')->first()->attachPermission($permission);
     }
 }

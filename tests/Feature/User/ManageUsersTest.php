@@ -89,7 +89,7 @@ class ManegeUsersTest extends TestCase
         $user = create(User::class);
         $role = create(Role::class);
 
-        $this->postJson("/users/{$user->id}/roles/{$role->id}")
+        $this->putJson("/users/{$user->id}/roles/{$role->id}")
             ->assertStatus(204);
 
         $this->assertTrue($user->roles->contains($role));

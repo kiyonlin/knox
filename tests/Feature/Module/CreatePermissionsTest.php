@@ -38,7 +38,7 @@ class CreatePermissionsTest extends TestCase
             ->assertStatus(201)
             ->json();
 
-        $this->assertCount(1, $module->perms);
+        $this->assertCount(2, $module->perms);
     }
 
     /** @test */

@@ -166,31 +166,6 @@ class SetupRBACSeeder extends Seeder
                 'display_name' => '查看权限',
                 'description'  => '查看一个已存在的权限'
             ],
-            [
-                'name'         => "module.view.{$systemManagerModule->id}",
-                'display_name' => "查看{$systemManagerModule->name}模块",
-                'description'  => "查看{$systemManagerModule->name}模块",
-            ],
-            [
-                'name'         => "module.view.{$userManagerModule->id}",
-                'display_name' => "查看{$userManagerModule->name}模块",
-                'description'  => "查看{$userManagerModule->name}模块",
-            ],
-            [
-                'name'         => "module.view.{$roleManagerModule->id}",
-                'display_name' => "查看{$roleManagerModule->name}模块",
-                'description'  => "查看{$roleManagerModule->name}模块",
-            ],
-            [
-                'name'         => "module.view.{$moduleManagerModule->id}",
-                'display_name' => "查看{$moduleManagerModule->name}模块",
-                'description'  => "查看{$moduleManagerModule->name}模块",
-            ],
-            [
-                'name'         => "module.view.{$dashboardModule->id}",
-                'display_name' => "查看{$dashboardModule->name}模块",
-                'description'  => "查看{$dashboardModule->name}模块",
-            ],
         ]);
     }
 
@@ -202,7 +177,7 @@ class SetupRBACSeeder extends Seeder
     private function setUpInitialPermissions(Role $systemAdminRole)
     {
         Module::all()->each(function ($module) use($systemAdminRole) {
-            $systemAdminRole->attachPermissions($module->perms->toArray());
+            $systemAdminRole->attachPermissions($module->perms()->where('name', 'not like', '%.%.%')->get()->toArray());
         });
     }
 }

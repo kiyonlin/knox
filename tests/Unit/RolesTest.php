@@ -28,7 +28,7 @@ class RolesTest extends TestCase
 
         $result = $role->modulePermissionTree();
 
-        $this->assertEquals($perms->pluck('name')->toArray(), $result['defaultCheckedKeys']);
+        $this->assertEquals($perms->pluck('id')->toArray(), $result['defaultCheckedKeys']);
     }
 
     /** @test */

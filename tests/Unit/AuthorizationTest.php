@@ -32,11 +32,7 @@ class AuthorizationTest extends TestCase
 
         // and the role have permission to some modules
         $modules = create(Module::class, 2)->load('perms')->each(function ($module) use ($role) {
-            $role->attachPermission(create(Permission::class, [
-                'name'         => "view_module_{$module->id}",
-                'display_name' => "查看{$module->name}模块",
-                'description'  => "查看{$module->name}模块",
-            ]));
+            $role->attachPermission(Permission::whereName("module.view.{$module->id}")->first());
         });
 
         // user can fetch these modules associated with the role
