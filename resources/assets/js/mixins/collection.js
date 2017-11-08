@@ -67,7 +67,11 @@ export default {
                     this.records.splice(index, 1);
                     this.total--;
                 })
-                .catch(response => this.$message.error(response.data.error.message))
+                .catch(response => {
+                    if(response.status === 403) {
+                        this.$message.error('对不起，您没有该操作的权限！');
+                    }
+                })
             );
         },
         view(index, record) {

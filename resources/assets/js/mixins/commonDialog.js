@@ -53,7 +53,11 @@ export default {
                         this.show = false;
                         this.$message.success('添加成功');
                     })
-                    .catch((error) => this.$message.error(error.data.message));
+                    .catch(response => {
+                        if(response.status === 403) {
+                            this.$message.error('对不起，您没有该操作的权限！');
+                        }
+                    })
                 }
                 
                 return false;
@@ -71,7 +75,11 @@ export default {
                     this.show = false;
                     this.$message.success('更新成功');
                 })
-                .catch((error) => this.$message.error(error.data.message));
+                .catch(response => {
+                    if(response.status === 403) {
+                        this.$message.error('对不起，您没有该操作的权限！');
+                    }
+                })
         },
         fetch() {
             // 需要在显示弹框时加载数据的需要覆盖这个方法
