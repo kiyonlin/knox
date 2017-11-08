@@ -77,11 +77,6 @@
         },
 
         methods: {
-            view(index, record) {
-                this.currentRecord = record;
-                this.showAddDialog = true;
-                this.currentRecord.index = index;
-            },
             tableRowClassName({row, rowIndex}) {
                 // TODO: 高亮管理员
                 if(rowIndex === 0) {

@@ -18,7 +18,7 @@ class Role extends EntrustRole
      */
     public function setDisplayNameAttribute($value)
     {
-        $this->attributes['display_name'] = $value ? : $this->attributes['name'];
+        $this->attributes['display_name'] = $value ?: $this->attributes['name'];
     }
 
     /**
@@ -33,9 +33,24 @@ class Role extends EntrustRole
 
         $tree = Module::wherePid(0)->with('subModules')->get()->transform(function (Module $module) use ($permIds, &$defaultCheckedKeys) {
             $node = [];
-            if ($module->is_leaf) {
-                foreach ($module->perms as $perm) {
-                    $node['children'][] = [
+            foreach ($module->perms as $perm) {
+                $node['children'][] = [
+                    'id'    => $perm->id,
+                    'key'   => $perm->id,
+                    'label' => $perm->display_name,
+                    'leaf'  => true,
+                ];
+                if (in_array($perm->id, $permIds)) {
+                    $defaultCheckedKeys[] = $perm->id;
+                }
+            }
+            $node['key'] = $module->key;
+            $node['label'] = $module->name;
+            $node['leaf'] = false;
+            foreach ($module->subModules as $subModule) {
+                $child = [];
+                foreach ($subModule->perms as &$perm) {
+                    $child['children'][] = [
                         'id'    => $perm->id,
                         'key'   => $perm->id,
                         'label' => $perm->display_name,
@@ -45,32 +60,14 @@ class Role extends EntrustRole
                         $defaultCheckedKeys[] = $perm->id;
                     }
                 }
-                $node['key'] = $module->key;
-                $node['label'] = $module->name;
-                $node['leaf'] = false;
-            } else {
-                foreach ($module->subModules as $subModule) {
-                    $child = [];
-                    foreach ($subModule->perms as &$perm) {
-                        $child['children'][] = [
-                            'id'    => $perm->id,
-                            'key'   => $perm->id,
-                            'label' => $perm->display_name,
-                            'leaf'  => true,
-                        ];
-                        if (in_array($perm->id, $permIds)) {
-                            $defaultCheckedKeys[] = $perm->id;
-                        }
-                    }
-                    $child['key'] = $subModule->key;
-                    $child['label'] = $subModule->name;
-                    $child['leaf'] = false;
-                    $node['children'][] = $child;
-                }
-                $node['key'] = $module->key;
-                $node['label'] = $module->name;
-                $node['leaf'] = false;
+                $child['key'] = $subModule->key;
+                $child['label'] = $subModule->name;
+                $child['leaf'] = false;
+                $node['children'][] = $child;
             }
+            $node['key'] = $module->key;
+            $node['label'] = $module->name;
+            $node['leaf'] = false;
 
             return $node;
         })->toArray();

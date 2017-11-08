@@ -63,7 +63,7 @@ class User extends Authenticatable
      * @param string $query
      * @return Collection
      */
-    public function optionalRoles(string $query)
+    public function optionalRoles(string $query = '')
     {
         $roleIds = $this->roles->pluck('id')->toArray();
 

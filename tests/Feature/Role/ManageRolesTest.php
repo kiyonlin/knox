@@ -85,6 +85,9 @@ class ManegeRolesTest extends TestCase
         $this->signIn($this->systemAdmin);
 
         $role = create(Role::class);
+
+        $this->assertEquals([], $role->perms->pluck('id')->toArray());
+
         $checkedPermissions = Permission::take(3)->pluck('id')->toArray();
 
         $this->put("roles/{$role->id}/permissions", [
@@ -92,7 +95,7 @@ class ManegeRolesTest extends TestCase
             ])
             ->assertStatus(204);
 
-        $this->assertEquals($checkedPermissions, $role->perms->pluck('id')->toArray());
+        $this->assertEquals($checkedPermissions, $role->fresh()->perms->pluck('id')->toArray());
     }
 
     /** @test */
