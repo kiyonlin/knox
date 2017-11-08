@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-button-group>
-            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showAddDialog = true"></el-button>
+            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showAddDialog = true" v-if="canAdd"></el-button>
             <el-button type="primary" icon="el-icon-refresh" @click="fetch" :loading="loading"></el-button>
         </el-button-group>
 
@@ -61,6 +61,7 @@
                 showAddDialog: false,
                 currentRecord: null,
                 path: '/users',
+                module: 'user'
             }
         },
 

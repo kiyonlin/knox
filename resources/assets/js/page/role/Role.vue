@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-button-group>
-            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showAddDialog = true"></el-button>
+            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showAddDialog = true" v-if="canAdd"></el-button>
             <el-button type="primary" icon="el-icon-refresh" @click="fetch" :loading="loading"></el-button>
         </el-button-group>
 
@@ -19,10 +19,12 @@
             <el-table-column label="操作" width="200">
                 <div slot-scope="scope">
                     <el-button type="danger" size="mini" icon="el-icon-delete" 
-                        @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
+                        @click.native.prevent="remove(scope.$index, scope.row)"
+                        v-if="canDelete"></el-button>
 
                     <el-button size="mini" icon="el-icon-edit" 
-                        @click.native.prevent="view(scope.$index, scope.row)"></el-button>
+                        @click.native.prevent="view(scope.$index, scope.row)"
+                        v-if="canView"></el-button>
 
                     <el-button size="mini" 
                         @click.native.prevent="showPermissions(scope.$index, scope.row)">权限</el-button>
@@ -33,7 +35,7 @@
         <el-pagination style="text-align:right;" class="mt20" @size-change="sizeChange" @current-change="pageChange" :current-page="page" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
         <form-dialog 
-            :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" 
+            :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" :module="module"
             @created="add" @updated="update"></form-dialog>
         <permission-dialog :visiable.sync="showPermissionDialog" :record.sync="currentRecord"></permission-dialog>
     </div>
@@ -51,6 +53,7 @@
         data() {
             return {
                 path: '/roles',
+                module: 'role',
                 showPermissionDialog: false
             }
         },

@@ -6,6 +6,7 @@ export default {
             showAddDialog: false,
             currentRecord: null,
             path: '',
+            module: '',
             page: 0,
             pageSize: 0,
             total: 0,
@@ -18,6 +19,17 @@ export default {
     },
     created() {            
         this.fetch();
+    },
+    computed: {
+        canAdd() {
+            return this.authorize('add', this.module);
+        },
+        canView() {
+            return this.authorize('view', this.module);
+        },
+        canDelete() {
+            return this.authorize('delete', this.module);
+        }
     },
     methods: {
         fetch() {

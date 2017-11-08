@@ -1,5 +1,5 @@
 export default {
-    props: ['visiable', 'record', 'path'],
+    props: ['visiable', 'record', 'path', 'module'],
     data() {
         return {
             form: {},
@@ -41,6 +41,9 @@ export default {
     computed: {
         title() {
             return (this.isAdd ? '添加' : '编辑') + this.name;
+        },
+        canUpdate() {
+            return this.authorize('update', this.module);
         }
     },
     methods: {
