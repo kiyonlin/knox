@@ -54,7 +54,8 @@ class SetupRBACSeeder extends Seeder
             'key'  => 'user',
             'name' => '用户管理',
             'path' => '/users',
-            'icon' => 'el-icon-info'
+            'icon' => 'el-icon-info',
+            'sort' => 2
         ]);
         $userManagerModule->addPerms([
             [
@@ -87,7 +88,8 @@ class SetupRBACSeeder extends Seeder
             'key'  => 'role',
             'name' => '角色管理',
             'path' => '/roles',
-            'icon' => 'el-icon-tickets'
+            'icon' => 'el-icon-tickets',
+            'sort' => 3
         ]);
         $roleManagerModule->addPerms([
             [
@@ -117,7 +119,8 @@ class SetupRBACSeeder extends Seeder
             'key'  => 'module',
             'name' => '模块管理',
             'path' => '/modules',
-            'icon' => 'el-icon-menu'
+            'icon' => 'el-icon-menu',
+            'sort' => 4
         ]);
         $moduleManagerModule->addPerms([
             [

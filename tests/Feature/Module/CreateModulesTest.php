@@ -231,7 +231,7 @@ class CreateModulesTest extends TestCase
     /** @test */
     public function an_unauthorized_user_can_not_delete_a_module()
     {
-        $this->signIn();
+        $this->signIn()->withExceptionHandling();
 
         $module = create(Module::class);
 
@@ -242,7 +242,7 @@ class CreateModulesTest extends TestCase
     /** @test */
     public function nobody_can_delete_the_system_module()
     {
-        $this->signIn($this->systemAdmin);
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
 
         $module = Module::where('key', Module::SYSTEM_MODULE)->first();
 
@@ -253,7 +253,7 @@ class CreateModulesTest extends TestCase
     /** @test */
     public function nobody_can_delete_the_modules_that_belongs_to_system_module()
     {
-        $this->signIn($this->systemAdmin);
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
 
         $module = Module::where('key', Module::SYSTEM_MODULE)->first()->subModules()->first();
 

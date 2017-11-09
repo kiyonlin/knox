@@ -44,10 +44,6 @@ class UsersController extends ApiController
      */
     public function update(User $user)
     {
-        if (! user()->can('user.update')) {
-            return $this->respondForbidden();
-        }
-
         $validate = $this->validate(request(), [
             'display_name' => 'sometimes|string|max:255',
             'email'        => 'sometimes|required|string|email|max:255|unique:users',
@@ -68,10 +64,6 @@ class UsersController extends ApiController
      */
     public function destroy(User $user)
     {
-        if (! user()->can('user.delete')  || User::SYSTEM_ADMIN == $user->username) {
-            return $this->respondForbidden();
-        }
-
         $user->delete();
 
         return $this->respondNoContent();

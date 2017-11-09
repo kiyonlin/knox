@@ -61,10 +61,6 @@ class ModulesController extends ApiController
      */
     public function update(Module $module)
     {
-        if (! user()->can('module.update')) {
-            return $this->respondForbidden();
-        }
-
         $module->update($this->validate(request(), [
             'pid'  => 'sometimes|nullable|numeric',
             'name' => 'sometimes|required|string|max:255',
@@ -84,12 +80,6 @@ class ModulesController extends ApiController
      */
     public function destroy(Module $module)
     {
-        if (! user()->can('module.delete')
-            || Module::SYSTEM_MODULE == $module->key
-            || Module::SYSTEM_MODULE == optional($module->parentModule)->key) {
-            return $this->respondForbidden();
-        }
-
         $module->delete();
 
         return $this->respondNoContent();

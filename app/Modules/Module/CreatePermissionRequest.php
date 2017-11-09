@@ -16,10 +16,7 @@ class CreatePermissionRequest extends FormRequest
      */
     public function authorize()
     {
-        // 系统模块的子模块下不允许添加新的权限
-
-        return user()->can('permission.add')
-            && Module::SYSTEM_MODULE != optional(request()->route('module')->parentModule)->key;
+        return true;
     }
 
     /**

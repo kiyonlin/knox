@@ -4,13 +4,13 @@
         <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
             <el-form-item label="已有权限">
                 <el-tag v-for="(perm, index) in perms" :key="perm.id" @close="remove(index, perm)" :closable="authorize('delete', 'permission')">
-                    <span @click="view(perm)" v-text="perm.display_name" style="cursor:pointer"></span>
+                    <span @click="view(index, perm)" v-text="perm.display_name" style="cursor:pointer"></span>
                 </el-tag>
                 <el-button class="button-new-tag" size="small" @click="showAdd" v-if="authorize('add', 'permission')">添加权限</el-button>
             </el-form-item>
             <template v-if="showForm">
                 <el-form-item label="权限名" prop="name">
-                    <el-input placeholder="请输入权限名:module.action" v-model="form.name" :disabled="!isAdd"></el-input>
+                    <el-input placeholder="请输入权限名:module.action" ref="nameInput" v-model="form.name" :disabled="!isAdd"></el-input>
                 </el-form-item>
                 <el-form-item label="显示名称" prop="display_name">
                     <el-input placeholder="请输入显示名称" v-model="form.display_name"></el-input>
@@ -88,6 +88,8 @@
                 this.showForm = true;
                 this.isAdd = true;
                 this.form = {};
+                this.$refs.ruleForm.resetFields();
+                this.$nextTick(_ => this.$refs.nameInput.focus());
             },
             add(){
                 this.$refs.ruleForm && this.$refs.ruleForm.validate((valid) => {
@@ -103,18 +105,18 @@
                     return false;
                 });
             },
-            view(perm) {
+            view(index, perm) {
                 this.showForm = true;
                 this.isAdd = false;
-                this.form = {};
-                Object.assign(this.form, perm);
+                perm.index = index;
+                this.form = Object.assign({}, perm);
                 this.currentPerm = perm;
             },
             update() {
                 let patch = this.getDirty(this.currentPerm, this.form);
                 axios.patch(`/modules/${this.record.id}/permissions/${this.currentPerm.id}`, patch)
                     .then(response => {
-                        this.perms.push(response.data);
+                        this.perms[this.currentPerm.index] = Object.assign({}, this.form);
                         this.showForm = false;
                         this.currentPerm = null;
                         this.$message.success('更新成功');

@@ -18,8 +18,7 @@ class CreateModuleRequest extends FormRequest
         // 系统模块下不能通过接口增加子模块
         $systemModuleId = Module::where('key', Module::SYSTEM_MODULE)->first()->id;
 
-        return user()->can('module.add')
-            && request('pid') != $systemModuleId;
+        return request('pid') != $systemModuleId;
     }
 
     /**

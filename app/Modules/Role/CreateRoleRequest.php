@@ -15,12 +15,7 @@ class CreateRoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('role.add');
-    }
-
-    public function failedAuthorization()
-    {
-        throw new AuthorizationException('对不起，您没有新增角色权限!');
+        return true;
     }
 
     /**

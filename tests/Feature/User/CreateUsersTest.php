@@ -110,7 +110,7 @@ class CreateUsersTest extends TestCase
     /** @test */
     public function an_unauthorized_user_can_not_delete_a_user()
     {
-        $this->signIn();
+        $this->signIn()->withExceptionHandling();
 
         $user = create(User::class);
 
@@ -121,7 +121,7 @@ class CreateUsersTest extends TestCase
     /** @test */
     public function nobody_can_not_delete_system_admin_role()
     {
-        $this->signIn($this->systemAdmin);
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
 
         $this->deleteJson("users/{$this->systemAdmin->id}")
             ->assertStatus(403);

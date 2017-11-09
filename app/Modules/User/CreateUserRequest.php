@@ -15,12 +15,7 @@ class CreateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('user.add');
-    }
-
-    public function failedAuthorization()
-    {
-        throw new AuthorizationException('对不起，您没有创建新用户的权限!');
+        return true;
     }
 
     /**

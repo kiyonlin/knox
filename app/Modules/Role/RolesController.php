@@ -44,10 +44,6 @@ class RolesController extends ApiController
      */
     public function update(Role $role)
     {
-        if (! user()->can('role.update')) {
-            return $this->respondForbidden();
-        }
-
         $role->update($this->validate(request(), [
             'display_name' => 'sometimes|string|max:255',
             'description'  => 'sometimes|string|max:511',
@@ -65,10 +61,6 @@ class RolesController extends ApiController
      */
     public function destroy(Role $role)
     {
-        if (! user()->can('role.delete') || Role::SYSTEM_ADMIN == $role->name) {
-            return $this->respondForbidden();
-        }
-
         $role->delete();
 
         return $this->respondNoContent();

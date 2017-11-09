@@ -111,7 +111,8 @@ class ManegeRolesTest extends TestCase
     /** @test */
     public function nobody_can_change_the_system_admins_permission()
     {
-        $this->signIn($this->systemAdmin);
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
+
         $role = Role::whereName(Role::SYSTEM_ADMIN)->first();
 
         $this->put("roles/{$role->id}/permissions")

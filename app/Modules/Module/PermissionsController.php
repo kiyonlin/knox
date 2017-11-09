@@ -50,10 +50,6 @@ class PermissionsController extends ApiController
      */
     public function destroy(Module $module, Permission $permission)
     {
-        if (Module::SYSTEM_MODULE == optional($module->parentModule)->key) {
-            return $this->respondForbidden();
-        }
-
         $permission->delete();
 
         return $this->respondNoContent();

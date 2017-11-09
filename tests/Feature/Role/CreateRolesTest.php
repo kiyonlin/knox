@@ -165,7 +165,7 @@ class CreateRolesTest extends TestCase
     /** @test */
     public function an_unauthorized_user_can_not_delete_a_role()
     {
-        $this->signIn();
+        $this->signIn()->withExceptionHandling();
 
         $role = create(Role::class);
 
@@ -176,7 +176,7 @@ class CreateRolesTest extends TestCase
     /** @test */
     public function nobody_can_not_delete_system_admin_role()
     {
-        $this->signIn($this->systemAdmin);
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
 
         $role = Role::whereName(Role::SYSTEM_ADMIN)->first();
 

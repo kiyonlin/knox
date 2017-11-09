@@ -60,5 +60,6 @@ class Kernel extends HttpKernel
         'role' => \Parsidev\Entrust\Middleware\EntrustRole::class,
         'permission' => \Parsidev\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Parsidev\Entrust\Middleware\EntrustAbility::class,
+        'systemAdminProtection' => \App\Http\Middleware\SystemAdminProtection::class,
     ];
 }
