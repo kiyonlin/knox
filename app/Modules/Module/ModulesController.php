@@ -15,10 +15,6 @@ class ModulesController extends ApiController
      */
     public function index()
     {
-        if (! user()->can('module.view')) {
-            return $this->respondForbidden('对不起，您没有浏览模块权限!');
-        }
-
         $page = request('page', 1);
         $pageSize = request('pageSize', 10);
 

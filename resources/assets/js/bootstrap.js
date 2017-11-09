@@ -28,7 +28,10 @@ axios.interceptors.response.use((res) =>{
   }, (error) => {
     if (error.response.status === 401) {
         console.log('unauthorized, logging out ...');
-        Vue.$router.replace('/login');
+        location.href = `http://${location.host}/#/`;
+    }
+    if (error.response.status === 403) {
+        ElementUi.Message.error('对不起，您没有该操作的权限！');
     }
     return Promise.reject(error.response);
   });
@@ -46,12 +49,8 @@ import authorizations from './authorizations';
 Vue.prototype.signedIn = window.Auth.signedIn;
 Vue.prototype.menus = window.Auth.modules;
 
-window.Vue.prototype.authorize = function (...params) {
+window.Vue.prototype.authorize = function (action, module, id) {
     if (!window.Auth.signedIn) return false;
 
-    if (typeof params[0] === 'string') {
-        return authorizations[params[0]](params[1]);
-    }
-
-    return params[0](window.Auth.user);
+    return authorizations['check'](action, module, id);
 };

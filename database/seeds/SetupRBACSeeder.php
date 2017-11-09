@@ -50,14 +50,14 @@ class SetupRBACSeeder extends Seeder
         ]);
 
         $systemManagerModule = create(Module::class, [
-            'key'  => 'system_manager',
+            'key'  => 'system',
             'name' => '系统管理',
             'icon' => 'el-icon-setting'
         ]);
 
         $userManagerModule = create(Module::class, [
             'pid'  => $systemManagerModule->id,
-            'key'  => 'user_manager',
+            'key'  => 'user',
             'name' => '用户管理',
             'path' => '/users',
             'icon' => 'el-icon-info'
@@ -90,7 +90,7 @@ class SetupRBACSeeder extends Seeder
 
         $roleManagerModule = create(Module::class, [
             'pid'  => $systemManagerModule->id,
-            'key'  => 'role_manager',
+            'key'  => 'role',
             'name' => '角色管理',
             'path' => '/roles',
             'icon' => 'el-icon-tickets'
@@ -120,7 +120,7 @@ class SetupRBACSeeder extends Seeder
 
         $moduleManagerModule = create(Module::class, [
             'pid'  => $systemManagerModule->id,
-            'key'  => 'module_manager',
+            'key'  => 'module',
             'name' => '模块管理',
             'path' => '/modules',
             'icon' => 'el-icon-menu'

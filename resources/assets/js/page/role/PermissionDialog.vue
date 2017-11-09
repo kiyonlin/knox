@@ -7,7 +7,7 @@
         </el-tree>
         <div slot="footer">
             <el-button @click="show = false">取 消</el-button>
-            <el-button type="primary" @click="submit">确 定</el-button>
+            <el-button type="primary" @click="submit" v-if="authorize('update', 'permission')">更 新</el-button>
         </div>
     </el-dialog>
 </template>

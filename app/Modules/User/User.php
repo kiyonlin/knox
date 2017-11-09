@@ -42,7 +42,7 @@ class User extends Authenticatable
     public function modules()
     {
         return Module::all()->filter(function ($module) {
-            return $this->can("module.view.{$module->id}");
+            return $this->can("module.view.{$module->key}");
         });
     }
 

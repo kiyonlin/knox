@@ -16,10 +16,6 @@ class UsersController extends ApiController
      */
     public function index()
     {
-        if (! user()->can('user.view')) {
-            return $this->respondForbidden('对不起，您没有浏览用户权限!');
-        }
-
         $page = request('page', 1);
         $pageSize = request('pageSize', 10);
 

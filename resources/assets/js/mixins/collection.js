@@ -1,8 +1,9 @@
 export default {
     data() {
         return {
-            // 使用 records 替换 items ，否则与包代码冲突
+            // 使用 records 替换 items ，防止与包代码冲突
             records: [],
+            loading: true,
             showAddDialog: false,
             currentRecord: null,
             path: '',
@@ -11,11 +12,16 @@ export default {
             pageSize: 0,
             total: 0,
             pageSizes: [10, 15, 20, 50, 100, 200],
-            loading: true,
+            defaultPage: 1,
+            defaultPageSize: 10,
         }
     },
     watch: {
-        $route: 'fetch'
+        $route() {
+            let page = parseInt(this.$router.currentRoute.query.page) || this.defaultPage;
+            let pageSize = parseInt(this.$router.currentRoute.query.pageSize) || this.defaultPageSize;
+            this.fetch(page, pageSize);
+        }
     },
     created() {            
         this.fetch();
@@ -32,21 +38,18 @@ export default {
         }
     },
     methods: {
-        fetch() {
+        fetch(page, pageSize) {
             this.loading = true;
-            axios.get(this.url())
+            axios.get(this.url(page, pageSize))
                 .then(this.refresh)
-                .catch(response => {
-                    this.$message.error(response.data.error.message);
-                    this.loading = false;
-                });
+                .catch(response => this.loading = false);
         },
-        url() {
-            this.page = parseInt(this.$router.currentRoute.query.page) || 1;
+        url(page, pageSize) {
+            this.page = parseInt(page) || this.defaultPage;
             
-            this.pageSize = parseInt(this.$router.currentRoute.query.pageSize) || 10;
+            this.pageSize = parseInt(pageSize) || this.defaultPageSize;
             // 忽略不合法的每页数量
-            this.pageSize = this.pageSizes.includes(this.pageSize) ? this.pageSize : 10;
+            this.pageSize = this.pageSizes.includes(this.pageSize) ? this.pageSize : this.defaultPageSize;
 
             return `${this.path}?page=${this.page}&pageSize=${this.pageSize}`;
         },
@@ -59,11 +62,11 @@ export default {
         },
         sizeChange(pageSize) {
             this.pageSize = pageSize;
-            this.fetch();
+            this.fetch(this.page, pageSize);
         },
         pageChange(page) {
             this.page = page;
-            this.fetch();
+            this.fetch(page, this.pageSize);
         },
         add(record) {
             this.records.push(record);
@@ -78,11 +81,6 @@ export default {
                     this.$message.success('删除成功')
                     this.records.splice(index, 1);
                     this.total--;
-                })
-                .catch(response => {
-                    if(response.status === 403) {
-                        this.$message.error('对不起，您没有该操作的权限！');
-                    }
                 })
             );
         },

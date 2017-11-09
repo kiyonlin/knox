@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-button-group>
-            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showAddDialog = true"></el-button>
+            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showAddDialog = true" v-if="canAdd"></el-button>
             <el-button type="primary" icon="el-icon-refresh" @click="fetch" :loading="loading"></el-button>
         </el-button-group>
         <el-table 
@@ -39,10 +39,12 @@
             <el-table-column label="操作" width="128">
                 <div slot-scope="scope">
                     <el-button type="danger" size="mini" icon="el-icon-delete" 
-                        @click.native.prevent="checkRemove(scope.$index, scope.row)"></el-button>
+                        @click.native.prevent="checkRemove(scope.$index, scope.row)"
+                        v-if="canDelete"></el-button>
 
                     <el-button size="mini" icon="el-icon-edit" 
-                        @click.native.prevent="view(scope.$index, scope.row)"></el-button>
+                        @click.native.prevent="view(scope.$index, scope.row)"
+                        v-if="canView"></el-button>
                 </div>
             </el-table-column>
         </el-table>
@@ -52,7 +54,7 @@
             layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
         <form-dialog 
-            :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" 
+            :visiable.sync="showAddDialog" :record.sync="currentRecord" :path="path" :module="module"
             @created="add" @updated="update"></form-dialog>
     </div>
 </template>
@@ -68,6 +70,7 @@
         mixins: [collection],
         data() {
             return {
+                module: 'module',
                 path: '/modules'
             }
         },

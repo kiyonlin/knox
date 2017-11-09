@@ -27,7 +27,8 @@
                         v-if="canView"></el-button>
 
                     <el-button size="mini" 
-                        @click.native.prevent="showPermissions(scope.$index, scope.row)">权限</el-button>
+                        @click.native.prevent="showPermissions(scope.$index, scope.row)"
+                        v-if="authorize('view', 'permission')">权限</el-button>
                 </div>
             </el-table-column>
         </el-table>

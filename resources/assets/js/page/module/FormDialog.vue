@@ -37,7 +37,7 @@
         <div slot="footer">
             <el-button @click="show = false">取 消</el-button>
             <el-button type="primary" @click="add" v-if="isAdd">添 加</el-button>
-            <el-button type="primary" @click="update" v-else>更 新</el-button>
+            <el-button type="primary" @click="update" v-if="!isAdd && canUpdate">更 新</el-button>
         </div>
     </el-dialog>
 </template>

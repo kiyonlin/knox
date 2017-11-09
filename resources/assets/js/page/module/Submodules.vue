@@ -23,17 +23,20 @@
             <el-table-column label="操作" width="256">
                 <div slot-scope="scope">
                     <el-button type="danger" size="mini" icon="el-icon-delete" 
-                        @click.native.prevent="remove(scope.$index, scope.row)"></el-button>
+                        @click.native.prevent="remove(scope.$index, scope.row)"
+                        v-if="canDelete"></el-button>
 
                     <el-button size="mini" icon="el-icon-edit" 
-                        @click.native.prevent="view(scope.$index, scope.row)"></el-button>
+                        @click.native.prevent="view(scope.$index, scope.row)"
+                        v-if="canView"></el-button>
 
                     <el-button size="mini" 
-                        @click.native.prevent="showPermissions(scope.$index, scope.row)">管理权限</el-button>
+                        @click.native.prevent="showPermissions(scope.$index, scope.row)"
+                        v-if="authorize('view', 'permission')">管理权限</el-button>
                 </div>
             </el-table-column>
         </el-table>
-        <form-dialog :visiable.sync="showViewDialog" :record.sync="currentRecord" :path="path" 
+        <form-dialog :visiable.sync="showViewDialog" :record.sync="currentRecord" :path="path" :module="module"
             @updated="update"></form-dialog>
         <permission-dialog 
             :visiable.sync="showPermissionDialog" :record.sync="currentRecord" :path="path"></permission-dialog>
@@ -53,7 +56,16 @@
                 showViewDialog: false,
                 showPermissionDialog: false,
                 currentRecord: null,
+                module: "module",
                 path: "/modules"
+            }
+        },
+        computed: {
+            canView() {
+                return this.authorize('view', this.module);
+            },
+            canDelete() {
+                return this.authorize('delete', this.module);
             }
         },
         methods: {
@@ -80,7 +92,6 @@
                         this.records.splice(index, 1);
                         this.total--;
                     })
-                    .catch(error => this.$message.error(error.data.message))
                 );
             },
             showPermissions(index, record) {

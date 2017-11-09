@@ -56,11 +56,6 @@ export default {
                         this.show = false;
                         this.$message.success('添加成功');
                     })
-                    .catch(response => {
-                        if(response.status === 403) {
-                            this.$message.error('对不起，您没有该操作的权限！');
-                        }
-                    })
                 }
                 
                 return false;
@@ -77,11 +72,6 @@ export default {
                     this.$emit('updated', this.form);
                     this.show = false;
                     this.$message.success('更新成功');
-                })
-                .catch(response => {
-                    if(response.status === 403) {
-                        this.$message.error('对不起，您没有该操作的权限！');
-                    }
                 })
         },
         fetch() {

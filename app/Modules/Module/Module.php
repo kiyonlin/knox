@@ -110,7 +110,7 @@ class Module extends Model
     private static function createPermission($module)
     {
         $permission = $module->addPerm([
-            'name'         => "module.view.{$module->id}",
+            'name'         => "module.view.{$module->key}",
             'display_name' => $display_name = "查看{$module->name}模块",
             'description'  => $display_name
         ]);

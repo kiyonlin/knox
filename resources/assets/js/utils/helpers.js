@@ -30,5 +30,5 @@ Vue.prototype.deleteConfirm = function (callback) {
         type: 'warning'
     })
     .then(callback)
-    .catch(() => this.$message('已取消删除'));
+    .catch(response => response.status !== 403 ? this.$message('已取消删除') : '');
 }

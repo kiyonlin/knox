@@ -3,10 +3,10 @@
         <el-alert title="点击权限标签可以查看详情😊" type="info" center show-icon class="mb10"></el-alert>
         <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
             <el-form-item label="已有权限">
-                <el-tag v-for="(perm, index) in perms" :key="perm.id" @close="remove(index, perm)" closable>
+                <el-tag v-for="(perm, index) in perms" :key="perm.id" @close="remove(index, perm)" :closable="authorize('delete', 'permission')">
                     <span @click="view(perm)" v-text="perm.display_name" style="cursor:pointer"></span>
                 </el-tag>
-                <el-button class="button-new-tag" size="small" @click="showAdd">添加权限</el-button>
+                <el-button class="button-new-tag" size="small" @click="showAdd" v-if="authorize('add', 'permission')">添加权限</el-button>
             </el-form-item>
             <template v-if="showForm">
                 <el-form-item label="权限名" prop="name">
@@ -20,12 +20,12 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="add" v-if="isAdd">添 加</el-button>
-                    <el-button type="primary" @click="update" v-else>更 新</el-button>
+                    <el-button type="primary" @click="update" v-if="!isAdd && authorize('update', 'permission')">更 新</el-button>
                 </el-form-item>
             </template>
         </el-form>
         <div slot="footer">
-            <el-button type="primary" @click="show = false">O K</el-button>
+            <el-button type="primary" @click="show = false">确 定</el-button>
         </div>
     </el-dialog>
 </template>
@@ -67,7 +67,7 @@
                 if(this.visiable) {
                     this.show = this.visiable;
                     this.perms = this.record.perms;
-                    this.title = `查看【${this.record.name}】权限`;
+                    this.title = `【${this.record.name}】权限`;
                     this.showForm = false;
                 }
             },
@@ -98,11 +98,6 @@
                             this.showForm = false;
                             this.$message.success('添加成功');
                         })
-                        .catch(response => {
-                            if(response.status === 403) {
-                                this.$message.error('对不起，您没有该操作的权限！');
-                            }
-                        })
                     }
                     
                     return false;
@@ -124,11 +119,6 @@
                         this.currentPerm = null;
                         this.$message.success('更新成功');
                     })
-                    .catch(response => {
-                        if(response.status === 403) {
-                            this.$message.error('对不起，您没有该操作的权限！');
-                        }
-                    })
             },
             remove(index, perm) {
                 this.deleteConfirm(_ => 
@@ -140,11 +130,6 @@
                         }
                         this.perms.splice(index, 1);
                         this.$message.success('删除成功');
-                    })
-                    .catch(response => {
-                        if(response.status === 403) {
-                            this.$message.error('对不起，您没有该操作的权限！');
-                        }
                     })
                 );
             },

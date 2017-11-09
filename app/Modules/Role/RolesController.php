@@ -15,10 +15,6 @@ class RolesController extends ApiController
      */
     public function index()
     {
-        if (! user()->can('role.view')) {
-            return $this->respondForbidden('对不起，您没有浏览角色权限!');
-        }
-
         $page = request('page', 1);
         $pageSize = request('pageSize', 10);
 

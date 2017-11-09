@@ -6,13 +6,14 @@
                 effect="dark" placement="bottom">
                 <el-tag 
                     :key="role.name" 
-                    @close="remove(index, role)" closable>
+                    @close="remove(index, role)" :closable="authorize('update', 'user')">
                         {{role.display_name}}
                 </el-tag>
             </el-tooltip>
         </template>
         <el-autocomplete 
             class="input-new-tag" popper-class="autocomplete" placeholder="添加角色" size="small" 
+            v-if="authorize('update', 'user')" 
             v-model="item"
             valueKey="display_name" :fetch-suggestions="fetchRoles" @select="update">
             <i class="el-icon-edit el-input__icon" slot="suffix"></i>
@@ -21,6 +22,7 @@
                 <span class="description">{{ props.item.description }}</span>
             </template>
         </el-autocomplete>
+        <el-tag type="warning" closable v-if="feedback" @close="feedback = ''">{{ feedback }}</el-tag>
     </div>
 </template>
 
@@ -31,12 +33,21 @@
             return {
                 items: this.data.roles,
                 item: '',
+                feedback: ''
             };
         },
         methods: {
             fetchRoles(query, callback) {
                 axios.get(`users/${this.data.id}/roles?query=${query}`)
-                    .then(response => callback(response.data));
+                    .then(response => {
+                        if(! response.data.length) {
+                            this.feedback = '没有可选的角色';
+                            setTimeout(_ => this.feedback = '', 3333);
+                        } else {
+                            this.feedback = '';
+                        }
+                        callback(response.data);
+                    });
             },
             update(role) {
                 axios.put(`users/${this.data.id}/roles/${role.id}`)
@@ -53,9 +64,8 @@
                         this.items.splice(index, 1);
                         this.$message.success("删除成功");
                     })
-                    .catch(response => this.$message.error(response.data.error.message))
                 );
-            },
+            }
         }
     }
 </script>
