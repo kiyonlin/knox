@@ -45,6 +45,9 @@ class UserRolesController extends ApiController
      */
     public function destroy(User $user, Role $role)
     {
+        if (User::SYSTEM_ADMIN == $user->username || Role::SYSTEM_ADMIN == $role->name) {
+            return $this->respondForbidden();
+        }
 
         $user->detachRole($role);
 

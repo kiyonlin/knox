@@ -19,7 +19,7 @@ class CreatePermissionsTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
     }
 
 
@@ -47,6 +47,17 @@ class CreatePermissionsTest extends TestCase
         $this->signIn()->withExceptionHandling();
 
         $module = create(Module::class);
+
+        $this->post("/modules/{$module->id}/permissions", [])
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function nobody_can_add_permissions_for_the_modules_belong_to_the_system_module()
+    {
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
+
+        $module = Module::where('key', Module::SYSTEM_MODULE)->first()->subModules()->first();
 
         $this->post("/modules/{$module->id}/permissions", [])
             ->assertStatus(403);
@@ -189,6 +200,17 @@ class CreatePermissionsTest extends TestCase
         $permission = create(Permission::class, ['module_id' => $module->id]);
 
         $this->delete("modules/{$module->id}/permissions/{$permission->id}")
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function nobody_can_delete_permissions_of_the_modules_belong_to_the_system_module()
+    {
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
+
+        $module = Module::where('key', Module::SYSTEM_MODULE)->first()->subModules()->first();
+
+        $this->delete("modules/{$module->id}/permissions/{$module->perms()->first()->id}")
             ->assertStatus(403);
     }
 }

@@ -18,7 +18,7 @@ class CreateUsersTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
     }
 
     /** @test */
@@ -119,6 +119,14 @@ class CreateUsersTest extends TestCase
             ->assertStatus(403);
     }
 
+    /** @test */
+    public function nobody_can_not_delete_system_admin_role()
+    {
+        $this->signIn($this->systemAdmin);
+
+        $this->deleteJson("users/{$this->systemAdmin->id}")
+            ->assertStatus(403);
+    }
 
     /** @test */
     public function an_authorized_user_can_update_users()

@@ -19,7 +19,7 @@
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="路径" prop="path">
-                <el-input v-model="form.path"></el-input>
+                <el-input v-model="form.path" :disabled="!isAdd"></el-input>
             </el-form-item>
             <el-form-item label="icon" prop="icon">
                 <el-input v-model="form.icon"></el-input>

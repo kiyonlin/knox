@@ -18,7 +18,7 @@ class ManegeRolesTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
     }
 
     /** @test */
@@ -104,6 +104,16 @@ class ManegeRolesTest extends TestCase
         $this->signIn()
             ->withExceptionHandling()
             ->put('roles/1/permissions')
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function nobody_can_change_the_system_admins_permission()
+    {
+        $this->signIn($this->systemAdmin);
+        $role = Role::whereName(Role::SYSTEM_ADMIN)->first();
+
+        $this->put("roles/{$role->id}/permissions")
             ->assertStatus(403);
     }
 }

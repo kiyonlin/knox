@@ -18,15 +18,15 @@ class SetupRBACSeeder extends Seeder
     {
         $systemAdminUser = create(User::class, [
             'phone_number' => '13675822217',
-            'username'     => 'kiyon',
-            'display_name' => '林脉沐',
+            'username'     => User::SYSTEM_ADMIN,
+            'display_name' => '超级管理员',
             'email'        => 'kiyonlin@163.com'
         ]);
 
         $systemAdminRole = create(Role::class, [
-            'name'         => 'systemAdmin',
-            'display_name' => '系统管理员',
-            'description'  => '系统初始用户，拥有最大权限'
+            'name'         => Role::SYSTEM_ADMIN,
+            'display_name' => '超级管理员',
+            'description'  => '系统初始角色，拥有最大权限'
         ]);
 
         $systemAdminUser->attachRole($systemAdminRole);
@@ -42,17 +42,11 @@ class SetupRBACSeeder extends Seeder
      */
     private function setUpInitialModule()
     {
-        $dashboardModule = create(Module::class, [
-            'key'  => 'dashboard',
-            'name' => '系统概览',
-            'path' => '/',
-            'icon' => 'el-icon-location'
-        ]);
-
         $systemManagerModule = create(Module::class, [
-            'key'  => 'system',
+            'key'  => Module::SYSTEM_MODULE,
             'name' => '系统管理',
-            'icon' => 'el-icon-setting'
+            'icon' => 'el-icon-setting',
+            'sort' => 999
         ]);
 
         $userManagerModule = create(Module::class, [
@@ -167,6 +161,15 @@ class SetupRBACSeeder extends Seeder
                 'description'  => '查看一个已存在的权限'
             ],
         ]);
+
+        create(Module::class, [
+            'key'  => 'dashboard',
+            'name' => '系统概览',
+            'path' => '/',
+            'icon' => 'el-icon-location',
+            'sort' => 1
+        ]);
+
     }
 
     /**

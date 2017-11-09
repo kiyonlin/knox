@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
 {
+    const SYSTEM_MODULE = 'system';
 
     public static function boot()
     {
@@ -40,6 +41,16 @@ class Module extends Model
     public function subModules()
     {
         return $this->hasMany(Module::class, 'pid')->orderBy('sort, created');
+    }
+
+    /**
+     * 父模块
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parentModule()
+    {
+        return $this->belongsTo(Module::class, 'pid');
     }
 
     /**
@@ -115,6 +126,6 @@ class Module extends Model
             'description'  => $display_name
         ]);
 
-        Role::whereName('systemAdmin')->first()->attachPermission($permission);
+        Role::whereName(Role::SYSTEM_ADMIN)->first()->attachPermission($permission);
     }
 }

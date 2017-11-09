@@ -19,7 +19,7 @@ class CreateModulesTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
     }
 
     /** @test */
@@ -32,6 +32,17 @@ class CreateModulesTest extends TestCase
         $this->postJson('modules', $newModule);
 
         $this->assertDatabaseHas(self::TABLE_NAME, array_except($newModule, ['index']));
+    }
+
+    /** @test */
+    public function nobody_can_add_a_new_module_below_system_module()
+    {
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
+
+        $newModule = raw(Module::class, ['pid' => Module::where('key', Module::SYSTEM_MODULE)->first()->id]);
+
+        $this->postJson('modules', $newModule)
+            ->assertStatus(403);
     }
 
     /** @test */
@@ -224,6 +235,28 @@ class CreateModulesTest extends TestCase
         $this->signIn();
 
         $module = create(Module::class);
+
+        $this->deleteJson("modules/{$module->id}")
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function nobody_can_delete_the_system_module()
+    {
+        $this->signIn($this->systemAdmin);
+
+        $module = Module::where('key', Module::SYSTEM_MODULE)->first();
+
+        $this->deleteJson("modules/{$module->id}")
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function nobody_can_delete_the_modules_that_belongs_to_system_module()
+    {
+        $this->signIn($this->systemAdmin);
+
+        $module = Module::where('key', Module::SYSTEM_MODULE)->first()->subModules()->first();
 
         $this->deleteJson("modules/{$module->id}")
             ->assertStatus(403);

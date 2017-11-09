@@ -21,6 +21,10 @@ class RolePermissionsController extends ApiController
 
     public function update(Role $role)
     {
+        if (Role::SYSTEM_ADMIN == $role->name) {
+            return $this->respondForbidden();
+        }
+
         $checkedPermissions = request('checkedKeys');
 
         $role->savePermissions($checkedPermissions);

@@ -15,12 +15,11 @@ class CreateModuleRequest extends FormRequest
      */
     public function authorize()
     {
-        return user()->can('module.add');
-    }
+        // 系统模块下不能通过接口增加子模块
+        $systemModuleId = Module::where('key', Module::SYSTEM_MODULE)->first()->id;
 
-    public function failedAuthorization()
-    {
-        throw new AuthorizationException('对不起，您没有新增模块权限!');
+        return user()->can('module.add')
+            && request('pid') != $systemModuleId;
     }
 
     /**

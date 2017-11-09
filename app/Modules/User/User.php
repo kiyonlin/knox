@@ -14,6 +14,8 @@ class User extends Authenticatable
 
     use Notifiable, EntrustUserTrait;
 
+    const SYSTEM_ADMIN = 'system_admin';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -43,7 +45,7 @@ class User extends Authenticatable
     {
         return Module::all()->filter(function ($module) {
             return $this->can("module.view.{$module->key}");
-        });
+        })->sortBy('sort');
     }
 
     /**

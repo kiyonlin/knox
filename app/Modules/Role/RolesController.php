@@ -45,7 +45,7 @@ class RolesController extends ApiController
     public function update(Role $role)
     {
         if (! user()->can('role.update')) {
-            return $this->respondForbidden('对不起，您没有更新角色的权限!');
+            return $this->respondForbidden();
         }
 
         $role->update($this->validate(request(), [
@@ -65,8 +65,8 @@ class RolesController extends ApiController
      */
     public function destroy(Role $role)
     {
-        if (! user()->can('role.delete')) {
-            return $this->respondForbidden('对不起，您没有删除角色权限!');
+        if (! user()->can('role.delete') || Role::SYSTEM_ADMIN == $role->name) {
+            return $this->respondForbidden();
         }
 
         $role->delete();

@@ -79,6 +79,9 @@
         methods: {
             tableRowClassName({row, rowIndex}) {
                 // TODO: 高亮锁定的模块
+                if(row.key === 'system') {
+                    return 'warning-row';
+                }
                 return '';
             },
             checkRemove(index, record) {

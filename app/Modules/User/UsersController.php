@@ -45,7 +45,7 @@ class UsersController extends ApiController
     public function update(User $user)
     {
         if (! user()->can('user.update')) {
-            return $this->respondForbidden('对不起，您没有更新用户权限!');
+            return $this->respondForbidden();
         }
 
         $validate = $this->validate(request(), [
@@ -68,8 +68,8 @@ class UsersController extends ApiController
      */
     public function destroy(User $user)
     {
-        if (! user()->can('user.delete')) {
-            return $this->respondForbidden('对不起，您没有删除用户权限!');
+        if (! user()->can('user.delete')  || User::SYSTEM_ADMIN == $user->username) {
+            return $this->respondForbidden();
         }
 
         $user->delete();

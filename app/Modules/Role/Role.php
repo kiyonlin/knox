@@ -9,6 +9,8 @@ use Parsidev\Entrust\EntrustRole;
 class Role extends EntrustRole
 {
 
+    const SYSTEM_ADMIN = 'system_admin';
+
     protected $fillable = ['name', 'display_name', 'description'];
 
     /**

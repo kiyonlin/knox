@@ -33,6 +33,7 @@ class ModulesController extends ApiController
     {
         return $this->respond(
             Module::wherePid(0)
+                ->where('key', '<>', Module::SYSTEM_MODULE)
                 ->orderBy('sort, created')
                 ->get(['id', 'name'])
         );
@@ -61,13 +62,12 @@ class ModulesController extends ApiController
     public function update(Module $module)
     {
         if (! user()->can('module.update')) {
-            return $this->respondForbidden('对不起，您没有更新模块的权限!');
+            return $this->respondForbidden();
         }
 
         $module->update($this->validate(request(), [
             'pid'  => 'sometimes|nullable|numeric',
             'name' => 'sometimes|required|string|max:255',
-            'path' => 'sometimes|nullable|string|max:255|unique:modules',
             'icon' => 'sometimes|nullable|string|max:255',
             'sort' => 'sometimes|nullable|numeric',
         ]));
@@ -84,8 +84,10 @@ class ModulesController extends ApiController
      */
     public function destroy(Module $module)
     {
-        if (! user()->can('module.delete')) {
-            return $this->respondForbidden('对不起，您没有删除模块权限!');
+        if (! user()->can('module.delete')
+            || Module::SYSTEM_MODULE == $module->key
+            || Module::SYSTEM_MODULE == optional($module->parentModule)->key) {
+            return $this->respondForbidden();
         }
 
         $module->delete();

@@ -61,8 +61,7 @@
 
         methods: {
             tableRowClassName({row, rowIndex}) {
-                // TODO: 高亮管理员
-                if(row.name === 'systemAdmin') {
+                if(row.name === 'system_admin') {
                     return 'warning-row';
                 }
                 return '';

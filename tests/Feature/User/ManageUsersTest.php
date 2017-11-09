@@ -18,7 +18,7 @@ class ManegeUsersTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
     }
 
     /** @test */
@@ -122,6 +122,16 @@ class ManegeUsersTest extends TestCase
             ->assertStatus(204);
 
         $this->assertFalse($user->fresh()->roles->contains($role));
+    }
+
+    /** @test */
+    public function nobody_can_detach_the_system_admin_role_from_the_system_admin_user()
+    {
+        $this->signIn($this->systemAdmin)->withExceptionHandling();
+        $role = Role::whereName(Role::SYSTEM_ADMIN)->first();
+
+        $this->deleteJson("/users/{$this->systemAdmin->id}/roles/{$role->id}")
+            ->assertStatus(403);
     }
 
     /** @test */

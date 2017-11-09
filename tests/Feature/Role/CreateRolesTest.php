@@ -16,7 +16,7 @@ class CreateRolesTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
     }
 
     /** @test */
@@ -169,6 +169,17 @@ class CreateRolesTest extends TestCase
         $role = create(Role::class);
 
         $this->deleteJson("roles/{$role->id}")
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function nobody_can_not_delete_system_admin_role()
+    {
+        $this->signIn($this->systemAdmin);
+
+        $role = Role::whereName(Role::SYSTEM_ADMIN)->first();
+
+        $this->delete("roles/{$role->id}")
             ->assertStatus(403);
     }
 }
