@@ -7,7 +7,7 @@
 
         <el-table 
             :data.sync="records" :row-class-name="tableRowClassName" :row-key="setRowKey"
-            v-loading="loading" border tooltip-effect="dark" emptyText="暂无数据"
+            v-loading="loading" border tooltip-effect="dark"
             max-height="500" class="mt20">
             <el-table-column type="index"></el-table-column>
             <el-table-column prop="name" label="角色名" sortable>

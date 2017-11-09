@@ -7,7 +7,7 @@
 
         <el-table 
             :data.sync="records" :row-class-name="tableRowClassName" :row-key="setRowKey" :expand-row-keys="expandRows"
-            v-loading="loading" border tooltip-effect="dark" emptyText="暂无数据"
+            v-loading="loading" border tooltip-effect="dark"
             max-height="500" class="mt20">
             <el-table-column type="index"></el-table-column>
             <el-table-column type="expand">
@@ -82,7 +82,7 @@
         methods: {
             tableRowClassName({row, rowIndex}) {
                 // TODO: 高亮管理员
-                if(rowIndex === 0) {
+                if(row.username === 'system_admin') {
                     return 'warning-row';
                 }
                 return '';

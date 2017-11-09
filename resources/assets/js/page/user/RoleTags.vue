@@ -6,14 +6,14 @@
                 effect="dark" placement="bottom">
                 <el-tag 
                     :key="role.name" 
-                    @close="remove(index, role)" :closable="authorize('update', 'user')">
+                    @close="remove(index, role)" :closable="canDelete">
                         {{role.display_name}}
                 </el-tag>
             </el-tooltip>
         </template>
         <el-autocomplete 
             class="input-new-tag" popper-class="autocomplete" placeholder="添加角色" size="small" 
-            v-if="authorize('update', 'user')" 
+            v-if="canAdd" 
             v-model="item"
             valueKey="display_name" :fetch-suggestions="fetchRoles" @select="update">
             <i class="el-icon-edit el-input__icon" slot="suffix"></i>
@@ -35,6 +35,14 @@
                 item: '',
                 feedback: ''
             };
+        },
+        computed: {
+            canAdd() {
+                return this.authorize('update', 'user') && this.data.username != 'system_admin';
+            },
+            canDelete() {
+                return this.canAdd;
+            }
         },
         methods: {
             fetchRoles(query, callback) {
