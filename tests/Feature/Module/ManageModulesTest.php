@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Modules\Module\Module;
-use App\Modules\Role\Role;
+use App\Modules\User\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -18,7 +18,7 @@ class ManegeModulesTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = User::systemAdmin();
     }
 
     /** @test */
@@ -64,7 +64,7 @@ class ManegeModulesTest extends TestCase
             ->assertStatus(200)
             ->json();
 
-        $this->assertCount(7, $response);
+        $this->assertCount(6, $response);
     }
 
     /** @test */

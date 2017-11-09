@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Modules\Role\Role;
+use App\Modules\User\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,7 +17,7 @@ class AuthenticationTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = User::systemAdmin();
     }
 
     /** @test */

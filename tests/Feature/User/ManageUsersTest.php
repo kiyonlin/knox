@@ -18,7 +18,7 @@ class ManegeUsersTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
+        $this->systemAdmin = User::systemAdmin();
     }
 
     /** @test */

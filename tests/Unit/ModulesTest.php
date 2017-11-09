@@ -86,10 +86,10 @@ class ModulesTest extends TestCase
     public function it_will_auto_create_a_specific_view_permission_and_attache_to_the_system_admin_when_it_has_been_created()
     {
         $module = create(Module::class);
-        $permissionName = "module.view.{$module->id}";
+        $permissionName = "module.view.{$module->key}";
 
         $this->assertDatabaseHas('permissions', ['name' => $permissionName]);
-        $this->assertTrue(Role::whereName('systemAdmin')->first()->perms()->whereName($permissionName)->exists());
+        $this->assertTrue(Role::whereName(Role::SYSTEM_ADMIN)->first()->perms()->whereName($permissionName)->exists());
     }
 
     /** @test */

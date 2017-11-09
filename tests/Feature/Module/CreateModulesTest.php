@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Modules\Module\Module;
-use App\Modules\Role\Role;
+use App\Modules\User\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -19,7 +19,7 @@ class CreateModulesTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
+        $this->systemAdmin = User::systemAdmin();
     }
 
     /** @test */
@@ -139,7 +139,6 @@ class CreateModulesTest extends TestCase
     {
         $this->updateModule(['pid' => Module::where('pid', '<>', 0)->first()->pid]);
         $this->updateModule(['name' => 'new_name']);
-        $this->updateModule(['path' => '/new_path']);
         $this->updateModule(['icon' => 'new_icon']);
         $this->updateModule(['sort' => 2]);
     }

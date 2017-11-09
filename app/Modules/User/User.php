@@ -76,4 +76,9 @@ class User extends Authenticatable
             })
             ->values();
     }
+
+    public static function systemAdmin()
+    {
+        return self::where('username', self::SYSTEM_ADMIN)->first();
+    }
 }

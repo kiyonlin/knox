@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Modules\Permission\Permission;
 use App\Modules\Role\Role;
+use App\Modules\User\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -18,7 +19,7 @@ class ManegeRolesTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
+        $this->systemAdmin = User::systemAdmin();
     }
 
     /** @test */

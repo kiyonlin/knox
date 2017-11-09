@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Modules\Role\Role;
+use App\Modules\User\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,7 +17,7 @@ class CreateRolesTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName(Role::SYSTEM_ADMIN)->first()->users()->first();
+        $this->systemAdmin = User::systemAdmin();
     }
 
     /** @test */
@@ -52,7 +53,7 @@ class CreateRolesTest extends TestCase
         $this->addRole(['name' => str_random(256)])
             ->assertSessionHasErrors('name');
 
-        $this->addRole(['name' => 'systemAdmin'])
+        $this->addRole(['name' => Role::SYSTEM_ADMIN])
             ->assertSessionHasErrors('name');
     }
 

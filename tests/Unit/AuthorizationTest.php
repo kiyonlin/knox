@@ -20,7 +20,7 @@ class AuthorizationTest extends TestCase
     {
         parent::setUp();
 
-        $this->systemAdmin = Role::whereName('systemAdmin')->first()->users()->first();
+        $this->systemAdmin = User::systemAdmin();
     }
 
     /** @test */
@@ -32,7 +32,7 @@ class AuthorizationTest extends TestCase
 
         // and the role have permission to some modules
         $modules = create(Module::class, 2)->load('perms')->each(function ($module) use ($role) {
-            $role->attachPermission(Permission::whereName("module.view.{$module->id}")->first());
+            $role->attachPermission(Permission::whereName("module.view.{$module->key}")->first());
         });
 
         // user can fetch these modules associated with the role
