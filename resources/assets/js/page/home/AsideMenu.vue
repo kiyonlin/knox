@@ -1,28 +1,41 @@
 <template>
-    <el-menu 
-        router 
-        ref="asideMenu"
-        :default-active="defaultActive">
-        <template v-for="_module in modules">
-                <el-menu-item :index="_module.path" :key="_module.id" v-if="_module.is_leaf">
-                    <i :class="[_module.icon]"></i>
-                    <span v-text="_module.name"></span>
-                </el-menu-item>
-
-                <el-submenu :index="_module.index" :key="_module.id" v-else>
-                    <template slot="title">
+    <div>
+        <el-row type="flex" justify="end">
+            <div 
+                class="hamburger hamburger--elastic" 
+                :class="{'is-active': isActive}"
+                @click="isActive = !isActive">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </div>
+        </el-row>
+        <el-menu 
+            router 
+            ref="asideMenu"
+            :collapse="isActive"
+            :default-active="defaultActive">
+            <template v-for="_module in modules">
+                    <el-menu-item :index="_module.path" :key="_module.id" v-if="_module.is_leaf">
                         <i :class="[_module.icon]"></i>
-                        <span v-text="_module.name"></span>
-                    </template>
-                    <template v-for="submodule in _module.submodules">
-                        <el-menu-item :index="submodule.path" :key="submodule.id">
-                            <i :class="[submodule.icon]"></i>
-                            <span v-text="submodule.name"></span>
-                        </el-menu-item>
-                    </template>
-                </el-submenu>
-        </template>
-    </el-menu>
+                        <span slot="title" v-text="_module.name"></span>
+                    </el-menu-item>
+
+                    <el-submenu :index="_module.index" :key="_module.id" v-else>
+                        <template slot="title">
+                            <i :class="[_module.icon]"></i>
+                            <span v-text="_module.name"></span>
+                        </template>
+                        <template v-for="submodule in _module.submodules">
+                            <el-menu-item :index="submodule.path" :key="submodule.id">
+                                <i :class="[submodule.icon]"></i>
+                                <span v-text="submodule.name"></span>
+                            </el-menu-item>
+                        </template>
+                    </el-submenu>
+            </template>
+        </el-menu>
+    </div>
 </template>
 
 <script>
@@ -33,6 +46,7 @@
         data() {
             return {
                 modules: [],
+                isActive: false,
                 defaultActive: ''
             };
         },
