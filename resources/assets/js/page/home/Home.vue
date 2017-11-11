@@ -4,8 +4,8 @@
             <nav-bar></nav-bar>
         </el-header>
         <el-container class="mh20">
-            <el-aside class="hidden-xs-only">
-                <aside-menu></aside-menu>
+            <el-aside :style="{'width': isMenuActive ? '170px' : '200px'}">
+                <aside-menu class="el-menu-vertical-demo"></aside-menu>
             </el-aside>
             <el-container>
                 <el-main>
@@ -45,7 +45,8 @@
         computed: {
             paths() {
                 return this.$store.state.breadcrumb.paths;
-            }
+            },
+            ...mapState(['isMenuActive'])
         },
         mounted () {
             // console.log('Component mounted.')
@@ -56,5 +57,9 @@
 <style>
     .aside {
         width: 255px;
+        overflow: visible;
+    }
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        z-index: 999;
     }
 </style>
