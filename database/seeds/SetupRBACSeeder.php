@@ -167,7 +167,7 @@ class SetupRBACSeeder extends Seeder
 
         create(Module::class, [
             'key'  => 'dashboard',
-            'name' => '系统概览',
+            'name' => '首页',
             'path' => '/',
             'icon' => 'el-icon-location',
             'sort' => 1

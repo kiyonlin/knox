@@ -26,6 +26,9 @@
 </template>
 
 <script>
+    import {mapMutations} from 'vuex';
+    import * as M from '../../store/mutation-consts';
+
     export default {
         data() {
             return {
@@ -48,23 +51,26 @@
                     if(module.submodules.length) {
                         for(let submodule of module.submodules) {
                             if(submodule.path == this.$router.currentRoute.path) {
-                                this.$nextTick(_ => {
+                                return this.$nextTick(_ => {
                                     this.$refs.asideMenu.open(module.index);
                                     this.defaultActive = submodule.path;
+                                    this[M.CHANGE_PATH]({name: submodule.name, data:submodule.path});
                                 });
-                                return;
                             }
                         }
                     } else {
                         if(module.path == this.$router.currentRoute.path) {
-                            this.$nextTick(_ => {
+                            return this.$nextTick(_ => {
                                 this.defaultActive = module.path;
+                                this.$store.commit(M.CHANGE_PATH, {name: module.name, data:module.path})
                             });
-                            return;
                         }
                     }
                 }
-            }
+            },
+            ...mapMutations([
+                M.CHANGE_PATH
+            ])
         }
     }
 </script>

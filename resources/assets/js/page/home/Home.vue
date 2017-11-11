@@ -10,10 +10,12 @@
             <el-container>
                 <el-main>
                     <el-breadcrumb separator="/">
-                        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                        <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-                        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-                        <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+                    <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item 
+                        v-for="(path, index) in paths" 
+                        :key="index">
+                        {{path.name}}
+                    </el-breadcrumb-item>
                     </el-breadcrumb>
                     <router-view class="mt30"></router-view>
                 </el-main>
@@ -30,6 +32,7 @@
     import AsideMenu from './AsideMenu.vue';
     import NavBar from './NavBar.vue';
     import Copyright from './Copyright.vue';
+    import {mapState} from 'vuex';
 
     export default {
         components: {AsideMenu, NavBar, Copyright},
@@ -39,7 +42,11 @@
                 // form: new Form({body: ''})
             }
         },
-
+        computed: {
+            paths() {
+                return this.$store.state.breadcrumb.paths;
+            }
+        },
         mounted () {
             // console.log('Component mounted.')
         }
