@@ -4,8 +4,10 @@
             <nav-bar></nav-bar>
         </el-header>
         <el-container class="mh20">
-            <el-aside :style="{'width': isMenuActive ? '170px' : '200px'}">
-                <aside-menu class="el-menu-vertical-demo"></aside-menu>
+            <el-aside 
+                :style="{'width': isMenuActive ? '70px' : '200px'}"
+                :class="{'collasped': isMenuActive}">
+                <aside-menu></aside-menu>
             </el-aside>
             <el-container>
                 <el-main>
@@ -55,11 +57,7 @@
 </script>
 
 <style>
-    .aside {
-        width: 255px;
+    .el-aside.collasped {
         overflow: visible;
-    }
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        z-index: 999;
     }
 </style>
