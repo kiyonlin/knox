@@ -11,7 +11,6 @@ use Parsidev\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
-
     use Notifiable, EntrustUserTrait;
 
     const SYSTEM_ADMIN = 'system_admin';

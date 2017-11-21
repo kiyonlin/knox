@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ModulesTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /** @test */
