@@ -23,12 +23,12 @@ describe('Question', () => {
 
     afterEach(() => moxios.uninstall());
 
-    it.only('presents the title and the body', () => {
+    it('presents the title and the body', () => {
         see('The title');
         see('The body');
     });
 
-    it.only ('can be edited', () => {
+    it ('can be edited', () => {
         expect(wrapper.contains('input[name=title]')).toBe(false);
         expect(wrapper.contains('textarea[name=body]')).toBe(false);
 
@@ -38,13 +38,13 @@ describe('Question', () => {
         expect(wrapper.find('textarea[name=body]').element.value).toBe('The body');
     });
 
-    it.only ('hides the edit button during edit mode.', () => {
+    it ('hides the edit button during edit mode.', () => {
         click('#edit');
 
         expect(wrapper.contains('#edit')).toBe(false);
     });
 
-    it.only ('updates the question after being edited', (done) => {
+    it ('updates the question after being edited', (done) => {
         wrapper.find('#edit').trigger('click');
 
         type('input[name=title]', 'Changed title');
@@ -70,7 +70,7 @@ describe('Question', () => {
         });
     });
 
-    it.only ('can cancel out of edit mode', () => {
+    it ('can cancel out of edit mode', () => {
         click('#edit');
 
         type('input[name=title]', 'Changed title');
