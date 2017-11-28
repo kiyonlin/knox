@@ -24,7 +24,8 @@
 
         data() {
             return {
-                now: new Date()
+                now: new Date(),
+                interval: null
             }
         },
 
@@ -45,11 +46,15 @@
         },
 
         created() {
-            let interval = setInterval(() => {
+            this.interval = setInterval(() => {
                 this.now = new Date();
             }, 1000);
 
-            this.$on('finished', () => clearInterval(interval));
+            this.$on('finished', () => clearInterval(this.interval));
+        },
+
+        destroyed() {
+            clearInterval(this.interval);
         }
     }
 </script>
