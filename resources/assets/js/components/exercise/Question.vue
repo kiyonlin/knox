@@ -48,7 +48,6 @@
                 
                 axios.post('/questions/1', this.form)
                     .then(({data}) => {
-                        console.log(data.title);
                         this.feedback = true;
                     });
 

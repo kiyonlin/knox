@@ -1,8 +1,9 @@
 import { mount } from 'vue-test-utils';
-import Countdown from '../../resources/assets/js/components/exercise/Countdown.vue'
+// 这个文件需要引入expect
 import expect from 'expect';
 import moment from 'moment';
 import sinon from 'sinon';
+import Countdown from '../../resources/assets/js/components/exercise/Countdown.vue';
 
 describe('Countdown', () => {
     let wrapper, clock;
@@ -18,20 +19,20 @@ describe('Countdown', () => {
     afterEach(() => clock.restore());
 
     it('renders a countdown timer', () => {
-        see('0 Days');
-        see('0 Hours');
-        see('0 Minutes');
-        see('10 Seconds');
+        see(wrapper, '0 Days');
+        see(wrapper, '0 Hours');
+        see(wrapper, '0 Minutes');
+        see(wrapper, '10 Seconds');
     });
 
     it ('reduces the countdown every second', async () => {
-        see('10 Seconds');
+        see(wrapper, '10 Seconds');
 
         clock.tick(1000);
 
         await wrapper.vm.$nextTick();
 
-        see('9 Seconds');
+        see(wrapper, '9 Seconds');
     });
 
     it('shows an expired message when the countdown has completed', async () => {
@@ -39,7 +40,7 @@ describe('Countdown', () => {
 
         await wrapper.vm.$nextTick();
 
-        see('Now Expired');
+        see(wrapper, 'Now Expired');
     });
 
     it('shows a custom expired message when the countdown has completed', async () => {
@@ -49,7 +50,7 @@ describe('Countdown', () => {
 
         await wrapper.vm.$nextTick();
         
-        see('Contest is over');
+        see(wrapper, 'Contest is over');
     });
 
     it('broadcasts when the countdown is finished', async () => {
@@ -57,7 +58,7 @@ describe('Countdown', () => {
 
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.emitted().finished).toBeTruthy();
+        expect(wrapper.emitted()['finished']).toBeTruthy();
     });
 
     it ('clears the interval once completed', async () => {
@@ -72,22 +73,22 @@ describe('Countdown', () => {
         expect(wrapper.vm.now.getSeconds()).toBe(10);
     });
 
-    // helper functions
+    // // helper functions
 
-    let see = (text, selector) => {
-        let wrap = selector ? wrapper.find(selector) : wrapper;
+    // let see = (text, selector) => {
+    //     let wrap = selector ? wrapper.find(selector) : wrapper;
 
-        expect(wrap.html()).toContain(text);
-    };
+    //     expect(wrap.html()).toContain(text);
+    // };
 
-    let type = (selector, text) => {
-        let node = wrapper.find(selector);
+    // let type = (selector, text) => {
+    //     let node = wrapper.find(selector);
 
-        node.element.value = text;
-        node.trigger('input');
-    };
+    //     node.element.value = text;
+    //     node.trigger('input');
+    // };
 
-    let click = selector => {
-        wrapper.find(selector).trigger('click');
-    };
+    // let click = selector => {
+    //     wrapper.find(selector).trigger('click');
+    // };
 });
