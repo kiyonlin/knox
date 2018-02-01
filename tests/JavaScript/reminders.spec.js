@@ -1,6 +1,5 @@
 import { mount } from 'vue-test-utils';
 import Reminders from '../../resources/assets/js/components/exercise/Reminders.vue'
-import expect from 'expect';
 
 describe('Reminders', () => {
     let wrapper;
@@ -32,12 +31,9 @@ describe('Reminders', () => {
     });
 
     function addReminder(body) {
-        let newReminder = wrapper.find('.new-reminder');
-        
-        newReminder.element.value = body;
-        newReminder.trigger('input');
+        type(wrapper, '.new-reminder', body);
 
-        wrapper.find('button').trigger('click');
+        click(wrapper, 'button');
     }
 
     function remindersList() {

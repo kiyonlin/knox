@@ -1,6 +1,5 @@
 import { mount } from 'vue-test-utils';
 import Counter from '../../resources/assets/js/components/exercise/Counter.vue'
-import expect from 'expect';
 
 describe('Counter', () => {
     let wrapper;
@@ -16,7 +15,7 @@ describe('Counter', () => {
     it('increments the count when the increment button is clicked', () => {
         expect(wrapper.vm.count).toBe(0);
 
-        wrapper.find('.increment').trigger('click');
+        click(wrapper, '.increment');
 
         expect(wrapper.vm.count).toBe(1);
     });
@@ -26,7 +25,7 @@ describe('Counter', () => {
 
         wrapper.setData({count: 2});
 
-        wrapper.find('.decrement').trigger('click');
+        click(wrapper, '.decrement');
 
         expect(wrapper.vm.count).toBe(1);
     });
@@ -44,7 +43,7 @@ describe('Counter', () => {
     it('presents the current count', () => {
         expect(wrapper.find('.count').html()).toContain(0);
 
-        wrapper.find('button').trigger('click');
+        click(wrapper, 'button');
 
         expect(wrapper.find('.count').html()).toContain(1);
     });

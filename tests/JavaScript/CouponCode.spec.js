@@ -1,6 +1,5 @@
 import { mount } from 'vue-test-utils';
 import CouponCode from '../../resources/assets/js/components/exercise/CouponCode.vue'
-import expect from 'expect';
 
 describe('CouponCode', () => {
     let wrapper;
@@ -24,28 +23,22 @@ describe('CouponCode', () => {
     });
 
     it('validates a real coupon code', () => {
-        enterCouponCode('50OFF');
+        type(wrapper, 'input.coupon-code', '50OFF');
 
         expect(wrapper.html()).toContain('Coupon Redeemed: 50% off');
     });
 
     it('validates a fake coupon code', () => {
-        enterCouponCode('NOTREAL');
+        type(wrapper, 'input.coupon-code', 'NOTREAL');
         
         expect(wrapper.html()).toContain('Invalid Coupon Code');
     });
 
     it('broadcasts the percentage discount when a valid coupon code is applied', () => {
-        enterCouponCode('50OFF');
+        type(wrapper, 'input.coupon-code', '50OFF');
 
         expect(wrapper.emitted().applied).toBeTruthy();
         expect(wrapper.emitted().applied[0]).toEqual([50]);
     });
 
-    function enterCouponCode(code) {
-        let couponCode = wrapper.find('input.coupon-code');
-        
-        couponCode.element.value = code;
-        couponCode.trigger('input');
-    }
 });

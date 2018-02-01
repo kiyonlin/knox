@@ -1,8 +1,5 @@
-import {
-    mount
-} from 'vue-test-utils';
+import { mount } from 'vue-test-utils';
 import Question from '../../resources/assets/js/components/exercise/Question.vue'
-import expect from 'expect';
 import moxios from 'moxios';
 
 describe('Question', () => {
@@ -23,32 +20,32 @@ describe('Question', () => {
 
     afterEach(() => moxios.uninstall());
 
-    it.only('presents the title and the body', () => {
-        see('The title');
-        see('The body');
+    it('presents the title and the body', () => {
+        see(wrapper, 'The title');
+        see(wrapper, 'The body');
     });
 
-    it.only ('can be edited', () => {
+    it ('can be edited', () => {
         expect(wrapper.contains('input[name=title]')).toBe(false);
         expect(wrapper.contains('textarea[name=body]')).toBe(false);
 
-        click('#edit');
+        click(wrapper, '#edit');
 
         expect(wrapper.find('input[name=title]').element.value).toBe('The title');
         expect(wrapper.find('textarea[name=body]').element.value).toBe('The body');
     });
 
-    it.only ('hides the edit button during edit mode.', () => {
-        click('#edit');
+    it ('hides the edit button during edit mode.', () => {
+        click(wrapper, '#edit');
 
         expect(wrapper.contains('#edit')).toBe(false);
     });
 
-    it.only ('updates the question after being edited', (done) => {
-        wrapper.find('#edit').trigger('click');
+    it ('updates the question after being edited', (done) => {
+        click(wrapper, '#edit');
 
-        type('input[name=title]', 'Changed title');
-        type('textarea[name=body]', 'Changed body');
+        type(wrapper, 'input[name=title]', 'Changed title');
+        type(wrapper, 'textarea[name=body]', 'Changed body');
 
         moxios.stubRequest(/questions\/\d+/, {
             status: 200,
@@ -58,42 +55,25 @@ describe('Question', () => {
             }
         });
         
-        click('#update');
+        click(wrapper, '#update');
         
-        see('Changed title');
-        see('Changed body');
+        see(wrapper, 'Changed title');
+        see(wrapper, 'Changed body');
 
         moxios.wait(() => {
-            see('Your question has been updated.');
+            see(wrapper, 'Your question has been updated.');
 
             done();
         });
     });
 
-    it.only ('can cancel out of edit mode', () => {
-        click('#edit');
+    it ('can cancel out of edit mode', () => {
+        click(wrapper, '#edit');
 
-        type('input[name=title]', 'Changed title');
+        type(wrapper, 'input[name=title]', 'Changed title');
 
-        click('#cancel');
+        click(wrapper, '#cancel');
 
-        see('The title')
+        see(wrapper, 'The title')
     });
-
-    let see = (text, selector) => {
-        let wrap = selector ? wrapper.find(selector) : wrapper;
-
-        expect(wrap.html()).toContain(text);
-    }
-
-    let type = (selector, text) => {
-        let node = wrapper.find(selector);
-
-        node.element.value = text;
-        node.trigger('input');
-    };
-
-    let click = selector => {
-        wrapper.find(selector).trigger('click');
-    }
 });
