@@ -1,3 +1,5 @@
+import qs from "qs"
+
 export default {
     data() {
         return {
@@ -14,13 +16,12 @@ export default {
             pageSizes: [10, 15, 20, 50, 100, 200],
             defaultPage: 1,
             defaultPageSize: 10,
+            query: {}
         }
     },
     watch: {
         $route() {
-            let page = parseInt(this.$router.currentRoute.query.page) || this.defaultPage;
-            let pageSize = parseInt(this.$router.currentRoute.query.pageSize) || this.defaultPageSize;
-            this.fetch(page, pageSize);
+            this.fetch();
         }
     },
     created() {            
@@ -38,35 +39,33 @@ export default {
         }
     },
     methods: {
-        fetch(page, pageSize) {
+        fetch() {
             this.loading = true;
-            axios.get(this.url(page, pageSize))
+            axios.get(this.url())
                 .then(this.refresh)
                 .catch(response => this.loading = false);
         },
-        url(page, pageSize) {
-            this.page = parseInt(page) || this.defaultPage;
-            
-            this.pageSize = parseInt(pageSize) || this.defaultPageSize;
-            // 忽略不合法的每页数量
-            this.pageSize = this.pageSizes.includes(this.pageSize) ? this.pageSize : this.defaultPageSize;
-
-            return `${this.path}?page=${this.page}&pageSize=${this.pageSize}`;
+        url() {
+            this.query.page = this.query.page || this.defaultPage
+            this.query.pageSize = this.query.pageSize || this.defaultPageSize
+            let querystring = qs.stringify(this.query);
+            let url = querystring ? `${this.path}?${querystring}` : `${this.path}`
+            return url;
         },
-        refresh({ data }) {
+         refresh({ data }) {
             this.records = data.data;
             this.total = data.total;
-            location.href = `http://${location.host}/#${this.path}?page=${this.page}&pageSize=${this.pageSize}`;
+             this.$router.push({ query: this.query })
             this.loading = false;
             window.scrollTo(0, 0);
         },
         sizeChange(pageSize) {
-            this.pageSize = pageSize;
-            this.fetch(this.page, pageSize);
+            this.query.pageSize = pageSize;
+            this.fetch();
         },
         pageChange(page) {
-            this.page = page;
-            this.fetch(page, this.pageSize);
+            this.query.page = page;
+            this.fetch();
         },
         add(record) {
             this.records.push(record);
@@ -91,6 +90,10 @@ export default {
         },
         setRowKey(row) {
             return row.id;
+        },
+
+        search() {
+            this.fetch()
         }
     }
 }
